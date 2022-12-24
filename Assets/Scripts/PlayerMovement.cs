@@ -1,41 +1,20 @@
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using System.Collections;
-using System.Collections.Generic;
 
 public class PlayerMovement : MonoBehaviour
 {
-    //Gameplay Variables
-    public int health;
-    public int maxHealth;
-    public int mana;
-    public int maxMana;
-    public bool hasDoubleJump;
-    public bool hasDash;
-    public bool hasTeleport;
-    public int attackDamage;
-    public float attackRange;
-    public float attackSpeed;
-    public float knockback;
-    public float selfKnockback;
-    public float moveSpeed;
-    public float jumpForce;
-    public float jumpTime;
-    public float invincibleTime;
-    public float dashingDistance;
-    public float dashingTime;
-    public float dashingCooldown;
-    public float teleportRange;
-    public float flashDelay;
+    //Gameplay Variable
+    GameManagerScript data;
 
-    
     //Variable algorithmique
+    public float flashDelay = 0.15f;
     private float currentMoveSpeed;
     private float jumpTimeCounter;
-    public float direction = 1f;
     private bool dashPressed;
     private bool canDash = true;
     private bool canHit = true;
+    public float direction = 1.0f;
 
     //Variable d'état (l'état du joueur)
     private bool inCinematic;
@@ -48,9 +27,7 @@ public class PlayerMovement : MonoBehaviour
     private bool isChoosingTeleportation;
     private bool isTeleporting;
 
-    [SerializeField] private Image[] hearts;
-    [SerializeField] private Sprite emptyHeart;
-    [SerializeField] private Sprite fullHeart;
+    
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private Collider2D standingCollider;
     [SerializeField] private Collider2D crouchingCollider;
@@ -72,15 +49,38 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 velocity = Vector3.zero;
     private float horizontalMovement;
 
+    private void Awake() {
+        data = FindObjectOfType<GameManagerScript>();
+        SpawnAt(data.spawnName);
+    }
+
     private void Start() {
-        UpdateHearts();
-        teleportIndicatorSprite.transform.localPosition = new Vector3(teleportRange, 0, 0);
+        data.UpdateHearts();
+        teleportIndicatorSprite.transform.localPosition = new Vector3(data.teleportRange, 0, 0);
         animator.SetBool("Alive", true);
-        inCinematic = true;
+        
+        if (data.needAwakeAnimation) {
+            inCinematic = true;
+            animator.SetTrigger("Awake");
+            data.needAwakeAnimation = false;
+        }
+        
     }
 
     private void exitCinematic() {
         inCinematic = false;
+    }
+
+    public void SpawnAt(string spawnName) {
+        GameObject[] rootGameObjects = SceneManager.GetActiveScene().GetRootGameObjects();
+        GameObject spawnSystem;
+        foreach (GameObject element in rootGameObjects) {
+            if (element.name == "SpawnSystem") {
+                spawnSystem = element;
+                Transform spawn = spawnSystem.transform.Find(spawnName);
+                transform.position = spawn.position;
+            }
+        }
     }
 
     void Update()
@@ -124,41 +124,20 @@ public class PlayerMovement : MonoBehaviour
         rb.velocity = Vector3.SmoothDamp(rb.velocity, targetVelocity, ref velocity, .05f);
 
         if (isJumping){
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce * Time.fixedDeltaTime);
-        }
-    }
-
-    private void UpdateHearts() {
-        if (health > maxHealth) {
-            health = maxHealth;
-        }
-
-        for (int i = 0; i < hearts.Length; i++) {
-            if (i < maxHealth) {
-                hearts[i].enabled = true;
-                if (i < health) {
-                    hearts[i].sprite = fullHeart;
-                }
-                else {
-                    hearts[i].sprite = emptyHeart;
-                }
-            }
-            else {
-                hearts[i].enabled = false;
-            }
+            rb.velocity = new Vector2(rb.velocity.x, data.jumpForce * Time.fixedDeltaTime);
         }
     }
 
     public void TakeDamage(int damage) {
-        if (health <= 0) return;
+        if (data.health <= 0) return;
         if (!isInvincible) {
-            health -= damage;
-            if (health <= 0) {
+            data.health -= damage;
+            if (data.health <= 0) {
                 animator.SetBool("Alive", false);
                 this.enabled = false;
             }
             animator.SetTrigger("Hurt");
-            UpdateHearts();
+            data.UpdateHearts();
             StartCoroutine(Invincibility());
         }
         
@@ -209,22 +188,22 @@ public class PlayerMovement : MonoBehaviour
     private void MeleeHit() {
         Transform attackPoint = direction == 1 ? attackPointRight : attackPointLeft;
 
-        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
+        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(attackPoint.position, data.attackRange, enemyLayers);
         bool somethingHit = false;
         foreach (Collider2D collider in hitColliders) {
             Enemy enemy = collider.GetComponent<Enemy>();
             if (enemy.health > 0) {
-                enemy.TakeDamage(attackDamage, new Vector2(knockback * direction, 0));
+                enemy.TakeDamage(data.attackDamage, new Vector2(data.knockback * direction, 0));
                 somethingHit = true;
             }
         }
         if (somethingHit) {
-            rb.AddForce(new Vector2(knockback * direction * -1 * selfKnockback, 0));
+            rb.AddForce(new Vector2(data.knockback * direction * -1 * data.selfKnockback, 0));
         }
     }
 
     private void DashInput() {
-        if (!hasDash) return;
+        if (!data.hasDash) return;
         // Cant Dash if Crouch
         if (isCrouching || isChoosingTeleportation) return;
         if (Input.GetButtonDown("Dash") && canDash) {
@@ -248,11 +227,11 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetButtonDown("Jump") && !isCrouching) {
 
             //Jump Only if grounded or is a doublejump
-            if (isGrounded || (hasDoubleJump && !isDoubleJumping)) {
+            if (isGrounded || (data.hasDoubleJump && !isDoubleJumping)) {
                 isJumping = true;
-                jumpTimeCounter = jumpTime; //reset counter
+                jumpTimeCounter = data.jumpTime; //reset counter
 
-                if (hasDoubleJump && !isDoubleJumping) { //detect double jump
+                if (data.hasDoubleJump && !isDoubleJumping) { //detect double jump
                     isDoubleJumping = true;
                 }
             }
@@ -289,7 +268,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void TeleportInput() {
         // Cant Teleport if Dashing or crouching
-        if (!hasTeleport) return;
+        if (!data.hasTeleport) return;
         if (dashPressed || isCrouching) return;
         
 
@@ -420,11 +399,11 @@ public class PlayerMovement : MonoBehaviour
         if (isCrouching) {
             standingCollider.enabled = false;
             crouchingCollider.enabled = true;
-            currentMoveSpeed = moveSpeed * 0.7f;
+            currentMoveSpeed = data.moveSpeed * 0.7f;
         } else {
             standingCollider.enabled = true;
             crouchingCollider.enabled = false;
-            currentMoveSpeed = moveSpeed;
+            currentMoveSpeed = data.moveSpeed;
         }
     }
 
@@ -442,9 +421,9 @@ public class PlayerMovement : MonoBehaviour
         //Gizmos.color = Color.red;
         //Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
         //Gizmos.DrawWireSphere(floorCheck.position, floorCheckRadius);
-        Gizmos.color = Color.gray;   
-        Gizmos.DrawWireSphere(attackPointLeft.position, attackRange);
-        Gizmos.DrawWireSphere(attackPointRight.position, attackRange);
+        //Gizmos.color = Color.gray;   
+        //Gizmos.DrawWireSphere(attackPointLeft.position, data.attackRange);
+        //Gizmos.DrawWireSphere(attackPointRight.position, data.attackRange);
     }
 
     private IEnumerator Dash(float direction)
@@ -452,15 +431,15 @@ public class PlayerMovement : MonoBehaviour
         isDashing = true;
         canDash = false;
         rb.velocity = new Vector2(rb.velocity.x, 0f);
-        rb.AddForce(new Vector2(dashingDistance * direction, 0f), ForceMode2D.Impulse);
+        rb.AddForce(new Vector2(data.dashingDistance * direction, 0f), ForceMode2D.Impulse);
         float gravity = rb.gravityScale;
         rb.gravityScale = 0f;
         trailRenderer.emitting = true;
-        yield return new WaitForSeconds(dashingTime);
+        yield return new WaitForSeconds(data.dashingTime);
         trailRenderer.emitting = false;
         rb.gravityScale = gravity;
         isDashing = false;
-        yield return new WaitForSeconds(dashingCooldown);
+        yield return new WaitForSeconds(data.dashingCooldown);
         canDash = true;
     }
 
@@ -488,13 +467,13 @@ public class PlayerMovement : MonoBehaviour
     private IEnumerator Invincibility() {
         isInvincible = true;
         StartCoroutine(InvincibilityFlash());
-        yield return new WaitForSeconds(invincibleTime);
+        yield return new WaitForSeconds(data.invincibleTime);
         isInvincible = false;
     }
 
     private IEnumerator HandleMeleeHit() {
         canHit = false;
-        yield return new WaitForSeconds(attackSpeed);
+        yield return new WaitForSeconds(data.attackSpeed);
         canHit = true;
     }
 }
