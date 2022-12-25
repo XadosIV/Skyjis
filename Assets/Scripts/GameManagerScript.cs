@@ -34,6 +34,10 @@ public class GameManagerScript : MonoBehaviour
     [SerializeField] private Sprite emptyHeart;
     [SerializeField] private Sprite fullHeart;
 
+    public Vector2[] getBoundaries() {
+        CameraFollow cam = FindObjectOfType<CameraFollow>();
+        return cam.GetBoundaries();
+    }
 
     void Awake()
     {

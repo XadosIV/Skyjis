@@ -60,14 +60,17 @@ public class PlayerMovement : MonoBehaviour
         animator.SetBool("Alive", true);
         
         if (data.needAwakeAnimation) {
-            inCinematic = true;
+            startCinematic();
             animator.SetTrigger("Awake");
             data.needAwakeAnimation = false;
         }
         
     }
-
-    private void exitCinematic() {
+    
+    public void startCinematic() {
+        inCinematic = true;
+    }
+    public void exitCinematic() {
         inCinematic = false;
     }
 
@@ -322,6 +325,8 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private Vector3? TeleportGetPosition() {
+
+
         Transform gc = teleportIndicatorSprite.Find("GroundCheck");
         Transform fc = teleportIndicatorSprite.Find("FloorCheck");
 
@@ -352,13 +357,25 @@ public class PlayerMovement : MonoBehaviour
             Vector3 position = new Vector3(transform.position.x + translation.x, transform.position.y + translation.y, 0);
             return position;
         }
-        else { // Autres cas : aucun dispo / seulement mid / top et bot sans mid 
+        else { // Autres cas : aucun dispo / seulement mid / top et bot sans mid
             return null;
         }
     }
 
+    private bool ValideCoordinate(Vector3 position) {
+        Vector2[] boundaries = data.getBoundaries();
+        if (position.x < boundaries[0].x || boundaries[1].x < position.x) return false;
+        if (position.y < boundaries[0].y || boundaries[1].y < position.y) return false; 
+        return true;
+    }
+
     private bool TeleportInWalls(Vector2 _position, Vector2 _finalPosition, LayerMask _layer) {
-        return RaycastIntersection(_position, _finalPosition, _layer) % 2 == 1;
+        if (ValideCoordinate(_finalPosition)) {
+            return RaycastIntersection(_position, _finalPosition, _layer) % 2 == 1;
+        } else {
+            return true;
+        }
+
     }
 
     private int RaycastIntersection(Vector2 _position, Vector2 _finalPosition, LayerMask _layer) {

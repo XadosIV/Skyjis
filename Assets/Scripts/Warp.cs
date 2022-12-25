@@ -21,6 +21,8 @@ public class Warp : MonoBehaviour
     public IEnumerator LoadScene() {
         GameManagerScript gameManager = FindObjectOfType<GameManagerScript>();
         gameManager.spawnName = spawnName;
+        PlayerMovement player = FindObjectOfType<PlayerMovement>();
+        player.startCinematic();
         fadeSystem.FadeIn();
         yield return new WaitForSeconds(1f);
         SceneManager.LoadScene(sceneName);
