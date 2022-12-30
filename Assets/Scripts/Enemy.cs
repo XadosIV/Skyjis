@@ -11,6 +11,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] protected Animator animator;
     [SerializeField] protected SpriteRenderer sr;
     [SerializeField] protected Rigidbody2D rb;
+    [SerializeField] protected Collider2D hitbox;
     public int health;
     protected bool isStun;
     private bool isBlinking;
@@ -50,6 +51,7 @@ public class Enemy : MonoBehaviour
         if (health <= 0) {
             animator.SetBool("Alive", false);
             rb.velocity = Vector3.zero;
+            hitbox.enabled = false;
             this.enabled = false;
         }
         else {

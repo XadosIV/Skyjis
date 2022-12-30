@@ -4,7 +4,6 @@ public class CameraFollow : MonoBehaviour {
     public Transform boundariesTransform;
     public float timeOffset;
     public Vector3 posOffset;
-    public UnityEngine.Tilemaps.Tilemap map;
 
     private float direction = 1;
     private Vector3 velocity = Vector3.zero;

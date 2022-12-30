@@ -25,9 +25,11 @@ public class GameManagerScript : MonoBehaviour
     public float dashingTime;
     public float dashingCooldown;
     public float teleportRange;
+    public int[] spellIndex = new int[3];
+
+    public GameObject[] spellList;
 
     public string spawnName;
-
     public bool needAwakeAnimation;
 
     [SerializeField] private Image[] hearts;
