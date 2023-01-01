@@ -4,24 +4,36 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] protected int maxHealth;
-    [SerializeField] protected int damage;
-    [SerializeField] protected float stunTime;
-    [SerializeField] protected float flashDelay;
-    [SerializeField] protected Animator animator;
-    [SerializeField] protected SpriteRenderer sr;
-    [SerializeField] protected Rigidbody2D rb;
-    [SerializeField] protected Collider2D hitbox;
-    public int health;
-    protected bool isStun;
-    private bool isBlinking;
-    private Coroutine stunningRoutine;
-    public float moveSpeed;
+    public int maxHealth;
+    [System.NonSerialized] public int health;
+    public int damage;
+    public Vector2 manaGain;
+    public float stunTime;
+    public Vector2 coinsLoot;
 
-    // Start is called before the first frame update
-    protected void Start()
+    private readonly float flashDelay = 0.15f;
+    private Animator animator;
+    private SpriteRenderer sr;
+    private Rigidbody2D rb;
+
+    [System.NonSerialized] public bool isStun;
+    private bool isBlinking;
+
+
+    
+    [SerializeField] private Collider2D hitbox;
+    private Coroutine stunningRoutine;
+
+    private GameManagerScript gm;
+
+    private void Start()
     {
+        sr = GetComponent<SpriteRenderer>();
+        rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
+
         health = maxHealth;
+        gm = FindObjectOfType<GameManagerScript>();
         animator.SetBool("Alive", true);
     }
 
@@ -31,9 +43,9 @@ public class Enemy : MonoBehaviour
         
     }
 
-    protected void OnTriggerEnter2D(Collider2D collision) {
-        if (collision.CompareTag("Player") && health > 0) {
-            collision.GetComponent<PlayerMovement>().TakeDamage(damage);
+    protected void OnTriggerEnter2D(Collider2D collider) {
+        if (collider.CompareTag("Player") && health > 0) {
+            collider.GetComponent<PlayerMovement>().TakeDamage(damage);
         }
     }
 
@@ -43,22 +55,36 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    private void Death() {
+        int moneyToLoot = (int)Random.Range(coinsLoot.x, coinsLoot.y);
+        List<GameObject> coins = gm.MoneyToCoin(moneyToLoot);
+        foreach (GameObject coin in coins) {
+            Instantiate(coin, transform.position, transform.rotation);
+        }
+
+        int manaAmount = (int)Random.Range(manaGain.x, manaGain.y);
+        gm.SpawnManaBall(manaAmount, transform);
+
+
+        animator.SetBool("Alive", false);
+        rb.velocity = Vector3.zero;
+        hitbox.enabled = false;
+        this.enabled = false;
+    }
+
     public void TakeDamage(int damage, Vector2 knockback) {
         if (health <= 0) return;
 
         animator.SetTrigger("Hurt");
         health -= damage;
         if (health <= 0) {
-            animator.SetBool("Alive", false);
-            rb.velocity = Vector3.zero;
-            hitbox.enabled = false;
-            this.enabled = false;
+            Death();
         }
         else {
             if (isStun) {
                 StopCoroutine(stunningRoutine);
             }
-            rb.velocity = knockback;
+            rb.AddForce(knockback, ForceMode2D.Impulse);
             stunningRoutine = StartCoroutine(Stunning());
             if (!isBlinking) {
                 StartCoroutine(Blinking());

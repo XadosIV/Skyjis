@@ -44,7 +44,7 @@ public class PlayerMeleeHit : MonoBehaviour
             }
         }
         if (somethingHit) {
-            rb.AddForce(new Vector2(playerData.knockback * pm.direction * -1 * playerData.selfKnockback, 0));
+            rb.AddForce(new Vector2(pm.direction * -1 * playerData.selfKnockback, 0), ForceMode2D.Impulse);
         }
     }
 

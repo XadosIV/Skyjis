@@ -54,10 +54,15 @@ public class PlayerMovement : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         powersManager = GetComponent<PlayerPowers>();
 
-        data.UpdateHearts();
-        animator.SetBool("Alive", true);
-        
-        
+        data.UpdateUI();
+        if (data.health > 0) {
+            animator.SetBool("Alive", true);
+        }
+        else {
+            animator.SetBool("Alive", false);
+        }
+
+
     }
     
     public void StartCinematic() {
@@ -85,6 +90,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if (data.health <= 0) return;
         currentMoveSpeed = data.moveSpeed * speedFactor;
 
         if (inCinematic) return;
@@ -103,6 +109,9 @@ public class PlayerMovement : MonoBehaviour
     }
 
     void FixedUpdate() {
+        if (data.health <= 0) {
+            rb.velocity = Vector3.zero;
+        };
         //Check Ground
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, collisionLayers);
 
@@ -134,7 +143,7 @@ public class PlayerMovement : MonoBehaviour
                 this.enabled = false;
             }
             animator.SetTrigger("Hurt");
-            data.UpdateHearts();
+            data.UpdateUI();
             StartCoroutine(Invincibility());
         }
         

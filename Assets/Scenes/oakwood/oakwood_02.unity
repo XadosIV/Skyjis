@@ -163,7 +163,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4015873291043349864, guid: 3778a7ebecbdebc4686a658590a6e183, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4015873291043349864, guid: 3778a7ebecbdebc4686a658590a6e183, type: 3}
       propertyPath: m_LocalPosition.x
@@ -235,7 +235,7 @@ GameObject:
   - component: {fileID: 329466534}
   m_Layer: 3
   m_Name: Tilemap
-  m_TagString: Untagged
+  m_TagString: Map
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6943,7 +6943,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5196930168814935175, guid: da0a0d3f5f44c844f8c88c3167ad8b8f, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5196930168814935175, guid: da0a0d3f5f44c844f8c88c3167ad8b8f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7004,7 +7004,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5408424090708824900, guid: b7854f5e87e712945b6098099ecd788e, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5408424090708824900, guid: b7854f5e87e712945b6098099ecd788e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7622,7 +7622,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4015873291043349864, guid: 3778a7ebecbdebc4686a658590a6e183, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4015873291043349864, guid: 3778a7ebecbdebc4686a658590a6e183, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7687,7 +7687,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4684128444255422643, guid: c5edcf05d2b35a8429edace4552ba9e6, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4684128444255422643, guid: c5edcf05d2b35a8429edace4552ba9e6, type: 3}
       propertyPath: m_LocalPosition.x

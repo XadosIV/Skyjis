@@ -14,7 +14,8 @@ public class PlayerSpellCast : MonoBehaviour
     public bool[] canCast;
     private bool isCasting;
 
-    private GameObject currentSpellToCast;
+    private GameObject currentSpell;
+    private SpellData currentSpellData;
     
     void Start()
     {
@@ -30,27 +31,32 @@ public class PlayerSpellCast : MonoBehaviour
 
 
     public void Execute(int index) {
-        print(index);
         if (gm.spellIndex[index] != -1) {
-            isCasting = true;
-            currentSpellToCast = gm.spellList[gm.spellIndex[index]];
-            animator.SetTrigger("SpellCast");
-            StartCoroutine(HandleSpellCd(index));
+            currentSpell = gm.spellList[gm.spellIndex[index]];
+            currentSpellData = currentSpell.GetComponent<SpellData>();
+            
+            if (gm.mana >= currentSpellData.manaCost) {
+                isCasting = true;
+                animator.SetTrigger("SpellCast");
+                StartCoroutine(HandleSpellCd(index));
+            }
         }
     }
 
     private IEnumerator HandleSpellCd(int index) {
         canCast[index] = false;
-        print(currentSpellToCast.GetComponent<Projectile>().cooldown);
-        yield return new WaitForSeconds(currentSpellToCast.GetComponent<Projectile>().cooldown);
+        yield return new WaitForSeconds(currentSpellData.cooldown);
         canCast[index] = true;
     }
 
     private void SpellCreation() {
+        gm.mana -= currentSpellData.manaCost;
+        gm.UpdateUI();
+
         if (pm.direction == 1) {
-            Instantiate(currentSpellToCast, attackPointRight.position, attackPointRight.rotation);
+            Instantiate(currentSpell, attackPointRight.position, attackPointRight.rotation);
         } else {
-            Instantiate(currentSpellToCast, attackPointLeft.position, attackPointLeft.rotation);
+            Instantiate(currentSpell, attackPointLeft.position, attackPointLeft.rotation);
         }
         isCasting = false;
     }

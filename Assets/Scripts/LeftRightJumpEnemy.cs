@@ -2,100 +2,75 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LeftRightJumpEnemy : Enemy
+public class LeftRightJumpEnemy : MonoBehaviour
 {
-
+    public float moveSpeed;
     public float jumpForce;
-    public float sideCollisionRadius;
-    public float groundCollisionRadius;
-    public float detectionRadius;
-    public float groundCheckRadius;
-
-    private float direction;
-
     [SerializeField] private Transform detectionCenter;
-    [SerializeField] private Transform sideCollisionLeft;
-    [SerializeField] private Transform sideCollisionRight;
-    [SerializeField] private Transform groundCollisionLeft;
-    [SerializeField] private Transform groundCollisionRight;
+    public float detectionRadius;
     [SerializeField] private Transform groundCheck;
-    [SerializeField] private LayerMask collisionLayers;
-    [SerializeField] private LayerMask playerLayer;
-    private Vector3 velocity = Vector3.zero;
-
+    public float groundCheckRadius;
     private Transform player;
     private bool detected = false;
-    private bool groundCollide;
-    private bool sideCollide;
-    private bool isJumping;
-    private bool isGrounded;
+    private Rigidbody2D rb;
+    private Enemy data;
 
-    new void Start() {
-        base.Start();
-        direction = Random.Range(0, 2) == 0 ? 1 : -1;
-        if (direction == 1) {
-            direction *= -1;
-            Flip();
-        }
+    [SerializeField] private LayerMask collisionLayer;
+    [SerializeField] private LayerMask playerLayer;
+
+    private Vector3 reference = Vector3.zero;
+
+    private void Start() {
         player = FindObjectOfType<PlayerMovement>().transform;
+        rb = GetComponent<Rigidbody2D>();
+        data = GetComponent<Enemy>();
     }
 
-    void Update() {
-        if (!detected) {
-            if (sideCollide || !groundCollide) {
-                Flip();
-            }
-        } else {
-            Vector3 toPlayer = player.position - transform.position;
-            if ((toPlayer.x > 0 && direction == -1) || (toPlayer.x < 0 && direction == 1)) {
-                Flip();
-            }
-
-
-            if (isGrounded) {
-                if (sideCollide || groundCollide) {
-                    isJumping = true;
-                }
-            }
-        }
-    }
-        new void FixedUpdate() {
-        if (isStun) return;
-        if (health <= 0) {
-            base.FixedUpdate();
+    void FixedUpdate() {
+        if (data.isStun) return;
+        if (data.health <= 0) {
             return;
         }
 
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, collisionLayers);
+        float speed;
 
         detected = Physics2D.OverlapCircle(detectionCenter.position, detectionRadius, playerLayer);
+        bool onGround = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, collisionLayer);
 
-        if (direction == 1) {
-            sideCollide = Physics2D.OverlapCircle(sideCollisionRight.position, sideCollisionRadius, collisionLayers);
-            groundCollide = Physics2D.OverlapCircle(groundCollisionRight.position, groundCollisionRadius, collisionLayers);
+        if (!detected) {
+            if (IsFacingRight()) {
+                speed = moveSpeed * Time.fixedDeltaTime;
+            }
+            else {
+                speed = -moveSpeed * Time.fixedDeltaTime;
+            }
+        } else {
+            Vector3 toPlayer = player.position - transform.position;
+            if (toPlayer.x > 0) { //faut aller à droite pour aller vers le joueur
+                speed = moveSpeed * Time.fixedDeltaTime;
+                transform.localScale = new Vector2(Mathf.Abs(transform.localScale.x), transform.localScale.y);
+            }  else {
+                speed = -moveSpeed * Time.fixedDeltaTime;
+                transform.localScale = new Vector2(-Mathf.Abs(transform.localScale.x), transform.localScale.y);
+            }
         }
-        else {
-            sideCollide = Physics2D.OverlapCircle(sideCollisionLeft.position, sideCollisionRadius, collisionLayers);
-            groundCollide = Physics2D.OverlapCircle(groundCollisionLeft.position, groundCollisionRadius, collisionLayers);
-        }
+
+
+        rb.velocity = Vector3.SmoothDamp(rb.velocity, new Vector2(speed, rb.velocity.y), ref reference, .05f);
         
-
-        float horizontalMovement = direction * moveSpeed * Time.fixedDeltaTime;
-        Vector3 targetVelocity = new Vector2(horizontalMovement, rb.velocity.y);
-
-        
-
-        rb.velocity = Vector3.SmoothDamp(rb.velocity, targetVelocity, ref velocity, .05f);
-
-        if (isJumping) {
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce * Time.fixedDeltaTime);
-            isJumping = false;
+        if (onGround && detected) {
+            rb.velocity = new Vector2(rb.velocity.x, jumpForce* Time.fixedDeltaTime);
         }
     }
 
-    private void Flip() {
-        sr.flipX = !sr.flipX;
-        direction *= -1;
+    private void OnTriggerExit2D(Collider2D collision) {
+        if (collision.CompareTag("Map") && !detected) {
+            transform.localScale = new Vector2(-(Mathf.Sign(rb.velocity.x)) * Mathf.Abs(transform.localScale.x), transform.localScale.y);
+        }
+    }
+
+    private bool IsFacingRight() {
+        return transform.localScale.x > Mathf.Epsilon;
     }
 
     private void OnDrawGizmos() {
@@ -104,5 +79,4 @@ public class LeftRightJumpEnemy : Enemy
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
     }
-
 }

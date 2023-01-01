@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerPowers : MonoBehaviour
 {
     private PlayerMovement pm;
+    private GameManagerScript gm;
 
     private PlayerDash dash;
     private PlayerTeleport teleport;
@@ -16,6 +17,7 @@ public class PlayerPowers : MonoBehaviour
     void Start()
     {
         pm = GetComponent<PlayerMovement>();
+        gm = FindObjectOfType<GameManagerScript>();
 
         dash = GetComponent<PlayerDash>();
         teleport = GetComponent<PlayerTeleport>();
@@ -27,6 +29,7 @@ public class PlayerPowers : MonoBehaviour
 
     void Update()
     {
+        if (gm.health <= 0) return;
         if (pm.IsInCinematic()) return;
         if (IsBlockingControl() >= 1) return;
 

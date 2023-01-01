@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3252737705978323923}
   - component: {fileID: 7316767317608149241}
+  - component: {fileID: -4204192220824614751}
   - component: {fileID: 814142354430285161}
   - component: {fileID: 6800114350358136755}
   - component: {fileID: 8455282991968051531}
@@ -48,11 +49,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6b3fe5e5155aca4283835c06e42b536, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-4204192220824614751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7928148839850564808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29f94033b210a704c862b082eef72f70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spellName: Artifeu
+  spellDescription: "Son nom provient de la fusion de feu et d'artificiel, un sort
+    basique faisant de faible d\xE9g\xE2ts et coutant peu de mana."
   damage: 2
   knockback: 2.7
   speed: 350
-  direction: 1
-  cooldown: 10
+  cooldown: 0.2
+  manaCost: 20
 --- !u!212 &814142354430285161
 SpriteRenderer:
   m_ObjectHideFlags: 0
