@@ -190,9 +190,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92db9c153cc2f714baa08589627f5fe1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isBoss: 0
   maxHealth: 2
   damage: 2
   manaGain: {x: 8, y: 12}
+  manaGainOnHit: {x: 0, y: 0}
   stunTime: 0.5
   coinsLoot: {x: 5, y: 8}
   hitbox: {fileID: 4684128443754536613}
@@ -208,6 +210,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd0d933eb6636fd4eb22779ed9ec9356, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  changeDirectionJumping: 1
   moveSpeed: 150
   jumpForce: 200
   detectionCenter: {fileID: 835424956495242209}

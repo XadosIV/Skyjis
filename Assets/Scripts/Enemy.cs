@@ -4,12 +4,18 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    public int enemyId; //Convention : {zoneId(1)}_{MapNumber(2)}_(UniqueIdentifier(2))} => 10101 => Oakwood, map : oakwood_01, 01er ennemi
+    public string bossName;
+    public bool isBoss;
     public int maxHealth;
     [System.NonSerialized] public int health;
     public int damage;
     public Vector2 manaGain;
+    public Vector2 manaGainOnHit;
     public float stunTime;
     public Vector2 coinsLoot;
+
+    private bool isDead = false;
 
     private readonly float flashDelay = 0.15f;
     private Animator animator;
@@ -23,7 +29,6 @@ public class Enemy : MonoBehaviour
     
     [SerializeField] private Collider2D hitbox;
     private Coroutine stunningRoutine;
-
     private GameManagerScript gm;
 
     private void Start()
@@ -35,32 +40,31 @@ public class Enemy : MonoBehaviour
         health = maxHealth;
         gm = FindObjectOfType<GameManagerScript>();
         animator.SetBool("Alive", true);
+
+        if (gm.killedEnnemies.Contains(enemyId)) Destroy(gameObject);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    protected void OnTriggerEnter2D(Collider2D collider) {
+    private void OnTriggerEnter2D(Collider2D collider) {
         if (collider.CompareTag("Player") && health > 0) {
             collider.GetComponent<PlayerMovement>().TakeDamage(damage);
         }
     }
 
-    protected void FixedUpdate() {
+    private void FixedUpdate() {
         if (health <= 0) {
             rb.velocity = Vector3.zero;
         }
     }
 
     private void Death() {
+        isDead = true;
         int moneyToLoot = (int)Random.Range(coinsLoot.x, coinsLoot.y);
         List<GameObject> coins = gm.MoneyToCoin(moneyToLoot);
         foreach (GameObject coin in coins) {
             Instantiate(coin, transform.position, transform.rotation);
         }
+
+        if (!isBoss) gm.killedEnnemies.Add(enemyId);
 
         int manaAmount = (int)Random.Range(manaGain.x, manaGain.y);
         gm.SpawnManaBall(manaAmount, transform);
@@ -73,23 +77,34 @@ public class Enemy : MonoBehaviour
     }
 
     public void TakeDamage(int damage, Vector2 knockback) {
-        if (health <= 0) return;
+        if (isDead) return;
 
         animator.SetTrigger("Hurt");
         health -= damage;
+        if (isBoss) {gm.UpdateUI();}
+
         if (health <= 0) {
             Death();
-        }
-        else {
+        } else {
             if (isStun) {
                 StopCoroutine(stunningRoutine);
             }
+
+            if (isBoss) {
+                int manaAmount = (int)Random.Range(manaGainOnHit.x, manaGainOnHit.y);
+                gm.SpawnManaBall(manaAmount, transform);
+            }
+            
+
+            rb.velocity = Vector3.zero;
             rb.AddForce(knockback, ForceMode2D.Impulse);
             stunningRoutine = StartCoroutine(Stunning());
             if (!isBlinking) {
                 StartCoroutine(Blinking());
             }
         }
+
+        
         
     }
     private IEnumerator Stunning() {

@@ -106,7 +106,7 @@ MonoBehaviour:
   knockback: 0
   speed: 0
   cooldown: 2
-  manaCost: 40
+  manaCost: 30
 --- !u!95 &2494987259204523725
 Animator:
   serializedVersion: 4

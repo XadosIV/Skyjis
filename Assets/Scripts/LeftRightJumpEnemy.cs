@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class LeftRightJumpEnemy : MonoBehaviour
 {
+    public bool changeDirectionJumping;
     public float moveSpeed;
     public float jumpForce;
     [SerializeField] private Transform detectionCenter;
@@ -14,6 +15,7 @@ public class LeftRightJumpEnemy : MonoBehaviour
     private bool detected = false;
     private Rigidbody2D rb;
     private Enemy data;
+    private float lastSpeed;
 
     [SerializeField] private LayerMask collisionLayer;
     [SerializeField] private LayerMask playerLayer;
@@ -46,12 +48,19 @@ public class LeftRightJumpEnemy : MonoBehaviour
             }
         } else {
             Vector3 toPlayer = player.position - transform.position;
-            if (toPlayer.x > 0) { //faut aller à droite pour aller vers le joueur
-                speed = moveSpeed * Time.fixedDeltaTime;
-                transform.localScale = new Vector2(Mathf.Abs(transform.localScale.x), transform.localScale.y);
-            }  else {
-                speed = -moveSpeed * Time.fixedDeltaTime;
-                transform.localScale = new Vector2(-Mathf.Abs(transform.localScale.x), transform.localScale.y);
+            if (changeDirectionJumping || onGround) {
+                if (toPlayer.x > 0) { //faut aller à droite pour aller vers le joueur
+                    speed = moveSpeed * Time.fixedDeltaTime;
+                    transform.localScale = new Vector2(Mathf.Abs(transform.localScale.x), transform.localScale.y);
+                }
+                else {
+                    speed = -moveSpeed * Time.fixedDeltaTime;
+                    transform.localScale = new Vector2(-Mathf.Abs(transform.localScale.x), transform.localScale.y);
+                }
+                lastSpeed = speed;
+            }
+            else {
+                speed = moveSpeed * Time.fixedDeltaTime * Mathf.Sign(lastSpeed);
             }
         }
 

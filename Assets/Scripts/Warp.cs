@@ -1,30 +1,23 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using System.Collections;
 
 public class Warp : MonoBehaviour
 {
     public string sceneName;
-    public string spawnName;
+    public int spawnNumber;
+    private bool teleported = false;
 
-    private FadeSystemScript fadeSystem;
+    private GameManagerScript gm;
+
+    public Transform spawnPoint;
+
     void Start() {
-        fadeSystem = FindObjectOfType<FadeSystemScript>();
+        gm = FindObjectOfType<GameManagerScript>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {
-        if (collision.CompareTag("Player")) {
-            StartCoroutine(LoadScene());
+        if (collision.CompareTag("Player") && !teleported) {
+            teleported = true;
+            StartCoroutine(gm.SwitchScene(sceneName, spawnNumber));
         }
-    }
-
-    public IEnumerator LoadScene() {
-        GameManagerScript gameManager = FindObjectOfType<GameManagerScript>();
-        gameManager.spawnName = spawnName;
-        PlayerMovement player = FindObjectOfType<PlayerMovement>();
-        player.StartCinematic();
-        fadeSystem.FadeIn();
-        yield return new WaitForSeconds(1f);
-        SceneManager.LoadScene(sceneName);
     }
 }
