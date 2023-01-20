@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviour
     private float moveSpeed = 265f;
     private float jumpForce = 365f;
     private float invincibleTime = 2;
+    private bool alive = true;
 
     //Variable algorithmique
     public float flashDelay = 0.15f;
@@ -28,7 +29,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Transform groundCheck;
     [SerializeField] private float groundCheckRadius;
     public LayerMask collisionLayers;
-    private Animator animator;
+    public Animator animator;
     private SpriteRenderer spriteRenderer;
 
     public GameObject GameManager;
@@ -65,18 +66,38 @@ public class PlayerMovement : MonoBehaviour
         }
         else {
             animator.SetBool("Alive", false);
+            alive = false;
         }
+
+        data.UpdateUI();
 
 
     }
+
+    private void StartCinematicFromAnimation() {
+        StartCinematic(false);
+    }
+
+    private void DisableAnimator() {
+        animator.enabled = false;
+        StopAllCoroutines();
+        spriteRenderer.color = new Color(1f, 1f, 1f, 1f);
+    }
     
-    public void StartCinematic() {
+    public void StartCinematic(bool _forceIdle = false) {
         inCinematic = true;
         isInvincible = true;
+        if (_forceIdle) {
+            animator.SetBool("ForceIdle", true);
+            animator.SetFloat("Speed", 0f);
+            animator.SetFloat("yVelocity", 0f);
+            animator.SetBool("Jumping", false);
+        }
     }
     public void ExitCinematic() {
         isInvincible = false;
         inCinematic = false;
+        animator.SetBool("ForceIdle", false);
     }
 
     public bool IsInCinematic() {
@@ -86,18 +107,24 @@ public class PlayerMovement : MonoBehaviour
     public void SpawnAt(int spawnNumber) {
         GameObject[] rootGameObjects = SceneManager.GetActiveScene().GetRootGameObjects();
         GameObject spawnSystem;
-        foreach (GameObject element in rootGameObjects) {
-            if (element.name == "SpawnSystem") {
-                spawnSystem = element;
-                Transform warp = spawnSystem.transform.Find("Warp"+(int)spawnNumber);
-                transform.position = warp.Find("SpawnPoint").position;
+        if (spawnNumber == -1) {
+            RestingPoint rp = FindObjectOfType<RestingPoint>();
+            transform.position = rp.transform.position;
+        } else {
+            foreach (GameObject element in rootGameObjects) {
+                if (element.name == "SpawnSystem") {
+                    spawnSystem = element;
+                    Transform warp = spawnSystem.transform.Find("Warp" + (int)spawnNumber);
+                    transform.position = warp.Find("SpawnPoint").position;
+                }
             }
         }
+        
     }
 
     void Update()
     {
-        if (data.health <= 0) return;
+        if (!alive) return;
         currentMoveSpeed = moveSpeed * speedFactor;
 
         if (inCinematic) return;
@@ -116,8 +143,9 @@ public class PlayerMovement : MonoBehaviour
     }
 
     void FixedUpdate() {
-        if (data.health <= 0) {
+        if (!alive) {
             rb.velocity = Vector3.zero;
+            return;
         };
         //Check Ground
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, collisionLayers);
@@ -142,12 +170,12 @@ public class PlayerMovement : MonoBehaviour
     }
 
     public void TakeDamage(int damage) {
-        if (data.health <= 0) return;
+        if (!alive) return;
         if (!isInvincible) {
             data.health -= damage;
             if (data.health <= 0) {
                 animator.SetBool("Alive", false);
-                this.enabled = false;
+                alive = false;
             }
             animator.SetTrigger("Hurt");
             data.UpdateUI();

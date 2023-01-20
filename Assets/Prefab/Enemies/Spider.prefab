@@ -190,9 +190,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92db9c153cc2f714baa08589627f5fe1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyId: 0
+  bossName: 
   isBoss: 0
-  maxHealth: 2
-  damage: 2
+  maxHealth: 5
+  damage: 1
   manaGain: {x: 8, y: 12}
   manaGainOnHit: {x: 0, y: 0}
   stunTime: 0.5

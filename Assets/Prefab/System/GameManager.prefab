@@ -1661,9 +1661,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2428052693490159799}
+  - component: {fileID: 2679280180406663682}
   - component: {fileID: 6861634853958193018}
   - component: {fileID: 2374683651693711986}
-  - component: {fileID: 2679280180406663682}
   m_Layer: 5
   m_Name: DialogBox
   m_TagString: Untagged
@@ -1692,6 +1692,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -120}
   m_SizeDelta: {x: 740, y: 155}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2679280180406663682
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5317825506608459798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f24c1306c554ab641a4c8fafca1b8054, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textComponent: {fileID: 7830494108464927865}
+  textSpeed: 0
 --- !u!222 &6861634853958193018
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1730,20 +1744,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &2679280180406663682
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5317825506608459798}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f24c1306c554ab641a4c8fafca1b8054, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  textComponent: {fileID: 7830494108464927865}
-  textSpeed: 0
 --- !u!1 &5787184990377020236
 GameObject:
   m_ObjectHideFlags: 0

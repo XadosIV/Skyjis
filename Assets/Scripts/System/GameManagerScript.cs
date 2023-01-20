@@ -69,11 +69,13 @@ public class GameManagerScript : MonoBehaviour {
     private IEnumerator PlayerDeath() {
         if (saveData.coinsCount != 0) {
             saveData.coinsCount = 0;
-            saveData.amountGoldDeathBag = saveData.coinsCount / 2;
+            saveData.amountGoldDeathBag = (int)((float)(saveData.coinsCount) / 2);
             saveData.posGoldDeathBag = FindObjectOfType<PlayerMovement>().transform.position;
             saveData.sceneDeath = SceneManager.GetActiveScene().name;
         }
         SaveGame();
+        needAwakeAnimation = true;
+        killedEnnemies.Clear();
         yield return new WaitForSeconds(2f);
         LoadGame();
         deathAnimPlaying = false;
@@ -123,7 +125,7 @@ public class GameManagerScript : MonoBehaviour {
         PlayerMovement player = FindObjectOfType<PlayerMovement>();
         FadeSystemScript fadeSystem = FindObjectOfType<FadeSystemScript>();
         if (player) {
-            player.StartCinematic();
+            player.StartCinematic(true);
         }
         if (fadeSystem) {
             fadeSystem.FadeIn();

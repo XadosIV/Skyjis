@@ -30,6 +30,9 @@ EditorBuildSettings:
     path: Assets/Scenes/game/oakwood/oakwood_07.unity
     guid: ed562bd81054bb848b2a540c03381819
   - enabled: 1
+    path: Assets/Scenes/game/oakwood/oakwood_08.unity
+    guid: a21d39fbfb12c884d88bae6ee96f064d
+  - enabled: 1
     path: Assets/Scenes/game/village/village_01.unity
     guid: 402eb42c3d032d848a63f67632624bb4
   m_configObjects: {}

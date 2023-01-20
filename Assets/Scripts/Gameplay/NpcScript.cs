@@ -10,7 +10,8 @@ public class NpcScript : MonoBehaviour
 
     private DialogManager dm;
 
-    public string[] dialogues;
+    public string[] dialogs;
+    public int readFlag;
 
     void Start()
     {
@@ -23,7 +24,7 @@ public class NpcScript : MonoBehaviour
     {
         if (key.enabled && Input.GetButtonDown("Interaction") && !isSpeaking) {
             isSpeaking = true;
-            dm.StartDialogue(dialogues);
+            dm.StartDialogue(dialogs, readFlag);
             StartCoroutine(CatchEndDialog());
         }
     }

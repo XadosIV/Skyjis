@@ -17,7 +17,7 @@ public class GameData
     public List<int> spellOwned;
     public List<int> inventory;
     public List<int> itemsCollected;
-    public bool[] flags;
+    public int[] flags;
     public string lastSceneSave;
     public int lastWarpSave;
 
@@ -35,13 +35,12 @@ public class GameData
         spellOwned = new List<int>();
         inventory = new List<int>();
         itemsCollected = new List<int>();
-        flags = new bool[10];
+        flags = new int[10];
 
         posGoldDeathBag = new Vector3();
         amountGoldDeathBag = -1;
         sceneDeath = null;
 
         lastSceneSave = "oakwood_01";
-        lastWarpSave = 0;
     }
 }

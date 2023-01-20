@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4015873291043349864}
   - component: {fileID: 4015873291043349865}
   - component: {fileID: 4015873291043349870}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Warp
   m_TagString: Untagged
   m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
@@ -73,7 +73,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneName: 
-  spawnName: 
+  spawnNumber: 0
   spawnPoint: {fileID: 1795582901969750167}
 --- !u!1 &4708463305784759495
 GameObject:

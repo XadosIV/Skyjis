@@ -157,9 +157,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92db9c153cc2f714baa08589627f5fe1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 3
+  enemyId: 0
+  bossName: 
+  isBoss: 0
+  maxHealth: 20
   damage: 1
   manaGain: {x: 5, y: 10}
+  manaGainOnHit: {x: 0, y: 0}
   stunTime: 0.5
   coinsLoot: {x: 3, y: 8}
   hitbox: {fileID: 5408424090361064484}

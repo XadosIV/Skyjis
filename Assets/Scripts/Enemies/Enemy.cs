@@ -44,7 +44,7 @@ public class Enemy : MonoBehaviour
         if (gm.killedEnnemies.Contains(enemyId)) Destroy(gameObject);
     }
 
-    private void OnTriggerEnter2D(Collider2D collider) {
+    private void OnTriggerStay2D(Collider2D collider) {
         if (collider.CompareTag("Player") && health > 0) {
             collider.GetComponent<PlayerMovement>().TakeDamage(damage);
         }

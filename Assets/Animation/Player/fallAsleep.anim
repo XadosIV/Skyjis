@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: die
+  m_Name: fallAsleep
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -20,14 +20,18 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
+      value: {fileID: 1879567551, guid: dc7ae908ad33334438d14ff496b8ed12, type: 3}
+    - time: 0.1
+      value: {fileID: 1997898000, guid: dc7ae908ad33334438d14ff496b8ed12, type: 3}
+    - time: 0.2
       value: {fileID: 431646376, guid: dc7ae908ad33334438d14ff496b8ed12, type: 3}
-    - time: 0.16666667
+    - time: 0.3
       value: {fileID: 1045851874, guid: dc7ae908ad33334438d14ff496b8ed12, type: 3}
-    - time: 0.41666666
+    - time: 0.4
       value: {fileID: -64377530, guid: dc7ae908ad33334438d14ff496b8ed12, type: 3}
-    - time: 0.6666667
+    - time: 0.5
       value: {fileID: 581418427, guid: dc7ae908ad33334438d14ff496b8ed12, type: 3}
-    - time: 0.9166667
+    - time: 0.6
       value: {fileID: 922701371, guid: dc7ae908ad33334438d14ff496b8ed12, type: 3}
     attribute: m_Sprite
     path: 
@@ -48,6 +52,8 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
+    - {fileID: 1879567551, guid: dc7ae908ad33334438d14ff496b8ed12, type: 3}
+    - {fileID: 1997898000, guid: dc7ae908ad33334438d14ff496b8ed12, type: 3}
     - {fileID: 431646376, guid: dc7ae908ad33334438d14ff496b8ed12, type: 3}
     - {fileID: 1045851874, guid: dc7ae908ad33334438d14ff496b8ed12, type: 3}
     - {fileID: -64377530, guid: dc7ae908ad33334438d14ff496b8ed12, type: 3}
@@ -58,7 +64,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.93333334
+    m_StopTime: 0.6166667
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -80,13 +86,6 @@ AnimationClip:
   m_Events:
   - time: 0
     functionName: StartCinematicFromAnimation
-    data: 
-    objectReferenceParameter: {fileID: 0}
-    floatParameter: 0
-    intParameter: 0
-    messageOptions: 0
-  - time: 0.93333334
-    functionName: DisableAnimator
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

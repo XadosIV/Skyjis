@@ -64,7 +64,7 @@ MonoBehaviour:
   spellName: Artifeu
   spellDescription: "Son nom provient de la fusion de feu et d'artificiel, un sort
     basique faisant de faible d\xE9g\xE2ts et coutant peu de mana."
-  damage: 2
+  damage: 20
   knockback: 2.7
   speed: 350
   cooldown: 0.2

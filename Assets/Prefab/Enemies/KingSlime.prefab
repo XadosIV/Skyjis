@@ -118,7 +118,7 @@ MonoBehaviour:
   enemyId: 0
   bossName: Roi Slime
   isBoss: 1
-  maxHealth: 30
+  maxHealth: 200
   damage: 1
   manaGain: {x: 100, y: 100}
   manaGainOnHit: {x: 5, y: 10}
