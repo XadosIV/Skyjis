@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6535445149240630126}
   - component: {fileID: 6535445149240630127}
   - component: {fileID: 6535445149240630112}
-  m_Layer: 12
+  m_Layer: 3
   m_Name: FireBorderLeft
   m_TagString: Map
   m_Icon: {fileID: 0}
@@ -167,7 +167,7 @@ GameObject:
   - component: {fileID: 6535445149520165021}
   - component: {fileID: 6535445149520165018}
   - component: {fileID: 6535445149520165019}
-  m_Layer: 12
+  m_Layer: 3
   m_Name: FireBorderRight
   m_TagString: Map
   m_Icon: {fileID: 0}
@@ -425,7 +425,7 @@ GameObject:
   - component: {fileID: 6535445149899239490}
   - component: {fileID: 6535445149899239492}
   - component: {fileID: 6535445149899239493}
-  m_Layer: 12
+  m_Layer: 11
   m_Name: BattleScene
   m_TagString: Untagged
   m_Icon: {fileID: 0}

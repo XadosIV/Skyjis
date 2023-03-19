@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2678940859161213885}
   - component: {fileID: 2678940859161213884}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: Hitbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -59,7 +59,7 @@ GameObject:
   - component: {fileID: 2678940859493762487}
   - component: {fileID: 2678940859493762480}
   - component: {fileID: 2678940859493762483}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Sprite3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -164,7 +164,7 @@ GameObject:
   - component: {fileID: 2678940860579879515}
   - component: {fileID: 2678940860579879508}
   - component: {fileID: 2678940860579879511}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Sprite2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -269,7 +269,7 @@ GameObject:
   - component: {fileID: 2678940860811593703}
   - component: {fileID: 2678940860811593702}
   - component: {fileID: 2678940860811593701}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: ManaBall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -341,7 +341,7 @@ GameObject:
   - component: {fileID: 2678940860836966831}
   - component: {fileID: 2678940860836966824}
   - component: {fileID: 2678940860836966827}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Sprite1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -446,7 +446,7 @@ GameObject:
   - component: {fileID: 2678940860929755216}
   - component: {fileID: 2678940860929755217}
   - component: {fileID: 2678940860929755244}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Sprite4
   m_TagString: Untagged
   m_Icon: {fileID: 0}

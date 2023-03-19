@@ -29,7 +29,7 @@ public class PlayerPowers : MonoBehaviour
 
     void Update()
     {
-        if (gm.health <= 0) return;
+        if (gm.Health <= 0) return;
         if (pm.IsInCinematic()) return;
         if (IsBlockingControl() >= 1) return;
 
@@ -45,7 +45,7 @@ public class PlayerPowers : MonoBehaviour
     }
 
     public int IsBlockingControl() { // 0 = pas de contrôle bloqués; 1 = contrôles des pouvoirs bloqués; 2 = tout les contrôles bloqués.
-        return Mathf.Max(dash.BlockControl(), teleport.BlockControl(), crouch.BlockControl());
+        return Mathf.Max(dash.BlockControl(), teleport.BlockControl(), crouch.BlockControl(), spells.BlockControl());
     }
 
     public bool NullifyVelocity() {

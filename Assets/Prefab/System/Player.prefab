@@ -396,6 +396,7 @@ MonoBehaviour:
   collisionLayers:
     serializedVersion: 2
     m_Bits: 8
+  animator: {fileID: 0}
   GameManager: {fileID: 3854697397789409404, guid: 4e96ad48491e04f4389daa8247169511, type: 3}
 --- !u!212 &5196930168814935288
 SpriteRenderer:

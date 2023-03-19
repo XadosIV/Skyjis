@@ -27,7 +27,7 @@ public class PlayerJump : MonoBehaviour
     public bool IsAvailable() {
         if (isChargingJump) return false;
         if (pm.isGrounded) return true;
-        if (playerData.saveData.hasDoubleJump && !isDoubleJumping) return true;
+        if (playerData.save.hasDoubleJump && !isDoubleJumping) return true;
         return false;
     }
 

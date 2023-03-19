@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 197530619386992877}
   - component: {fileID: 197530619386992876}
   - component: {fileID: 197530619386992872}
-  m_Layer: 10
+  m_Layer: 6
   m_Name: GoldCoin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -169,7 +169,7 @@ GameObject:
   m_Component:
   - component: {fileID: 585197207357751112}
   - component: {fileID: 6180782562666759252}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: Hitbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}

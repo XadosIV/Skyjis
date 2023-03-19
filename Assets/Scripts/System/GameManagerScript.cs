@@ -1,4 +1,4 @@
-using UnityEngine.UI;
+
 using UnityEngine;
 using System.Collections.Generic;
 using System;
@@ -6,84 +6,114 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 
 public class GameManagerScript : MonoBehaviour {
-    [SerializeField] private GameObject[] objectsDontDestroy;
+    public GameData save {
+        get;
+        private set;
+    }
+    private UserInterfaceManager UI;
 
-    public GameData saveData;
+    private int _health;
+    public int Health {
+        get => _health;
+        set {
+            if (_health == value) return;
+            _health = Mathf.Max(0, Mathf.Min(maxHealth, value));
 
-    public int health;
-    public int mana;
+            if (_health == 0) {
+                StartCoroutine(PlayerDeath());
+            }
 
-    [NonSerialized] public int maxHealth;
-    [NonSerialized] public int maxMana;
-    [NonSerialized] public int attackDamage;
+            UI.UpdateUI();
+        }
+    }
+
+    private int _mana;
+    public int Mana {
+        get => _mana;
+        set {
+            if (_mana == value) return;
+            _mana = Mathf.Max(0, Mathf.Min(maxMana, value));
+            UI.UpdateUI();
+        }
+    }
+
+    public int Coins {
+        get => save.coinsCount;
+        set {
+            save.coinsCount = value;
+            UI.UpdateUI();
+        }
+    }
+
+    public int maxHealth {
+        get; private set;
+    }
+    
+    public int maxMana {
+        get; private set;
+    }
+    public int attackDamage {
+        get; private set;
+    }
 
     public GameObject[] spellList;
-    public GameObject[] itemList;
+    public ItemManager items;
 
+    private InventoryManager inventory;
+    
     public List<int> killedEnnemies;
     public bool needAwakeAnimation;
 
     private int saveFileNumber;
     private FileDataHandler fileDataHandler;
 
-    private bool inBattle = false;
+    private bool _inBattle = false;
+    public bool InBattle {
+        get => _inBattle;
+        set {
+            if (_inBattle != value) {
+                _inBattle = value;
+                UI.UpdateUI();
+            }
+        }
+    }
     public int spawnNumber;
 
-    [SerializeField] private Canvas UI;
-    [SerializeField] private Image[] hearts;
-    [SerializeField] private Sprite emptyHeart;
-    [SerializeField] private Sprite fullHeart;
-    [SerializeField] private Slider manaBar;
-    [SerializeField] private Text manaText;
-    [SerializeField] private Slider bossHealthBar;
-    [SerializeField] private Text bossHealthText;
-    [SerializeField] private Text bossNameText;
-    [SerializeField] private GameObject parentBossHealthBar;
-    [SerializeField] private Text coinsText;
+    
     [SerializeField] private GameObject[] coinsObjects;
     [SerializeField] private GameObject manaBall;
 
-    private bool deathAnimPlaying = false;
-
+    void Awake() {
+        DontDestroyOnLoad(gameObject);
+        UI = FindObjectOfType<UserInterfaceManager>();
+        items = new ItemManager();
+        inventory = FindObjectOfType<InventoryManager>();
+    }
     public void SetSaveFileId(int _id, bool _encrypt) {
         saveFileNumber = _id;
         fileDataHandler = new FileDataHandler(Application.persistentDataPath, "save" + saveFileNumber + ".game", _encrypt);
-        
-        LoadGame(_teleport:_encrypt); //si pas encrypté => scène joué depuis l'éditeur => pas de téléport.
-    }
 
-    void Awake() {
-        UI.enabled = false;
-        foreach (GameObject element in objectsDontDestroy) {
-            DontDestroyOnLoad(element);
-        }
-    }
-
-    private void Update() {
-        if (health <= 0 && !deathAnimPlaying) {
-            deathAnimPlaying = true;
-            StartCoroutine(PlayerDeath());
-        }
+        LoadGame(_teleport: _encrypt); //si pas encrypté => scène joué depuis l'éditeur => pas de téléport.
     }
 
     private IEnumerator PlayerDeath() {
-        if (saveData.coinsCount != 0) {
-            saveData.coinsCount = 0;
-            saveData.amountGoldDeathBag = (int)((float)(saveData.coinsCount) / 2);
-            saveData.posGoldDeathBag = FindObjectOfType<PlayerMovement>().transform.position;
-            saveData.sceneDeath = SceneManager.GetActiveScene().name;
+        if (save.coinsCount != 0) {
+            save.coinsCount = 0;
+            save.amountGoldDeathBag = (int)((float)(save.coinsCount) / 2);
+            save.posGoldDeathBag = FindObjectOfType<PlayerMovement>().transform.position;
+            save.sceneDeath = SceneManager.GetActiveScene().name;
         }
-        SaveGame();
+        SaveGame(false);
         needAwakeAnimation = true;
+        InBattle = false;
         killedEnnemies.Clear();
         yield return new WaitForSeconds(2f);
         LoadGame();
-        deathAnimPlaying = false;
     }
 
     public Vector2[] GetBoundaries() {
         BattleSceneScript bs = FindObjectOfType<BattleSceneScript>();
-        if (!inBattle) {
+        if (!InBattle) {
             CameraFollow cam = FindObjectOfType<CameraFollow>();
             return cam.GetBoundaries();
         }
@@ -99,25 +129,58 @@ public class GameManagerScript : MonoBehaviour {
             data = new GameData();
         }
 
-        saveData = data;
+        save = data;
 
-        maxHealth = 5 + saveData.nbUpgradeHealth;
-        health = maxHealth;
-        maxMana = 100 + saveData.nbUpgradeMana * 50;
-        mana = maxMana;
-        attackDamage = 8 + saveData.nbUpgradeDamage * 5;
+        inventory.SetInventory(data.inventory);
 
+        maxHealth = 5 + data.nbUpgradeHealth;
+        Health = maxHealth;
+        maxMana = 100 + data.nbUpgradeMana * 50; //ajouter ici le nombre de GS récolté
+        Mana = maxMana;
+        attackDamage = 8 + data.nbUpgradeDamage * 5;
         needAwakeAnimation = true;
+
         if (_teleport) {
             StartCoroutine(SwitchScene(data.lastSceneSave, data.lastWarpSave));
         } else {
             spawnNumber = 0;
-            UI.enabled = true;
+            UI.Show();
         }
     }
 
-    public void SaveGame() {
-        fileDataHandler.Save(saveData);
+    public void AddMaxHealth() {
+        if (save.nbUpgradeHealth >= 5) return;
+        maxHealth += 1;
+        Health = maxHealth;
+        save.nbUpgradeHealth += 1;
+        UI.UpdateUI();
+        SaveGame(false);
+    }
+
+    public void AddMaxMana() {
+        if (save.nbUpgradeMana >= 10) return;
+        maxMana += 50;
+        Mana = maxMana;
+        save.nbUpgradeMana += 1;
+        UI.UpdateUI();
+        SaveGame(false);
+    }
+
+    public void AddDamage() {
+        if (save.nbUpgradeDamage >= 5) return;
+        attackDamage += 5;
+        save.nbUpgradeDamage += 1;
+        UI.UpdateUI();
+        SaveGame(false);
+    }
+
+    public void SaveGame(bool checkpoint) {
+        save.inventory = inventory.GetInventory();
+        if (checkpoint) {
+            save.lastSceneSave = SceneManager.GetActiveScene().name;
+            save.lastWarpSave = -1;
+        }
+        fileDataHandler.Save(save);
     }
 
     public IEnumerator SwitchScene(string _sceneName, int _spawnNumber) {
@@ -132,31 +195,7 @@ public class GameManagerScript : MonoBehaviour {
         }
         yield return new WaitForSeconds(1f);
         SceneManager.LoadScene(_sceneName);
-        UI.enabled = true;
-    }
-
-    public void SetInBattle(bool _inBattle) {
-        inBattle = _inBattle;
-    }
-
-    public void AddItem(int id) {
-        saveData.inventory.Add(id);
-    }
-
-    public void GiveMana(int amount) {
-        mana += amount;
-        if (mana > maxMana) {
-            mana = maxMana;
-        }
-        UpdateUI();
-    }
-
-    public void GiveLife(int amount) {
-        health += amount;
-        if (health > maxHealth) {
-            health = maxHealth;
-        }
-        UpdateUI();
+        UI.Show();
     }
 
     public void SpawnManaBall(int _manaAmount, Transform _position) {
@@ -164,59 +203,8 @@ public class GameManagerScript : MonoBehaviour {
         ManaBall manaBallScript = manaBallObject.GetComponent<ManaBall>();
         manaBallScript.manaGain = _manaAmount;
     }
-
-    public void UpdateUI() {
-        UpdateHearts();
-        UpdateBossBar();
-        UpdateMana();
-        UpdateCoins();
-    }
-
-    private void UpdateBossBar() {
-        parentBossHealthBar.SetActive(inBattle);
-        if (inBattle) {
-            BattleSceneScript bs = FindObjectOfType<BattleSceneScript>();
-            Enemy boss = bs.GetBoss();
-            bossHealthBar.maxValue = boss.maxHealth;
-            bossHealthBar.value = boss.health;
-            bossHealthText.text = boss.health + " / " + boss.maxHealth;
-            bossNameText.text = boss.bossName;
-         }
-    }
-
-    private void UpdateHearts() {
-        if (health > maxHealth) {
-            health = maxHealth;
-        }
-
-        for (int i = 0; i < hearts.Length; i++) {
-            if (i < maxHealth) {
-                hearts[i].enabled = true;
-                if (i < health) {
-                    hearts[i].sprite = fullHeart;
-                }
-                else {
-                    hearts[i].sprite = emptyHeart;
-                }
-            }
-            else {
-                hearts[i].enabled = false;
-            }
-        }
-    }
-
-    private void UpdateMana() {
-        manaBar.maxValue = maxMana;
-        manaBar.value = mana;
-        manaText.text = mana + " / " + maxMana;
-    }
-
-    private void UpdateCoins() {
-        coinsText.text = saveData.coinsCount.ToString();
-    }
-
-    public List<GameObject> MoneyToCoin(int _money) {
-        int[] values = new int[] { 100, 20, 5, 1 };
+    
+    public List<GameObject> MoneyToCoin(int _money) { // coins value : 100 20 5 1
         List<GameObject> coinsToSpawn = new List<GameObject>();
 
         foreach (GameObject coin in coinsObjects) {

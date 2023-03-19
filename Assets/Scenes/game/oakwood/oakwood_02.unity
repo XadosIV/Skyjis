@@ -6919,6 +6919,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5196930167935939393, guid: da0a0d3f5f44c844f8c88c3167ad8b8f, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5196930168201743056, guid: da0a0d3f5f44c844f8c88c3167ad8b8f, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 5196930168814935175, guid: da0a0d3f5f44c844f8c88c3167ad8b8f, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -6967,6 +6975,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 5196930168814935292, guid: da0a0d3f5f44c844f8c88c3167ad8b8f, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da0a0d3f5f44c844f8c88c3167ad8b8f, type: 3}
 --- !u!1001 &749438154
@@ -6980,13 +6992,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Slime
       objectReference: {fileID: 0}
+    - target: {fileID: 5408424090708824898, guid: b7854f5e87e712945b6098099ecd788e, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5408424090708824900, guid: b7854f5e87e712945b6098099ecd788e, type: 3}
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5408424090708824900, guid: b7854f5e87e712945b6098099ecd788e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -16.7
+      value: -17.26
       objectReference: {fileID: 0}
     - target: {fileID: 5408424090708824900, guid: b7854f5e87e712945b6098099ecd788e, type: 3}
       propertyPath: m_LocalPosition.y
@@ -7135,7 +7151,7 @@ GameObject:
   - component: {fileID: 1690649299}
   - component: {fileID: 1690649301}
   - component: {fileID: 1690649300}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Props
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7528,7 +7544,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1916018172}
   - component: {fileID: 1916018171}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Grid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7696,6 +7712,10 @@ PrefabInstance:
     - target: {fileID: 4684128444255422649, guid: c5edcf05d2b35a8429edace4552ba9e6, type: 3}
       propertyPath: m_Name
       value: Spider
+      objectReference: {fileID: 0}
+    - target: {fileID: 4684128444255422649, guid: c5edcf05d2b35a8429edace4552ba9e6, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c5edcf05d2b35a8429edace4552ba9e6, type: 3}

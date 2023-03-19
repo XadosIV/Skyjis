@@ -27,7 +27,7 @@ public class ManaBall : MonoBehaviour
         if (collision.CompareTag("Player") && !collectable) {
             collectable = true;
             GameManagerScript gm = FindObjectOfType<GameManagerScript>();
-            gm.GiveMana(manaGain);
+            gm.Mana += manaGain;
             Destroy(gameObject);
         }
     }

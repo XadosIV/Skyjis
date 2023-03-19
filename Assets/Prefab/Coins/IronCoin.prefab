@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 684890653454358759}
   - component: {fileID: 684890653454358758}
   - component: {fileID: 684890653454358761}
-  m_Layer: 10
+  m_Layer: 6
   m_Name: IronCoin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -169,7 +169,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5998349124377794769}
   - component: {fileID: 901380341106398391}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: Hitbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}

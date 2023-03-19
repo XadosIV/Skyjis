@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7092278235569952975}
   - component: {fileID: 3669798896170395896}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: Hitbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -62,7 +62,7 @@ GameObject:
   - component: {fileID: 5303916007762500951}
   - component: {fileID: 5303916007762500950}
   - component: {fileID: 5303916007762500969}
-  m_Layer: 10
+  m_Layer: 6
   m_Name: SilverCoin
   m_TagString: Untagged
   m_Icon: {fileID: 0}

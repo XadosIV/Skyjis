@@ -14,7 +14,6 @@ public class BattleSceneScript : MonoBehaviour
     private Animator RightAnimator;
     private bool spawned = false;
     private Enemy bossSpawned;
-    private bool inBattle = false; 
     private GameManagerScript gm;
     void Start()
     {
@@ -28,14 +27,14 @@ public class BattleSceneScript : MonoBehaviour
     {
         if (spawned) {
             if (bossSpawned.health <= 0) {
-                inBattle = false;
                 UpdateSceneMod();
+                gm.InBattle = false;
             }
         }
     }
 
     public Enemy GetBoss() {
-        if (!inBattle) {
+        if (!gm.InBattle) {
             return null;
         }
         else {
@@ -44,30 +43,33 @@ public class BattleSceneScript : MonoBehaviour
     }
 
     private void UpdateSceneMod() {
-        MainCamera.enabled = !inBattle;
-        BattleCamera.enabled = inBattle;
-        FireBorderLeft.GetComponent<SpriteRenderer>().enabled = inBattle;
-        FireBorderRight.GetComponent<SpriteRenderer>().enabled = inBattle;
-        FireBorderLeft.GetComponent<BoxCollider2D>().enabled = inBattle;
-        FireBorderRight.GetComponent<BoxCollider2D>().enabled = inBattle;
-        if (inBattle) {
-            LeftAnimator.SetTrigger("InBattle");
-            RightAnimator.SetTrigger("InBattle");
-            bossSpawned = Instantiate(bossToSpawn, spawnPoint.position, spawnPoint.rotation).GetComponent<Enemy>();
-            bossSpawned.health = bossSpawned.maxHealth;
-        } else {
+        if (spawned) {
             LeftAnimator.SetTrigger("OutBattle");
             RightAnimator.SetTrigger("OutBattle");
+            enabled = false;
+        } else {
+            bossSpawned = Instantiate(bossToSpawn, spawnPoint.position, spawnPoint.rotation).GetComponent<Enemy>();
+            bossSpawned.health = bossSpawned.maxHealth;
         }
-        gm.SetInBattle(inBattle);
-        gm.UpdateUI();
+        MainCamera.enabled = spawned;
+        BattleCamera.enabled = !spawned;
+        FireBorderLeft.GetComponent<SpriteRenderer>().enabled = !spawned;
+        FireBorderRight.GetComponent<SpriteRenderer>().enabled = !spawned;
+        FireBorderLeft.GetComponent<BoxCollider2D>().enabled = !spawned;
+        FireBorderRight.GetComponent<BoxCollider2D>().enabled = !spawned;
+        
+        LeftAnimator.SetTrigger("InBattle");
+        RightAnimator.SetTrigger("InBattle");
+        
+        
+        
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {
         if (collision.CompareTag("Player") && !spawned) {
-            spawned = true;
-            inBattle = true;
             UpdateSceneMod();
+            spawned = true;
+            gm.InBattle = true;
         }
     }
 

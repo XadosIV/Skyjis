@@ -23,33 +23,27 @@ public class RestingPoint : MonoBehaviour
             if (player.IsInCinematic()) {
                 player.animator.SetBool("FallAsleep", false);
                 StopAllCoroutines();
-                gm.health = gm.maxHealth;
-                gm.mana = gm.maxMana;
-                gm.UpdateUI();
+                gm.Health = gm.maxHealth;
+                gm.Mana = gm.maxMana;
             } else {
                 player.animator.SetBool("FallAsleep", true);
-                gm.saveData.lastSceneSave = SceneManager.GetActiveScene().name;
-                gm.saveData.lastWarpSave = -1;
-                gm.SaveGame();
+                gm.SaveGame(true);
                 StartCoroutine(FullHealth());
                 StartCoroutine(FullMana());
-                gm.UpdateUI();
             }
         }
     }
 
     private IEnumerator FullHealth() {
-        while (gm.health != gm.maxHealth) {
-            gm.GiveLife(1);
-            gm.UpdateUI();
+        while (gm.Health != gm.maxHealth) {
+            gm.Health+=1;
             yield return new WaitForSeconds(.2f);
         }
     }
 
     private IEnumerator FullMana() {
-        while (gm.mana != gm.maxMana) {
-            gm.GiveMana(3);
-            gm.UpdateUI();
+        while (gm.Mana != gm.maxMana) {
+            gm.Mana += 3;
             yield return new WaitForSeconds(.1f);
         }
     }

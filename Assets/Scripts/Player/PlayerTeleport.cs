@@ -29,7 +29,7 @@ public class PlayerTeleport : MonoBehaviour
     }
 
     public bool IsAvailable() {
-        if (!playerData.saveData.hasTeleport) return false;
+        if (!playerData.save.hasTeleport) return false;
         if (isTeleporting) return false;
         return true;
     }

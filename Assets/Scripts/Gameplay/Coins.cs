@@ -21,8 +21,7 @@ public class Coins : MonoBehaviour
     void OnTriggerEnter2D(Collider2D collider) {
         if (collider.CompareTag("Player") && !collected) {
             collected = true;
-            gm.saveData.coinsCount += value;
-            gm.UpdateUI();
+            gm.Coins += value;
             Destroy(gameObject);
         }
     }

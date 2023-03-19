@@ -29,13 +29,18 @@ public class PlayerSpellCast : MonoBehaviour
         return canCast[index];
     }
 
+    public int BlockControl() {
+        if (isCasting) return 1;
+        return 0;
+    }
+
 
     public void Execute(int index) {
-        if (gm.saveData.spellIndex[index] != -1) {
-            currentSpell = gm.spellList[gm.saveData.spellIndex[index]];
+        if (gm.save.spellIndex[index] != -1) {
+            currentSpell = gm.spellList[gm.save.spellIndex[index]];
             currentSpellData = currentSpell.GetComponent<SpellData>();
             
-            if (gm.mana >= currentSpellData.manaCost) {
+            if (gm.Mana >= currentSpellData.manaCost) {
                 isCasting = true;
                 animator.SetTrigger("SpellCast");
                 StartCoroutine(HandleSpellCd(index));
@@ -50,8 +55,7 @@ public class PlayerSpellCast : MonoBehaviour
     }
 
     private void SpellCreation() {
-        gm.mana -= currentSpellData.manaCost;
-        gm.UpdateUI();
+        gm.Mana -= currentSpellData.manaCost;
 
         if (pm.direction == 1) {
             Instantiate(currentSpell, attackPointRight.position, attackPointRight.rotation);

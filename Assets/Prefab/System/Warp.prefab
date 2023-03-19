@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4015873291043349864}
   - component: {fileID: 4015873291043349865}
   - component: {fileID: 4015873291043349870}
-  m_Layer: 12
+  m_Layer: 11
   m_Name: Warp
   m_TagString: Untagged
   m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
@@ -84,7 +84,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1795582901969750167}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: SpawnPoint
   m_TagString: Untagged
   m_Icon: {fileID: 7422848464349959988, guid: 0000000000000000d000000000000000, type: 0}

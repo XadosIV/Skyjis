@@ -24,7 +24,7 @@ public class PlayerDash : MonoBehaviour
     }
 
     public bool IsAvailable() {
-        if (!playerData.saveData.hasDash) return false;
+        if (!playerData.save.hasDash) return false;
         if (dashing || inCooldown) return false;
         return true;
     }

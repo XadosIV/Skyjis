@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Enemy : MonoBehaviour
 {
@@ -8,7 +9,7 @@ public class Enemy : MonoBehaviour
     public string bossName;
     public bool isBoss;
     public int maxHealth;
-    [System.NonSerialized] public int health;
+    [NonSerialized] public int health;
     public int damage;
     public Vector2 manaGain;
     public Vector2 manaGainOnHit;
@@ -22,7 +23,7 @@ public class Enemy : MonoBehaviour
     private SpriteRenderer sr;
     private Rigidbody2D rb;
 
-    [System.NonSerialized] public bool isStun;
+    [NonSerialized] public bool isStun;
     private bool isBlinking;
 
 
@@ -30,6 +31,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Collider2D hitbox;
     private Coroutine stunningRoutine;
     private GameManagerScript gm;
+    private UserInterfaceManager ui;
 
     private void Start()
     {
@@ -39,6 +41,7 @@ public class Enemy : MonoBehaviour
 
         health = maxHealth;
         gm = FindObjectOfType<GameManagerScript>();
+        if (isBoss) ui = FindObjectOfType<UserInterfaceManager>();
         animator.SetBool("Alive", true);
 
         if (gm.killedEnnemies.Contains(enemyId)) Destroy(gameObject);
@@ -58,7 +61,7 @@ public class Enemy : MonoBehaviour
 
     private void Death() {
         isDead = true;
-        int moneyToLoot = (int)Random.Range(coinsLoot.x, coinsLoot.y);
+        int moneyToLoot = (int)UnityEngine.Random.Range(coinsLoot.x, coinsLoot.y);
         List<GameObject> coins = gm.MoneyToCoin(moneyToLoot);
         foreach (GameObject coin in coins) {
             Instantiate(coin, transform.position, transform.rotation);
@@ -66,7 +69,7 @@ public class Enemy : MonoBehaviour
 
         if (!isBoss) gm.killedEnnemies.Add(enemyId);
 
-        int manaAmount = (int)Random.Range(manaGain.x, manaGain.y);
+        int manaAmount = (int)UnityEngine.Random.Range(manaGain.x, manaGain.y);
         gm.SpawnManaBall(manaAmount, transform);
 
 
@@ -81,7 +84,7 @@ public class Enemy : MonoBehaviour
 
         animator.SetTrigger("Hurt");
         health -= damage;
-        if (isBoss) {gm.UpdateUI();}
+        if (isBoss) {ui.UpdateUI();}
 
         if (health <= 0) {
             Death();
@@ -91,7 +94,7 @@ public class Enemy : MonoBehaviour
             }
 
             if (isBoss) {
-                int manaAmount = (int)Random.Range(manaGainOnHit.x, manaGainOnHit.y);
+                int manaAmount = (int)UnityEngine.Random.Range(manaGainOnHit.x, manaGainOnHit.y);
                 gm.SpawnManaBall(manaAmount, transform);
             }
             

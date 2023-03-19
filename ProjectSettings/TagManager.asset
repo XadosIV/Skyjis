@@ -9,16 +9,16 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - CollisionLayer
+  - PhysicsLayer
   - Water
   - UI
-  - EnemyLayer
+  - CorpsPhysique
   - Player
-  - Hitbox
+  - EnemiesHitbox
   - PlayerProjectiles
-  - CoinsLayer
-  - GroundDetectors
-  - PassiveHitbox
+  - Collectibles
+  - ControlPoint
+  - 
   - 
   - 
   - 

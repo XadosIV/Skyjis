@@ -5,7 +5,7 @@ using System.Collections;
 public class PlayerMovement : MonoBehaviour
 {
     //Gameplay Variable
-    GameManagerScript data;
+    GameManagerScript gm;
 
     private float moveSpeed = 265f;
     private float jumpForce = 365f;
@@ -38,20 +38,20 @@ public class PlayerMovement : MonoBehaviour
     private float horizontalMovement;
 
     private void Awake() {
-        data = FindObjectOfType<GameManagerScript>();
-        if (!data) {
+        gm = FindObjectOfType<GameManagerScript>();
+        if (!gm) {
             GameObject gmObject = Instantiate(GameManager);
             gmObject.GetComponent<GameManagerScript>().SetSaveFileId(-1, false);
         }
-        data = FindObjectOfType<GameManagerScript>();
+        gm = FindObjectOfType<GameManagerScript>();
         
-        SpawnAt(data.spawnNumber);
+        SpawnAt(gm.spawnNumber);
 
         animator = GetComponent<Animator>();
-        if (data.needAwakeAnimation) {
+        if (gm.needAwakeAnimation) {
             StartCinematic();
             animator.SetTrigger("Awake");
-            data.needAwakeAnimation = false;
+            gm.needAwakeAnimation = false;
         }
     }
 
@@ -59,19 +59,13 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         powersManager = GetComponent<PlayerPowers>();
-
-        data.UpdateUI();
-        if (data.health > 0) {
+        if (gm.Health > 0) {
             animator.SetBool("Alive", true);
         }
         else {
             animator.SetBool("Alive", false);
             alive = false;
         }
-
-        data.UpdateUI();
-
-
     }
 
     private void StartCinematicFromAnimation() {
@@ -84,9 +78,9 @@ public class PlayerMovement : MonoBehaviour
         spriteRenderer.color = new Color(1f, 1f, 1f, 1f);
     }
     
-    public void StartCinematic(bool _forceIdle = false) {
+    public void StartCinematic(bool _forceIdle = false, bool _isInvincible = true) {
         inCinematic = true;
-        isInvincible = true;
+        isInvincible = _isInvincible;
         if (_forceIdle) {
             animator.SetBool("ForceIdle", true);
             animator.SetFloat("Speed", 0f);
@@ -114,8 +108,8 @@ public class PlayerMovement : MonoBehaviour
             foreach (GameObject element in rootGameObjects) {
                 if (element.name == "SpawnSystem") {
                     spawnSystem = element;
-                    Transform warp = spawnSystem.transform.Find("Warp" + (int)spawnNumber);
-                    transform.position = warp.Find("SpawnPoint").position;
+                    Warp warp = spawnSystem.transform.Find("Warp" + (int)spawnNumber).GetComponent<Warp>();
+                    transform.position = warp.spawnPoint.position;
                 }
             }
         }
@@ -172,13 +166,12 @@ public class PlayerMovement : MonoBehaviour
     public void TakeDamage(int damage) {
         if (!alive) return;
         if (!isInvincible) {
-            data.health -= damage;
-            if (data.health <= 0) {
+            gm.Health -= damage;
+            if (gm.Health <= 0) {
                 animator.SetBool("Alive", false);
                 alive = false;
             }
             animator.SetTrigger("Hurt");
-            data.UpdateUI();
             StartCoroutine(Invincibility());
         }
         
