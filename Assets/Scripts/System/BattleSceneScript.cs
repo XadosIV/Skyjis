@@ -14,13 +14,13 @@ public class BattleSceneScript : MonoBehaviour
     private Animator RightAnimator;
     private bool spawned = false;
     private Enemy bossSpawned;
-    private GameManagerScript gm;
+    private GameManager gm;
     void Start()
     {
         MainCamera = Camera.main;
         LeftAnimator = FireBorderLeft.GetComponent<Animator>();
         RightAnimator = FireBorderRight.GetComponent<Animator>();
-        gm = FindObjectOfType<GameManagerScript>();
+        gm = FindObjectOfType<GameManager>();
     }
 
     void Update()

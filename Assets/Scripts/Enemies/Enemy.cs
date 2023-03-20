@@ -30,7 +30,7 @@ public class Enemy : MonoBehaviour
     
     [SerializeField] private Collider2D hitbox;
     private Coroutine stunningRoutine;
-    private GameManagerScript gm;
+    private GameManager gm;
     private UserInterfaceManager ui;
 
     private void Start()
@@ -40,7 +40,7 @@ public class Enemy : MonoBehaviour
         animator = GetComponent<Animator>();
 
         health = maxHealth;
-        gm = FindObjectOfType<GameManagerScript>();
+        gm = FindObjectOfType<GameManager>();
         if (isBoss) ui = FindObjectOfType<UserInterfaceManager>();
         animator.SetBool("Alive", true);
 

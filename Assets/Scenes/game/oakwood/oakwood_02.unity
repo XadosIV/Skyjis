@@ -6927,6 +6927,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 5196930168814935174, guid: da0a0d3f5f44c844f8c88c3167ad8b8f, type: 3}
+      propertyPath: physicsLayers.m_Bits
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 5196930168814935175, guid: da0a0d3f5f44c844f8c88c3167ad8b8f, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -6969,6 +6973,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5196930168814935175, guid: da0a0d3f5f44c844f8c88c3167ad8b8f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5196930168814935288, guid: da0a0d3f5f44c844f8c88c3167ad8b8f, type: 3}
+      propertyPath: m_FlipX
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5196930168814935292, guid: da0a0d3f5f44c844f8c88c3167ad8b8f, type: 3}

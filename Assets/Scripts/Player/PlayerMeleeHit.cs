@@ -9,19 +9,19 @@ public class PlayerMeleeHit : MonoBehaviour
     private float knockback = 5f;
     private float selfKnockback = 5f;
 
-    private GameManagerScript playerData;
+    private GameManager gm;
     private PlayerMovement pm;
     private Animator animator;
     private Rigidbody2D rb;
     public Transform attackPointLeft;
     public Transform attackPointRight;
-    public LayerMask enemyLayers;
+    private readonly int enemyLayers = 8;
 
     private bool canHit = true;
     void Start()
     {
         animator = GetComponent<Animator>();
-        playerData = FindObjectOfType<GameManagerScript>();
+        gm = FindObjectOfType<GameManager>();
         pm = GetComponent<PlayerMovement>();
         rb = GetComponent<Rigidbody2D>();
     }
@@ -39,13 +39,15 @@ public class PlayerMeleeHit : MonoBehaviour
     private void MeleeHit() {
         Transform attackPoint = pm.direction == 1 ? attackPointRight : attackPointLeft;
 
-        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(attackPoint.position, attackRange, enemyLayers);
+        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(attackPoint.position, attackRange);
         bool somethingHit = false;
         foreach (Collider2D collider in hitColliders) {
-            Enemy enemy = collider.GetComponent<Enemy>();
-            if (enemy.health > 0) {
-                enemy.TakeDamage(playerData.attackDamage, new Vector2(knockback * pm.direction, 0));
-                somethingHit = true;
+            if (enemyLayers == collider.gameObject.layer) {
+                Enemy enemy = collider.GetComponent<Enemy>();
+                if (enemy.health > 0) {
+                    enemy.TakeDamage(gm.attackDamage, new Vector2(knockback * pm.direction, 0));
+                    somethingHit = true;
+                }
             }
         }
         if (somethingHit) {

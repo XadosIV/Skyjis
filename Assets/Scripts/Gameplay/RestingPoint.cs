@@ -8,11 +8,11 @@ public class RestingPoint : MonoBehaviour
     public SpriteRenderer key;
 
     private PlayerMovement player;
-    private GameManagerScript gm;
+    private GameManager gm;
 
     void Start()
     {
-        gm = FindObjectOfType<GameManagerScript>();
+        gm = FindObjectOfType<GameManager>();
         player = FindObjectOfType<PlayerMovement>();
         key.enabled = false;
     }
@@ -20,7 +20,7 @@ public class RestingPoint : MonoBehaviour
     void Update()
     {
         if (key.enabled && Input.GetButtonDown("Interaction")) {
-            if (player.IsInCinematic()) {
+            if (!player.CanMove()) {
                 player.animator.SetBool("FallAsleep", false);
                 StopAllCoroutines();
                 gm.Health = gm.maxHealth;

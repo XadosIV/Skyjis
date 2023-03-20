@@ -7,7 +7,7 @@ public class PlayerDash : MonoBehaviour
     private float dashingTime = 0.2f;
     private float dashingCooldown = 0.5f;
 
-    private GameManagerScript playerData;
+    private GameManager gm;
     private Rigidbody2D rb;
 
     private TrailRenderer tr;
@@ -18,26 +18,27 @@ public class PlayerDash : MonoBehaviour
 
     void Start() {
         rb = GetComponent<Rigidbody2D>();
-        playerData = FindObjectOfType<GameManagerScript>();
+        gm = FindObjectOfType<GameManager>();
         tr = GetComponent<TrailRenderer>();
         pm = GetComponent<PlayerMovement>();
     }
 
     public bool IsAvailable() {
-        if (!playerData.save.hasDash) return false;
+        if (!gm.save.hasDash) return false;
         if (dashing || inCooldown) return false;
         return true;
     }
 
-    public int BlockControl() {
+    /*public int BlockControl() {
         if (dashing) return 2; //on bloque les contrôles durant tout le dash
         return 0;
-    }
+    }*/
     public void Execute() {
         StartCoroutine(Dash(pm.direction));
     }
 
     private IEnumerator Dash(float direction) {
+        int id = pm.AddBlockAction(new bool[] { true, true, true, true });
         dashing = true;
         inCooldown = true;
         rb.velocity = new Vector2(rb.velocity.x, 0f);
@@ -48,6 +49,7 @@ public class PlayerDash : MonoBehaviour
         yield return new WaitForSeconds(dashingTime);
         tr.emitting = false;
         dashing = false;
+        pm.RemoveBlockAction(id);
         rb.gravityScale = gravity;
         yield return new WaitForSeconds(dashingCooldown);
         inCooldown = false;

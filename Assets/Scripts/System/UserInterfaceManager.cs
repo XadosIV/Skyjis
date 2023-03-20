@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class UserInterfaceManager : MonoBehaviour
 {
-    private GameManagerScript gm;
+    private GameManager gm;
     private Canvas canvas;
     [SerializeField] private GameObject inGameCanvas;
     [SerializeField] private Image[] hearts;
@@ -20,7 +20,7 @@ public class UserInterfaceManager : MonoBehaviour
     [SerializeField] private Text coinsText;
 
     private void Awake() {
-        gm = FindObjectOfType<GameManagerScript>();
+        gm = FindObjectOfType<GameManager>();
         canvas = GetComponent<Canvas>();
         Hide();
     }

@@ -26,7 +26,7 @@ public class ManaBall : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision) {
         if (collision.CompareTag("Player") && !collectable) {
             collectable = true;
-            GameManagerScript gm = FindObjectOfType<GameManagerScript>();
+            GameManager gm = FindObjectOfType<GameManager>();
             gm.Mana += manaGain;
             Destroy(gameObject);
         }

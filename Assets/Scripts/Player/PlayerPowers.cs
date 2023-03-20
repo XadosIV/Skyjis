@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerPowers : MonoBehaviour
 {
     private PlayerMovement pm;
-    private GameManagerScript gm;
+    private GameManager gm;
 
     private PlayerDash dash;
     private PlayerTeleport teleport;
@@ -17,7 +17,7 @@ public class PlayerPowers : MonoBehaviour
     void Start()
     {
         pm = GetComponent<PlayerMovement>();
-        gm = FindObjectOfType<GameManagerScript>();
+        gm = FindObjectOfType<GameManager>();
 
         dash = GetComponent<PlayerDash>();
         teleport = GetComponent<PlayerTeleport>();
@@ -30,8 +30,8 @@ public class PlayerPowers : MonoBehaviour
     void Update()
     {
         if (gm.Health <= 0) return;
-        if (pm.IsInCinematic()) return;
-        if (IsBlockingControl() >= 1) return;
+        if (!pm.CanAttacks()) return;
+        //if (IsBlockingControl() >= 1) return;
 
         if (Input.GetButtonDown("MeleeHit") && meleeHit.IsAvailable()) meleeHit.Execute();
         else if (Input.GetButtonDown("Spell1") && spells.IsAvailable(0)) spells.Execute(0);
@@ -44,12 +44,12 @@ public class PlayerPowers : MonoBehaviour
         else if (Input.GetButtonDown("Crouch") && crouch.IsAvailable()) crouch.Execute();
     }
 
-    public int IsBlockingControl() { // 0 = pas de contrôle bloqués; 1 = contrôles des pouvoirs bloqués; 2 = tout les contrôles bloqués.
+    /*public int IsBlockingControl() { // 0 = pas de contrôle bloqués; 1 = contrôles des pouvoirs bloqués; 2 = tout les contrôles bloqués.
         return Mathf.Max(dash.BlockControl(), teleport.BlockControl(), crouch.BlockControl(), spells.BlockControl());
-    }
+    }*/
 
     public bool NullifyVelocity() {
-        return teleport.BlockControl() == 2;
+        return teleport.isTeleporting;
     }
 
     public bool NeedJump() {

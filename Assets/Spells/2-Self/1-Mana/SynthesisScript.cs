@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class SynthesisScript : MonoBehaviour
 {
-    private GameManagerScript gm;
+    private GameManager gm;
     private SpellData data;
     private PlayerMovement pm;
     void Start()
     {
-        gm = FindObjectOfType<GameManagerScript>();
+        gm = FindObjectOfType<GameManager>();
         data = GetComponent<SpellData>();
         pm = FindObjectOfType<PlayerMovement>();
         gm.Health += data.damage;

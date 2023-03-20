@@ -31,23 +31,23 @@ public class PlayerCrouch : MonoBehaviour
         return !crouching;
     }
 
-    public int BlockControl() {
+    /*public int BlockControl() {
         if (crouching) return 1;
         return 0;
-    }
+    }*/
 
     public void Execute() {
         StartCoroutine(Crouch());
     }
 
     private IEnumerator Crouch() {
-        
+        int id = pm.AddBlockAction(new bool[] { false, true, true, true });
         crouching = true;
         standingCollider.enabled = false;
         crouchingCollider.enabled = true;
-        pm.speedFactor = 0.7f;
+        pm.AddSpeedFactor(this, 0.7f);
 
-        LayerMask collisionLayers = GetComponent<PlayerMovement>().collisionLayers;
+        LayerMask collisionLayers = GetComponent<PlayerMovement>().physicsLayers;
 
 
         while (Input.GetButton("Crouch") || Physics2D.OverlapCircle(floorCheck.position, floorCheckRadius, collisionLayers)) {
@@ -56,8 +56,9 @@ public class PlayerCrouch : MonoBehaviour
 
         standingCollider.enabled = true;
         crouchingCollider.enabled = false;
-        pm.speedFactor = 1;
+        pm.RemoveSpeedFactor(this);
         crouching = false;
+        pm.RemoveBlockAction(id);
     }
 
 }

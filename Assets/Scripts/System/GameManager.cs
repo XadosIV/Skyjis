@@ -5,7 +5,7 @@ using System;
 using System.Collections;
 using UnityEngine.SceneManagement;
 
-public class GameManagerScript : MonoBehaviour {
+public class GameManager : MonoBehaviour {
     public GameData save {
         get;
         private set;
@@ -58,8 +58,6 @@ public class GameManagerScript : MonoBehaviour {
 
     public GameObject[] spellList;
     public ItemManager items;
-
-    private InventoryManager inventory;
     
     public List<int> killedEnnemies;
     public bool needAwakeAnimation;
@@ -87,7 +85,6 @@ public class GameManagerScript : MonoBehaviour {
         DontDestroyOnLoad(gameObject);
         UI = FindObjectOfType<UserInterfaceManager>();
         items = new ItemManager();
-        inventory = FindObjectOfType<InventoryManager>();
     }
     public void SetSaveFileId(int _id, bool _encrypt) {
         saveFileNumber = _id;
@@ -131,8 +128,6 @@ public class GameManagerScript : MonoBehaviour {
 
         save = data;
 
-        inventory.SetInventory(data.inventory);
-
         maxHealth = 5 + data.nbUpgradeHealth;
         Health = maxHealth;
         maxMana = 100 + data.nbUpgradeMana * 50; //ajouter ici le nombre de GS récolté
@@ -175,7 +170,6 @@ public class GameManagerScript : MonoBehaviour {
     }
 
     public void SaveGame(bool checkpoint) {
-        save.inventory = inventory.GetInventory();
         if (checkpoint) {
             save.lastSceneSave = SceneManager.GetActiveScene().name;
             save.lastWarpSave = -1;
@@ -188,7 +182,7 @@ public class GameManagerScript : MonoBehaviour {
         PlayerMovement player = FindObjectOfType<PlayerMovement>();
         FadeSystemScript fadeSystem = FindObjectOfType<FadeSystemScript>();
         if (player) {
-            player.StartCinematic(true);
+            player.StartCinematic();
         }
         if (fadeSystem) {
             fadeSystem.FadeIn();

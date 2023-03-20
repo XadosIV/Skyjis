@@ -9,8 +9,7 @@ public class DialogManager : MonoBehaviour
     public TextMeshProUGUI textComponent;
     private Image image;
     private PlayerMovement player;
-    private GameManagerScript gm;
-    private InventoryManager im;
+    private GameManager gm;
 
     private readonly string[] keywords = {"TAG", "ID", "EQ", "GOTO", "INCR", "REMOVE"};
     /*
@@ -24,6 +23,8 @@ public class DialogManager : MonoBehaviour
     REMOVE:[CH/PT/GM]:[NB] <=> Retire de l'inventaire [NB] champis/plantes/gems
     */
 
+    int blockActionId;
+
     public float textSpeed;
 
     private List<string> dialog;
@@ -36,8 +37,7 @@ public class DialogManager : MonoBehaviour
 
     void Start()
     {
-        gm = FindObjectOfType<GameManagerScript>();
-        im = FindObjectOfType<InventoryManager>();
+        gm = FindObjectOfType<GameManager>();
         image = GetComponent<Image>();
         Show(false);
     }
@@ -86,7 +86,7 @@ public class DialogManager : MonoBehaviour
                 index = dialog.Count;
                 break;
             case "EQ": // EQ:[CH/PT/GMHT/MN/DGT]:[VAL]:[ID] => Goto ID si HT/MN/DGT = VAL
-                int compare = -1;
+                /*int compare = -1;
                 switch (args[1]) {
                     case "CH":
                         compare = im.mushroomCount;
@@ -114,7 +114,7 @@ public class DialogManager : MonoBehaviour
                 int targetIndex = int.Parse(args[3]);
                 if (compare == value) {
                     GotoLine(targetIndex);
-                }
+                }*/
                 break;
             case "GOTO": // GOTO:[id] <=> Renvoie à un id.
                 int id = int.Parse(args[1]);
@@ -132,7 +132,7 @@ public class DialogManager : MonoBehaviour
                 }
                 break;
             case "REMOVE": // REMOVE:[CH/PT/GM]:[NB] <=> Retire de l'inventaire [NB] champis/plantes/gems
-                int number = int.Parse(args[2]);
+                /*int number = int.Parse(args[2]);
                 if (args[1] == "CH") {
                     im.RemoveByType(ItemType.Mushroom, number);
                 }
@@ -144,7 +144,7 @@ public class DialogManager : MonoBehaviour
                 }
                 else {
                     print("Unknown parameter");
-                }
+                }*/
                 break;
             default:
                 print("Unknown Keyword.");
@@ -159,7 +159,7 @@ public class DialogManager : MonoBehaviour
 
     public void StartDialogue(string[] lines, int? readFlag) {
         player = FindObjectOfType<PlayerMovement>();
-        player.StartCinematic(true);
+        blockActionId = player.StartCinematic();
 
         LoadIdentifiers(lines); //set dialog également
         
@@ -203,7 +203,7 @@ public class DialogManager : MonoBehaviour
                 StartCoroutine(TypeLine());
             }
         } else {
-            player.ExitCinematic();
+            player.ExitCinematic(blockActionId);
             Show(false);
         }
     }

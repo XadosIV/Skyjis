@@ -6,12 +6,12 @@ public class Warp : MonoBehaviour
     public int spawnNumber;
     private bool teleported = false;
 
-    private GameManagerScript gm;
+    private GameManager gm;
 
     public Transform spawnPoint;
 
     void Start() {
-        gm = FindObjectOfType<GameManagerScript>();
+        gm = FindObjectOfType<GameManager>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {

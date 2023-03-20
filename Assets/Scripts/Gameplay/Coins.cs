@@ -5,12 +5,12 @@ using UnityEngine;
 public class Coins : MonoBehaviour
 {
     public int value;
-    private GameManagerScript gm;
+    private GameManager gm;
     private bool collected = false;
     private Animator animator;
     void Start()
     {
-        gm = FindObjectOfType<GameManagerScript>();
+        gm = FindObjectOfType<GameManager>();
         animator = GetComponent<Animator>();
         animator.SetInteger("Value", value);
 

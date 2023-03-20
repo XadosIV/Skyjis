@@ -5,7 +5,7 @@ public class PlayerJump : MonoBehaviour
 {
     private float jumpTime = 0.43f;
 
-    private GameManagerScript playerData;
+    private GameManager gm;
     private PlayerMovement pm;
 
     private bool isChargingJump = false;
@@ -18,7 +18,7 @@ public class PlayerJump : MonoBehaviour
 
     void Start()
     {
-        playerData = FindObjectOfType<GameManagerScript>();
+        gm = FindObjectOfType<GameManager>();
         pm = GetComponent<PlayerMovement>();
         jumpTimeCounter = jumpTime;
 
@@ -27,7 +27,7 @@ public class PlayerJump : MonoBehaviour
     public bool IsAvailable() {
         if (isChargingJump) return false;
         if (pm.isGrounded) return true;
-        if (playerData.save.hasDoubleJump && !isDoubleJumping) return true;
+        if (gm.save.hasDoubleJump && !isDoubleJumping) return true;
         return false;
     }
 

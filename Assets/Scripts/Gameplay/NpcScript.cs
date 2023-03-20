@@ -31,7 +31,7 @@ public class NpcScript : MonoBehaviour
 
     public IEnumerator CatchEndDialog() {
         PlayerMovement player = FindObjectOfType<PlayerMovement>();
-        while (player.IsInCinematic()) {
+        while (!player.CanInteract()) {
             yield return new WaitForEndOfFrame();
         }
         isSpeaking = false;

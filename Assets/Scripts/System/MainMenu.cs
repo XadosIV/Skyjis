@@ -13,7 +13,7 @@ public class MainMenu : MonoBehaviour
         EventSystem.current.enabled = false;
 
         GameObject gmObject = Instantiate(gameManager);
-        gmObject.GetComponent<GameManagerScript>().SetSaveFileId(saveFileId, true);
+        gmObject.GetComponent<GameManager>().SetSaveFileId(saveFileId, true);
         gameObject.SetActive(false);
     }
 }

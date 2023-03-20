@@ -27745,6 +27745,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RestingPoint
       objectReference: {fileID: 0}
+    - target: {fileID: 2971760018438122603, guid: 8343af92871a1bd43b70871ed0c9d70e, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8343af92871a1bd43b70871ed0c9d70e, type: 3}
 --- !u!1001 &4835512665902809372

@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class PlayerTeleport : MonoBehaviour
 {
-    private GameManagerScript playerData;
+    private GameManager gm;
+    private PlayerMovement pm;
 
     public Transform teleportIndicator;
     public Transform teleportIndicatorSprite;
@@ -13,7 +14,7 @@ public class PlayerTeleport : MonoBehaviour
     public Transform floorCheck;
     public float floorCheckRadius;
 
-    private bool isTeleporting;
+    public bool isTeleporting;
     private Rigidbody2D rb;
     private Animator animator;
 
@@ -21,23 +22,24 @@ public class PlayerTeleport : MonoBehaviour
 
     void Start()
     {
-        playerData = FindObjectOfType<GameManagerScript>();
+        gm = FindObjectOfType<GameManager>();
         rb = GetComponent<Rigidbody2D>();
+        pm = GetComponent<PlayerMovement>();
         animator = GetComponent<Animator>();
 
         teleportIndicatorSprite.transform.localPosition = new Vector3(teleportRange, 0, 0);
     }
 
     public bool IsAvailable() {
-        if (!playerData.save.hasTeleport) return false;
+        if (!gm.save.hasTeleport) return false;
         if (isTeleporting) return false;
         return true;
     }
 
-    public int BlockControl() {
+    /*public int BlockControl() {
         if (isTeleporting) return 2; //On bloque les contrôles durant tout le processus de téléportation
         return 0;
-    }
+    }*/
 
     public void Execute() {
         StartCoroutine(Teleport());
@@ -45,6 +47,7 @@ public class PlayerTeleport : MonoBehaviour
 
     private IEnumerator Teleport() {
         isTeleporting = true;
+        int id = pm.AddBlockAction(new bool[] { true, true, true, true });
         Time.timeScale = 0.2f; // Ralentissement du temps pour laisser choisir le joueur
 
         //Activation du sprite de choix visuel de la position
@@ -103,6 +106,7 @@ public class PlayerTeleport : MonoBehaviour
             rb.gravityScale = gravity;
         }
         isTeleporting = false;
+        pm.RemoveBlockAction(id);
     }
 
 
@@ -112,7 +116,7 @@ public class PlayerTeleport : MonoBehaviour
         Transform gc = teleportIndicatorSprite.Find("GroundCheck");
         Transform fc = teleportIndicatorSprite.Find("FloorCheck");
 
-        LayerMask collisionLayers = GetComponent<PlayerMovement>().collisionLayers;
+        LayerMask collisionLayers = GetComponent<PlayerMovement>().physicsLayers;
 
         bool midAvailable = !TeleportInWalls(transform.position, teleportIndicatorSprite.position, collisionLayers);
         bool botAvailable = !TeleportInWalls(groundCheck.position, gc.position, collisionLayers);
@@ -134,7 +138,7 @@ public class PlayerTeleport : MonoBehaviour
 
     // Check if position in boundaries
     private bool ValideCoordinate(Vector3 position) { 
-        Vector2[] boundaries = playerData.GetBoundaries();
+        Vector2[] boundaries = gm.GetBoundaries();
         if (position.x < boundaries[0].x || boundaries[1].x < position.x) return false;
         if (position.y < boundaries[0].y || boundaries[1].y < position.y) return false;
         return true;

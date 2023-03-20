@@ -387,16 +387,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f9dc6ed8bf058e41b4baf9991b4df56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  flashDelay: 0.15
-  speedFactor: 1
+  animator: {fileID: 5196930168814935172}
+  physicsLayers:
+    serializedVersion: 2
+    m_Bits: 8
   direction: 1
   isGrounded: 0
   groundCheck: {fileID: 5196930169121202119}
   groundCheckRadius: 0.2
-  collisionLayers:
-    serializedVersion: 2
-    m_Bits: 8
-  animator: {fileID: 0}
   GameManager: {fileID: 3854697397789409404, guid: 4e96ad48491e04f4389daa8247169511, type: 3}
 --- !u!212 &5196930168814935288
 SpriteRenderer:

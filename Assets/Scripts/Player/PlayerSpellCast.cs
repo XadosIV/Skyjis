@@ -8,8 +8,9 @@ public class PlayerSpellCast : MonoBehaviour
 
     private Animator animator;
     private PlayerMovement pm;
-    private GameManagerScript gm;
+    private GameManager gm;
 
+    int blockActionId;
 
     public bool[] canCast;
     private bool isCasting;
@@ -21,7 +22,7 @@ public class PlayerSpellCast : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         pm = GetComponent<PlayerMovement>();
-        gm = FindObjectOfType<GameManagerScript>();
+        gm = FindObjectOfType<GameManager>();
     }
 
     public bool IsAvailable(int index) {
@@ -29,10 +30,10 @@ public class PlayerSpellCast : MonoBehaviour
         return canCast[index];
     }
 
-    public int BlockControl() {
+    /*public int BlockControl() {
         if (isCasting) return 1;
         return 0;
-    }
+    }*/
 
 
     public void Execute(int index) {
@@ -41,7 +42,9 @@ public class PlayerSpellCast : MonoBehaviour
             currentSpellData = currentSpell.GetComponent<SpellData>();
             
             if (gm.Mana >= currentSpellData.manaCost) {
+                if (!currentSpellData.canCastMidAir && !pm.isGrounded) return;
                 isCasting = true;
+                blockActionId = pm.AddBlockAction(new bool[] { true, true, true, true });
                 animator.SetTrigger("SpellCast");
                 StartCoroutine(HandleSpellCd(index));
             }
@@ -63,6 +66,7 @@ public class PlayerSpellCast : MonoBehaviour
             Instantiate(currentSpell, attackPointLeft.position, attackPointLeft.rotation);
         }
         isCasting = false;
+        pm.RemoveBlockAction(blockActionId);
     }
 
 }

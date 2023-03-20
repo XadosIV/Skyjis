@@ -8,17 +8,15 @@ public class ItemGameObject : MonoBehaviour
     public SpriteRenderer key;
 
     private SpriteRenderer sr;
-    private GameManagerScript gm;
+    private GameManager gm;
 
     private Item item;
 
-    private InventoryManager im;
 
     private bool given = false;
     void Start()
     {
-        im = FindObjectOfType<InventoryManager>();
-        gm = FindObjectOfType<GameManagerScript>();
+        gm = FindObjectOfType<GameManager>();
         key.enabled = false;
 
         if (gm.save.itemsCollected.Contains(id)) Destroy(gameObject);
@@ -34,7 +32,7 @@ public class ItemGameObject : MonoBehaviour
     {
         if (key.enabled && Input.GetButtonDown("Interaction") && !given) {
             given = true;
-            im.AddItem(item);
+            //im.AddItem(item);
             Destroy(gameObject);
         }
     }
