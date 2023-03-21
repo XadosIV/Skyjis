@@ -23,6 +23,14 @@ public class MeleeSpell : MonoBehaviour
             Flip();
         }
         blockActionId = pm.StartCinematic(true);
+
+        if (pm.direction == 1) {
+            transform.position = pmh.attackPointRight.position;
+        }
+        else {
+            transform.position = pmh.attackPointLeft.position;
+        }
+
     }
 
     // Update is called once per frame
@@ -31,19 +39,15 @@ public class MeleeSpell : MonoBehaviour
         if (pm.direction != data.direction) {
             Flip();
         }
-        if (pm.direction == 1) {
-            transform.position = pmh.attackPointRight.position;
-        } else {
-            transform.position = pmh.attackPointLeft.position;
-        }
+        
     }
 
     void Damage() {
         Vector2 pos = new Vector2(transform.position.x + offsetX, transform.position.y + offsetY);
         Collider2D[] colliders = Physics2D.OverlapBoxAll(pos, new Vector2(width, height), 0f);
         foreach (Collider2D collider in colliders) {
-            if (data.enemyLayers == collider.gameObject.layer) {
-                collider.GetComponentInParent<Enemy>().TakeDamage(data.damage, new Vector2(data.knockback * data.direction, 0));
+            if (data.enemyLayers == collider.gameObject.layer) { 
+                collider.GetComponentInParent<Enemy>().TakeDamage(pm.CalculateDamage(data.damage), data.Knockback(data.direction));
             }
         }
     }
@@ -61,6 +65,7 @@ public class MeleeSpell : MonoBehaviour
         data.direction *= -1;
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
         sr.flipX = !sr.flipX;
+        offsetX *= -1;
     }
 
     void EndAnimation() {

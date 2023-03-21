@@ -47,7 +47,7 @@ public class PlayerTeleport : MonoBehaviour
 
     private IEnumerator Teleport() {
         isTeleporting = true;
-        int id = pm.AddBlockAction(new bool[] { true, true, true, true });
+        int id = pm.AddBlockAction(new bool[] { true, true, true, true, true });
         Time.timeScale = 0.2f; // Ralentissement du temps pour laisser choisir le joueur
 
         //Activation du sprite de choix visuel de la position
@@ -96,6 +96,8 @@ public class PlayerTeleport : MonoBehaviour
 
         // Si elle est valide, on exécute l'animation et la téléportation.
         if (position != null) { 
+            pm.RemoveBlockAction(id);
+            id = pm.AddBlockAction(new bool[] { true, true, true, true, false });
             animator.SetTrigger("Teleporting");
             float gravity = rb.gravityScale;
             rb.gravityScale = 0f;

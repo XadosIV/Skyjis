@@ -43,9 +43,9 @@ public class PlayerMeleeHit : MonoBehaviour
         bool somethingHit = false;
         foreach (Collider2D collider in hitColliders) {
             if (enemyLayers == collider.gameObject.layer) {
-                Enemy enemy = collider.GetComponent<Enemy>();
+                Enemy enemy = collider.GetComponentInParent<Enemy>();
                 if (enemy.health > 0) {
-                    enemy.TakeDamage(gm.attackDamage, new Vector2(knockback * pm.direction, 0));
+                    enemy.TakeDamage(pm.CalculateDamage(gm.attackDamage), new Vector2(knockback * pm.direction, 0));
                     somethingHit = true;
                 }
             }

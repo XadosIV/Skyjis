@@ -16,6 +16,7 @@ public class HoldingSpell : MonoBehaviour
     public float offsetX;
     public float offsetY;
 
+
     void Start()
     {
         data = GetComponent<SpellData>();
@@ -30,6 +31,8 @@ public class HoldingSpell : MonoBehaviour
             }
             i++;
         }
+
+
         StartCoroutine(Holding());
     }
 
@@ -45,7 +48,8 @@ public class HoldingSpell : MonoBehaviour
         foreach (Collider2D collider in colliders) {
             if (data.enemyLayers == collider.gameObject.layer) {
                 int direction =  (int)Mathf.Sign(collider.gameObject.transform.position.x - transform.position.x);
-                collider.GetComponentInParent<Enemy>().TakeDamage(data.damage, new Vector2(data.knockback * direction, 0));
+
+                collider.GetComponentInParent<Enemy>().TakeDamage(pm.CalculateDamage(data.damage), data.Knockback(direction));
             }
         }
     }

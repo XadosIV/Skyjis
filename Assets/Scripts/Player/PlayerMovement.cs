@@ -28,6 +28,9 @@ public class PlayerMovement : MonoBehaviour {
     public int direction = 1;
     Vector3 velocity = Vector3.zero;
 
+    float attackDamage = 1;
+
+    Dictionary<MonoBehaviour, float> attackEffect;
     Dictionary<MonoBehaviour, float> speedEffect;
 
     int blockActionId;
@@ -96,11 +99,21 @@ public class PlayerMovement : MonoBehaviour {
 
     public void AddSpeedFactor(MonoBehaviour script, float factor) {
         speedEffect.Add(script, factor);
-    }
+    }   
 
     public void RemoveSpeedFactor(MonoBehaviour script) {
         speedEffect.Remove(script);
     }
+
+    public void AddAttackFactor(MonoBehaviour script, float factor) {
+        attackEffect.Add(script, factor);
+    }
+
+    public void RemoveAttackFactor(MonoBehaviour script) {
+        attackEffect.Remove(script);
+    }
+
+    
 
     public int AddBlockAction(bool[] rule) {
         //rule = bool[5] => { horizontaux, attacks, jump, interaction, }
@@ -157,8 +170,6 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     public void ExitCinematic(int id) {
-        animator.SetBool("ForceIdle", false);
-
         RemoveBlockAction(id);
     }
 
@@ -166,6 +177,7 @@ public class PlayerMovement : MonoBehaviour {
         FindGameManager();
         SpawnAt(gm.spawnNumber);
 
+        attackEffect = new Dictionary<MonoBehaviour, float>();
         speedEffect = new Dictionary<MonoBehaviour, float>();
         blockAction = new Dictionary<int, bool[]>();
 
@@ -230,6 +242,18 @@ public class PlayerMovement : MonoBehaviour {
         return moveSpeed * speedFactor;
     }
 
+    public float CurrentAttackFactor() {
+        float attackFactor = 1f;
+        foreach (float factor in attackEffect.Values) {
+            attackFactor *= factor;
+        }
+        return attackFactor * attackDamage;
+    }
+
+    public int CalculateDamage(float damage) {
+        return (int) (damage * CurrentAttackFactor());
+    }
+
 
     void Update() {
 
@@ -238,6 +262,9 @@ public class PlayerMovement : MonoBehaviour {
             animator.SetFloat("Speed", 0f);
             animator.SetFloat("yVelocity", 0f);
             animator.SetBool("Jumping", false);
+        }
+        else {
+            animator.SetBool("ForceIdle", false);
         }
 
         if (!IsAlive()) return;
@@ -285,6 +312,7 @@ public class PlayerMovement : MonoBehaviour {
     public void TakeDamage(int damage) {
         if (!isInvincible) {
             gm.Health -= damage;
+            blockAction.Clear();
             if (gm.Health <= 0) {
                 animator.SetBool("Alive", false);
             }

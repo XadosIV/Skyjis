@@ -102,10 +102,11 @@ MonoBehaviour:
   id: 4
   spellName: WaterTornado
   damage: 1
-  knockback: 10
+  knockback: {x: 2.7, y: 4}
   speed: 0
   cooldown: 0.5
   manaCost: 0
+  canCastMidAir: 0
 --- !u!95 &7232644206142725975
 Animator:
   serializedVersion: 4

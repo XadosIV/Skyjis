@@ -64,10 +64,11 @@ MonoBehaviour:
   id: 3
   spellName: WaterBall
   damage: 1
-  knockback: 10
+  knockback: {x: 5, y: 0}
   speed: 900
   cooldown: 0.2
   manaCost: 20
+  canCastMidAir: 1
 --- !u!212 &814142354430285161
 SpriteRenderer:
   m_ObjectHideFlags: 0

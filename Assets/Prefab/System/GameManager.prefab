@@ -1350,6 +1350,9 @@ MonoBehaviour:
   - {fileID: 8935266826124046079, guid: 2125627c925bd2544b803af78b570fe0, type: 3}
   - {fileID: 7928148839850564808, guid: 2eb48c9bea296aa47b3dac70f49e01d5, type: 3}
   - {fileID: 2494987259204523726, guid: 4183ccf4673c5de4fb363fdb343a8a3b, type: 3}
+  - {fileID: 8935266826124046079, guid: a9c508380fadec0489b321d9ccc243fd, type: 3}
+  - {fileID: 7928148839850564808, guid: 9d7684f63534df042b60dc042b84b311, type: 3}
+  - {fileID: 2494987259204523726, guid: eb8785413a4aa5749bbc1dafa4274c92, type: 3}
   killedEnnemies: 
   needAwakeAnimation: 0
   spawnNumber: 0

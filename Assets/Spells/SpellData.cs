@@ -6,8 +6,8 @@ public class SpellData : MonoBehaviour
 {
     public int id;
     public string spellName;
-    public int damage;
-    public float knockback;
+    public float damage;
+    public Vector2 knockback;
     public float speed;
     public float cooldown;
     public int manaCost;
@@ -17,6 +17,9 @@ public class SpellData : MonoBehaviour
 
     public readonly int enemyLayers = 8;
 
+    public Vector2 Knockback(int _direction) {
+        return new Vector2(knockback.x * _direction, knockback.y);
+    }
 
     void Start()
     {

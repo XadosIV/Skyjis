@@ -61,12 +61,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29f94033b210a704c862b082eef72f70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: 0
   spellName: Bolt
   damage: 180
-  knockback: 2.7
+  knockback: {x: 2.7, y: 0}
   speed: 1200
   cooldown: 0.2
   manaCost: 20
+  canCastMidAir: 1
 --- !u!212 &814142354430285161
 SpriteRenderer:
   m_ObjectHideFlags: 0

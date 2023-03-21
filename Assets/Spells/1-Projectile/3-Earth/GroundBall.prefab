@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &8935266826124046079
+--- !u!1 &7928148839850564808
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,61 +8,74 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4049707477361274048}
-  - component: {fileID: 8011325241820424592}
-  - component: {fileID: 3555750474996453488}
-  - component: {fileID: 4950786673540862992}
-  - component: {fileID: 2550392448187356291}
-  - component: {fileID: 3573907903167734043}
+  - component: {fileID: 3252737705978323923}
+  - component: {fileID: 7316767317608149241}
+  - component: {fileID: -4204192220824614751}
+  - component: {fileID: 814142354430285161}
+  - component: {fileID: 6800114350358136755}
+  - component: {fileID: 7134259075018356376}
+  - component: {fileID: 4736985063823705454}
   m_Layer: 9
-  m_Name: Fouet
+  m_Name: GroundBall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4049707477361274048
+--- !u!4 &3252737705978323923
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8935266826124046079}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_GameObject: {fileID: 7928148839850564808}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.41, y: 1.39, z: 0}
   m_LocalScale: {x: 5, y: 5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8011325241820424592
+--- !u!114 &7316767317608149241
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8935266826124046079}
+  m_GameObject: {fileID: 7928148839850564808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6b3fe5e5155aca4283835c06e42b536, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-4204192220824614751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7928148839850564808}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 29f94033b210a704c862b082eef72f70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 3
-  spellName: Fouet
-  damage: 180
-  knockback: 2.7
-  speed: 0
-  cooldown: 1
-  manaCost: 20
+  id: 6
+  spellName: GroundBall
+  damage: 5
+  knockback: {x: 3, y: 0}
+  speed: 600
+  cooldown: 0.2
+  manaCost: 0
   canCastMidAir: 1
---- !u!212 &3555750474996453488
+--- !u!212 &814142354430285161
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8935266826124046079}
+  m_GameObject: {fileID: 7928148839850564808}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -97,7 +110,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 5e41c9cb0df0b794daff699bea06405d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 824fde8900c2c2d4892a2a91463eed71, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -108,14 +121,14 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!50 &4950786673540862992
+--- !u!50 &6800114350358136755
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8935266826124046079}
+  m_GameObject: {fileID: 7928148839850564808}
   m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
@@ -129,17 +142,33 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
---- !u!95 &2550392448187356291
+--- !u!70 &7134259075018356376
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7928148839850564808}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.012329797, y: -0.008905185}
+  m_Size: {x: 0.2695106, y: 0.12082009}
+  m_Direction: 1
+--- !u!95 &4736985063823705454
 Animator:
   serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8935266826124046079}
+  m_GameObject: {fileID: 7928148839850564808}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 84e9138139f451142b50bebf1e729f8e, type: 2}
+  m_Controller: {fileID: 9100000, guid: 368d5cf15eee34a43902d65ebe8c3042, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -149,19 +178,3 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &3573907903167734043
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8935266826124046079}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dace5165b3d4cb94f8274a8b619f0b02, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  width: 2.65
-  height: 1.62
-  offsetX: 1.57
-  offsetY: 0.07
