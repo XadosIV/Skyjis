@@ -48,8 +48,8 @@ public class PlayerPowers : MonoBehaviour
         return Mathf.Max(dash.BlockControl(), teleport.BlockControl(), crouch.BlockControl(), spells.BlockControl());
     }*/
 
-    public bool NullifyVelocity() {
-        return teleport.isTeleporting;
+    public bool DontNullifyVelocity() {
+        return dash.dashing;
     }
 
     public bool NeedJump() {

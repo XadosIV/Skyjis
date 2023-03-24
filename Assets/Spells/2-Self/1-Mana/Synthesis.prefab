@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2494987259204523722}
   - component: {fileID: 2494987259204523723}
+  - component: {fileID: 2494987259204523721}
   - component: {fileID: 2494987259204523724}
   - component: {fileID: 2494987259204523725}
-  - component: {fileID: 2494987259204523721}
   m_Layer: 0
   m_Name: Synthesis
   m_TagString: Untagged
@@ -87,6 +87,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &2494987259204523721
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2494987259204523726}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d59e2f43254a8654d83a2c6486f5b4dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  heal: 1
 --- !u!114 &2494987259204523724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -101,11 +114,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 1
   spellName: Synthesis
-  damage: 1
-  knockback: 0
+  damage: 0
+  knockback: {x: 0, y: 0}
   speed: 0
   cooldown: 2
   manaCost: 30
+  hasDirection: 0
+  blockPlayer: 0
+  canCastMidAir: 0
+  holding: 0
+  followPlayer: 1
+  forceIdle: 0
 --- !u!95 &2494987259204523725
 Animator:
   serializedVersion: 4
@@ -126,15 +145,3 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &2494987259204523721
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2494987259204523726}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d59e2f43254a8654d83a2c6486f5b4dd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

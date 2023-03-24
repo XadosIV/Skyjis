@@ -5,21 +5,14 @@ using UnityEngine;
 public class SynthesisScript : MonoBehaviour
 {
     private GameManager gm;
-    private SpellData data;
-    private PlayerMovement pm;
+
+    [SerializeField] int heal;
+
     void Start()
     {
         gm = FindObjectOfType<GameManager>();
-        data = GetComponent<SpellData>();
-        pm = FindObjectOfType<PlayerMovement>();
-        gm.Health += (int)data.damage;
+        gm.Health += (int)heal;
     }
 
-    void Update() {
-        transform.position = pm.transform.position;
-    }
 
-    void EndAnimation() {
-        Destroy(gameObject);
-    }
 }

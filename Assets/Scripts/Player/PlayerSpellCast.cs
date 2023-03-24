@@ -42,9 +42,7 @@ public class PlayerSpellCast : MonoBehaviour
             currentSpellData = currentSpell.GetComponent<SpellData>();
             
             if (gm.Mana >= currentSpellData.manaCost) {
-                if (!currentSpellData.canCastMidAir && !pm.isGrounded) return;
-                //isCasting = true;
-                blockActionId = pm.AddBlockAction(new bool[] { true, true, true, true });
+                blockActionId = pm.AddBlockAction(new bool[] { false, true, true, true });
                 animator.SetTrigger("SpellCast");
                 StartCoroutine(HandleSpellCd(index));
             }
@@ -58,14 +56,15 @@ public class PlayerSpellCast : MonoBehaviour
     }
 
     private void SpellCreation() {
-        gm.Mana -= currentSpellData.manaCost;
+        if (currentSpellData.canCastMidAir || (!currentSpellData.canCastMidAir && pm.isGrounded) ) {
+            gm.Mana -= currentSpellData.manaCost;
 
-        if (pm.direction == 1) {
-            Instantiate(currentSpell, attackPointRight.position, attackPointRight.rotation);
-        } else {
-            Instantiate(currentSpell, attackPointLeft.position, attackPointLeft.rotation);
-        }
-        //isCasting = false;
+            if (pm.direction == 1) {
+                Instantiate(currentSpell, attackPointRight.position, attackPointRight.rotation);
+            } else {
+                Instantiate(currentSpell, attackPointLeft.position, attackPointLeft.rotation);
+            }
+        };
         pm.RemoveBlockAction(blockActionId);
     }
 

@@ -14,7 +14,7 @@ public class PlayerDash : MonoBehaviour
     private PlayerMovement pm;
 
     private bool inCooldown = false;
-    private bool dashing = false;
+    public bool dashing = false;
 
     void Start() {
         rb = GetComponent<Rigidbody2D>();

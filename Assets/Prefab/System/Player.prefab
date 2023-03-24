@@ -103,7 +103,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1000
   m_Sprite: {fileID: 1260931333, guid: dc7ae908ad33334438d14ff496b8ed12, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.47058824}
   m_FlipX: 0
@@ -436,7 +436,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 3
   m_Sprite: {fileID: 1260931333, guid: dc7ae908ad33334438d14ff496b8ed12, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -653,6 +653,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90cc8b92863af4246952e935988bfd10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dashing: 0
 --- !u!114 &5196930168814935168
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -672,6 +673,7 @@ MonoBehaviour:
   groundCheckRadius: 0.3
   floorCheck: {fileID: 5196930168584299869}
   floorCheckRadius: 0.4
+  isTeleporting: 0
 --- !u!114 &5196930168814935181
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -714,9 +716,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackPointLeft: {fileID: 5196930167935939392}
   attackPointRight: {fileID: 5196930168201743071}
-  enemyLayers:
-    serializedVersion: 2
-    m_Bits: 64
 --- !u!114 &-3447553256615386980
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -68,7 +68,15 @@ MonoBehaviour:
   speed: 900
   cooldown: 0.2
   manaCost: 20
+  offsetTexture: {x: 0, y: 0, z: 0}
+  dim: {x: 0, y: 0, z: 0}
+  offset: {x: 0, y: 0, z: 0}
+  hasDirection: 1
+  blockPlayer: 0
   canCastMidAir: 1
+  holding: 0
+  followPlayer: 0
+  forceIdle: 0
 --- !u!212 &814142354430285161
 SpriteRenderer:
   m_ObjectHideFlags: 0

@@ -233,13 +233,20 @@ public class PlayerMovement : MonoBehaviour {
         return inCinematic;
     }*/
 
-
-    float CurrentMoveSpeed() {
+    float SpeedFactor() {
         float speedFactor = 1f;
         foreach (float factor in speedEffect.Values) {
             speedFactor *= factor;
         }
-        return moveSpeed * speedFactor;
+        return speedFactor;
+    }
+
+    float CurrentMoveSpeed() { 
+        return moveSpeed * SpeedFactor();
+    }
+
+    float CurrentJumpBoost() {
+        return jumpForce * SpeedFactor();
     }
 
     public float CurrentAttackFactor() {
@@ -290,9 +297,8 @@ public class PlayerMovement : MonoBehaviour {
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, physicsLayers);
 
         if (!CanMove()) {
-            if (powersManager.NullifyVelocity()) {
-                rb.velocity = new Vector2(0, rb.velocity.y);
-            }
+
+            if (!powersManager.DontNullifyVelocity()) { rb.velocity = new Vector2(0, rb.velocity.y); };
         }
         else {
             MovePlayer();
@@ -305,7 +311,7 @@ public class PlayerMovement : MonoBehaviour {
         Vector3 targetVelocity = new Vector2(horizontalMovement, rb.velocity.y);
         rb.velocity = Vector3.SmoothDamp(rb.velocity, targetVelocity, ref velocity, .05f);
         if (powersManager.NeedJump()) {
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce * Time.fixedDeltaTime);
+            rb.velocity = new Vector2(rb.velocity.x, CurrentJumpBoost() * Time.fixedDeltaTime);
         }
     }
 

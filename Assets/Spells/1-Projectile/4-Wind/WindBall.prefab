@@ -14,9 +14,9 @@ GameObject:
   - component: {fileID: 814142354430285161}
   - component: {fileID: 6800114350358136755}
   - component: {fileID: 7134259075018356376}
-  - component: {fileID: 4736985063823705454}
+  - component: {fileID: 5675117446014957660}
   m_Layer: 9
-  m_Name: GroundBall
+  m_Name: WindBall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -61,14 +61,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29f94033b210a704c862b082eef72f70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 6
-  spellName: GroundBall
-  damage: 5
-  knockback: {x: 3, y: 0}
-  speed: 600
+  id: 9
+  spellName: WindBall
+  damage: 15
+  knockback: {x: 15, y: 0}
+  speed: 1500
   cooldown: 0.2
   manaCost: 0
+  offsetTexture: {x: 0, y: 0, z: 0}
+  dim: {x: 0, y: 0, z: 0}
+  offset: {x: 0, y: 0, z: 0}
+  hasDirection: 1
+  blockPlayer: 0
   canCastMidAir: 1
+  holding: 0
+  followPlayer: 0
+  forceIdle: 0
 --- !u!212 &814142354430285161
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -110,7 +118,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 824fde8900c2c2d4892a2a91463eed71, type: 3}
+  m_Sprite: {fileID: 715266229, guid: a2ea63ed0aec33b47af416954a9b35f2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -155,10 +163,10 @@ CapsuleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.012329797, y: -0.008905185}
-  m_Size: {x: 0.2695106, y: 0.12082009}
-  m_Direction: 1
---- !u!95 &4736985063823705454
+  m_Offset: {x: -0.006880355, y: -0.00009880066}
+  m_Size: {x: 0.19631533, y: 0.2435596}
+  m_Direction: 0
+--- !u!95 &5675117446014957660
 Animator:
   serializedVersion: 4
   m_ObjectHideFlags: 0
@@ -168,7 +176,7 @@ Animator:
   m_GameObject: {fileID: 7928148839850564808}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 368d5cf15eee34a43902d65ebe8c3042, type: 2}
+  m_Controller: {fileID: 9100000, guid: f2a458250c07f9b4ba5e7f5167e75271, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

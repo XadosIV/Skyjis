@@ -54,7 +54,15 @@ MonoBehaviour:
   speed: 0
   cooldown: 1
   manaCost: 0
+  offsetTexture: {x: 0, y: 0, z: 0}
+  dim: {x: 2.19, y: 3.09, z: 0}
+  offset: {x: 1.31, y: 0.75, z: 0}
+  hasDirection: 1
+  blockPlayer: 1
   canCastMidAir: 0
+  holding: 0
+  followPlayer: 1
+  forceIdle: 1
 --- !u!212 &3555750474996453488
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -119,10 +127,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dace5165b3d4cb94f8274a8b619f0b02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 2.5
-  height: 3.22
-  offsetX: 1.25
-  offsetY: 0.79
 --- !u!95 &8248314855206765207
 Animator:
   serializedVersion: 4

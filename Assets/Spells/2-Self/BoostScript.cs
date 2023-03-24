@@ -8,13 +8,9 @@ public class BoostScript : MonoBehaviour
     public float boostDamage;
     public float effectDuration;
 
-    private GameManager gm;
-    private SpellData data;
     private PlayerMovement pm;
     void Start()
     {
-        gm = FindObjectOfType<GameManager>();
-        data = GetComponent<SpellData>();
         pm = FindObjectOfType<PlayerMovement>();
         StartCoroutine(HandleEffect());
     }

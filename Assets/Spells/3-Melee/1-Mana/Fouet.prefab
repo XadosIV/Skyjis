@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 4049707477361274048}
   - component: {fileID: 8011325241820424592}
   - component: {fileID: 3555750474996453488}
-  - component: {fileID: 4950786673540862992}
   - component: {fileID: 2550392448187356291}
   - component: {fileID: 3573907903167734043}
   m_Layer: 9
@@ -51,11 +50,19 @@ MonoBehaviour:
   id: 3
   spellName: Fouet
   damage: 180
-  knockback: 2.7
+  knockback: {x: 0, y: 0}
   speed: 0
   cooldown: 1
   manaCost: 20
-  canCastMidAir: 1
+  offsetTexture: {x: 0, y: 0, z: 0}
+  dim: {x: 2.5, y: 1.6, z: 0}
+  offset: {x: 1.4, y: 0, z: 0}
+  hasDirection: 1
+  blockPlayer: 1
+  canCastMidAir: 0
+  holding: 0
+  followPlayer: 0
+  forceIdle: 1
 --- !u!212 &3555750474996453488
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -108,27 +115,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!50 &4950786673540862992
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8935266826124046079}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 1
-  m_Constraints: 4
 --- !u!95 &2550392448187356291
 Animator:
   serializedVersion: 4
@@ -161,7 +147,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dace5165b3d4cb94f8274a8b619f0b02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 2.65
-  height: 1.62
-  offsetX: 1.57
-  offsetY: 0.07
