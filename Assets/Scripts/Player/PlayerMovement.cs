@@ -272,6 +272,8 @@ public class PlayerMovement : MonoBehaviour {
         }
         else {
             animator.SetBool("ForceIdle", false);
+            UpdateAnimator();
+
         }
 
         if (!IsAlive()) return;
@@ -288,7 +290,6 @@ public class PlayerMovement : MonoBehaviour {
 
         FlipSprite();
 
-        UpdateAnimator();
     }
 
     void FixedUpdate() {

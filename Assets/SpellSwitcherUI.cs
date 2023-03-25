@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class SpellSwitcherUI : MonoBehaviour
 {
@@ -13,9 +14,17 @@ public class SpellSwitcherUI : MonoBehaviour
 
     [SerializeField] private GameObject view;
 
+    [SerializeField] TextMeshProUGUI voidText;
+
     private int[] cursor;
 
+    private Dictionary<int, int> spellCells;
+
     private Image im;
+
+    private bool running;
+
+    private int currentSpellIndex = 0;
 
     /* 
     0 = nothing
@@ -35,19 +44,18 @@ public class SpellSwitcherUI : MonoBehaviour
         im = GetComponent<Image>();
 
         Visible(false);
+
+        spellCells = new Dictionary<int, int>();
+        for (int i = 0; i < gm.save.spellIndex.Length; i++) { 
+            spellCells[gm.save.spellIndex[i]] = i;
+        }
     }
 
     void Update() {
         if (gm.save.spellsOwned == 0) return;
+        if (running) return;
         if (Input.GetButton("SpellSwitcher")) {
-            if (Input.GetButtonDown("Spell1")) {
-                StartCoroutine(Active(0));
-            }else if (Input.GetButtonDown("Spell2")) {
-                StartCoroutine(Active(1));
-            }
-            else if (Input.GetButtonDown("Spell3")) {
-                StartCoroutine(Active(2));
-            }
+            StartCoroutine(Active());
         }
     }
 
@@ -60,7 +68,8 @@ public class SpellSwitcherUI : MonoBehaviour
     }
 
     bool IsDisabled(int id) {
-        return id > GetSpellsUnlocked();
+        return id > GetSpellsUnlocked() || //Spell non débloqué
+            (spellCells.ContainsKey(id) && id != GetCellIdFromSpellIndex(currentSpellIndex)); // Spell débloqué et dans spellIndex mais pas celui qu'on change.
     }
 
     bool IsSelected(int id) {
@@ -68,12 +77,7 @@ public class SpellSwitcherUI : MonoBehaviour
     }
 
     bool IsChoosed(int id) {
-        for (int i = 0; i < gm.save.spellIndex.Length; i++) {
-            if (id == gm.save.spellIndex[i]) {
-                return true;
-            }
-        }
-        return false;
+        return spellCells.ContainsKey(id);
     }
 
     bool IsValid(int cell) {
@@ -89,12 +93,20 @@ public class SpellSwitcherUI : MonoBehaviour
     }
 
     void UpdateCells() {
-        for (int i = 0; i < cells.Length; i++) {
-            bool disabled = IsDisabled(i);
-            bool selected = IsSelected(i);
-            bool choice = IsChoosed(i);
+        for (int cellId = 0; cellId < cells.Length; cellId++) {
+            bool disabled = IsDisabled(cellId);
+            bool selected = IsSelected(cellId);
+            bool choice = IsChoosed(cellId);
 
-            cells[i].sprite = GetSprite(disabled, selected, choice);
+            TextMeshProUGUI cellText = cells[cellId].GetComponentInChildren<TextMeshProUGUI>();
+            if (spellCells.ContainsKey(cellId)) {
+                cellText.text = (spellCells[cellId] + 1).ToString();
+            }
+            else {
+                cellText.text = "";
+            }
+
+            cells[cellId].sprite = GetSprite(disabled, selected, choice);
         }
     }
 
@@ -128,28 +140,86 @@ public class SpellSwitcherUI : MonoBehaviour
         }
     }
 
-    IEnumerator Active(int index) {
+    void PlaceCursor(int cellId) {
+        cursor[0] = cellId / 3;
+        cursor[1] = cellId % 3;
+    }
+
+    void PlaceCursorOnCurrentSpell() { 
+        PlaceCursor(GetCellIdFromSpellIndex(currentSpellIndex));
+    }
+
+    int GetCellIdFromSpellIndex(int index) {
+        int cellId = -1;
+        foreach (KeyValuePair<int, int> spell in spellCells) {
+            // spell.Key = cellId / spell.Value = index for save.spellIndex
+            if (index == spell.Value) {
+                cellId = spell.Key;
+            }
+        }
+        return cellId;
+    }
+
+    void HandleSpellSwitchButton() {
+        if (Input.GetButtonDown("Spell1")) {
+            currentSpellIndex = 0;
+            PlaceCursorOnCurrentSpell();
+        }
+        else if (Input.GetButtonDown("Spell2")) {
+            currentSpellIndex = 1;
+            PlaceCursorOnCurrentSpell();
+        }
+        else if (Input.GetButtonDown("Spell3")) {
+            currentSpellIndex = 2;
+            PlaceCursorOnCurrentSpell();
+        }
+    }
+
+    void SwitchCell(int cellId) {
+        int currentCellId = GetCellIdFromSpellIndex(currentSpellIndex);
+
+        spellCells.Remove(currentCellId);
+
+        gm.save.spellIndex[currentSpellIndex] = cellId;
+
+        spellCells.Add(cellId, currentSpellIndex);
+    }
+
+
+    IEnumerator Active() {
+        PlayerMovement pm = FindObjectOfType<PlayerMovement>();
+        int id = pm.StartCinematic(false);
         Visible(true);
+
         while (Input.GetButton("SpellSwitcher")) {
+            HandleSpellSwitchButton();
+
             UpdateCells();
+
+            voidText.text = (currentSpellIndex + 1).ToString();
 
             HandleCursor();
 
             if (Input.GetButtonDown("Jump")) {
-                int cell = GetTargetCell();
-                if (IsValid(cell)){
-                    gm.save.spellIndex[index] = cell;
+                int cellId = GetTargetCell();
+                if (IsValid(cellId)){
+                    SwitchCell(cellId);
+                } else if (spellCells.ContainsKey(cellId)) { // Si le spell est déjà dans spellIndex
+                    //On considère que le joueur veut "bouger la sélection", on change donc de currentSpellIndex.
+                    currentSpellIndex = spellCells[cellId];
                 }
             }
             yield return null;
         }
+        pm.ExitCinematic(id);
         Visible(false);
     }
 
     void Visible(bool isVisible) {
+        running = isVisible;
         if (isVisible) {
             view.SetActive(true);
-            im.color = new Color(0, 0, 0, 128f);
+            im.color = new Color(0, 0, 0, .5f);
         }
         else {
             view.SetActive(false);
