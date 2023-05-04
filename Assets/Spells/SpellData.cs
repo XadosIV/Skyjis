@@ -23,10 +23,12 @@ public class SpellData : MonoBehaviour
     [SerializeField] Vector3 offset;
 
     int blockActionId;
+    public bool displayOverGround;
     public bool hasDirection;
     public bool blockPlayer;
     public bool canCastMidAir;
     public bool holding;
+    public bool positionToPlayer;
     public bool followPlayer;
     public bool forceIdle = false;
 
@@ -43,7 +45,8 @@ public class SpellData : MonoBehaviour
         gm = FindObjectOfType<GameManager>();
         pm = FindObjectOfType<PlayerMovement>();
 
-        
+        if (displayOverGround) { GetComponent<SpriteRenderer>().sortingOrder = 1000; }
+        if (positionToPlayer) {transform.position = pm.transform.position + offsetTexture;}
 
         if (hasDirection) {
             if (pm.direction != direction) { Flip(); }
@@ -60,7 +63,7 @@ public class SpellData : MonoBehaviour
     void Update()
     {
         if (followPlayer) {
-            transform.position = pm.transform.position + (Vector3)offsetTexture;
+            transform.position = pm.transform.position + offsetTexture;
         }
     }
 

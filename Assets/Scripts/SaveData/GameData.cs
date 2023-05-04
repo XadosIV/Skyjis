@@ -14,7 +14,7 @@ public class GameData
     public bool hasTeleport;
     
     public int[] spellIndex;
-    public int spellsOwned;
+    public int sealsDestroyed;
     public List<int> inventory;
     public List<int> itemsCollected;
     public int[] flags;
@@ -32,7 +32,7 @@ public class GameData
         hasDash = false;
         hasTeleport = false;
         spellIndex = new int[]{ -1, -1, -1};
-        spellsOwned = 0;
+        sealsDestroyed = 0;
         inventory = new List<int>();
         itemsCollected = new List<int>();
         flags = new int[10];

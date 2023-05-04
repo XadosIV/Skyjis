@@ -9,30 +9,30 @@ EditorBuildSettings:
     path: Assets/Scenes/menu/MainMenu.unity
     guid: 3061de10d833c0546892b923e0075cc0
   - enabled: 1
-    path: Assets/Scenes/game/oakwood/oakwood_01.unity
+    path: Assets/Scenes/game/v1/oakwood/oakwood_01.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
-    path: Assets/Scenes/game/oakwood/oakwood_02.unity
+    path: Assets/Scenes/game/v1/oakwood/oakwood_02.unity
     guid: 5c5d8240253889d429d97aca9e73475e
   - enabled: 1
-    path: Assets/Scenes/game/oakwood/oakwood_03.unity
+    path: Assets/Scenes/game/v1/oakwood/oakwood_03.unity
     guid: cce1a61934ffe4e4a97ce98896d67458
   - enabled: 1
-    path: Assets/Scenes/game/oakwood/oakwood_04.unity
+    path: Assets/Scenes/game/v1/oakwood/oakwood_04.unity
     guid: fb6c1bd96760a0f4585410974c57e762
   - enabled: 1
-    path: Assets/Scenes/game/oakwood/oakwood_05.unity
+    path: Assets/Scenes/game/v1/oakwood/oakwood_05.unity
     guid: 891fb43677fad6442a00d967760ac24d
   - enabled: 1
-    path: Assets/Scenes/game/oakwood/oakwood_06.unity
+    path: Assets/Scenes/game/v1/oakwood/oakwood_06.unity
     guid: d73eef8c28b9c1b48a250290e7cadf66
   - enabled: 1
-    path: Assets/Scenes/game/oakwood/oakwood_07.unity
+    path: Assets/Scenes/game/v1/oakwood/oakwood_07.unity
     guid: ed562bd81054bb848b2a540c03381819
   - enabled: 1
-    path: Assets/Scenes/game/oakwood/oakwood_08.unity
+    path: Assets/Scenes/game/v1/oakwood/oakwood_08.unity
     guid: a21d39fbfb12c884d88bae6ee96f064d
   - enabled: 1
-    path: Assets/Scenes/game/village/village_01.unity
+    path: Assets/Scenes/game/v1/village/village_01.unity
     guid: 402eb42c3d032d848a63f67632624bb4
   m_configObjects: {}

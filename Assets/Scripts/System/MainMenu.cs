@@ -6,14 +6,17 @@ using UnityEngine.EventSystems;
 public class MainMenu : MonoBehaviour
 {
     public GameObject gameManager;
-
+    private GameManager gm;
     public int saveFileId;
 
     public void PlayGame() {
         EventSystem.current.enabled = false;
 
         GameObject gmObject = Instantiate(gameManager);
-        gmObject.GetComponent<GameManager>().SetSaveFileId(saveFileId, true);
-        gameObject.SetActive(false);
+        gm = gmObject.GetComponent<GameManager>();
+        gm.SetSaveFileId(-1, false);
+        //gmObject.GetComponent<GameManager>().SetSaveFileId(saveFileId, true);
+
+        //gameObject.SetActive(false);
     }
 }

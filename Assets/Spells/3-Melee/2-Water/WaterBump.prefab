@@ -52,16 +52,18 @@ MonoBehaviour:
   damage: 3
   knockback: {x: 2.7, y: 6}
   speed: 0
-  cooldown: 1
+  cooldown: 0.2
   manaCost: 0
   offsetTexture: {x: 0, y: 0, z: 0}
   dim: {x: 2.19, y: 3.09, z: 0}
   offset: {x: 1.31, y: 0.75, z: 0}
+  displayOverGround: 0
   hasDirection: 1
   blockPlayer: 1
   canCastMidAir: 0
   holding: 0
-  followPlayer: 1
+  positionToPlayer: 0
+  followPlayer: 0
   forceIdle: 1
 --- !u!212 &3555750474996453488
 SpriteRenderer:

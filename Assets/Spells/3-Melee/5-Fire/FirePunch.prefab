@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3555750474996453488}
   - component: {fileID: 3573907903167734043}
   - component: {fileID: 8839156457070678963}
+  - component: {fileID: 559940652657246136}
   m_Layer: 9
   m_Name: FirePunch
   m_TagString: Untagged
@@ -49,18 +50,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 14
   spellName: FirePunch
-  damage: 20
+  damage: 1
   knockback: {x: 5, y: 0}
-  speed: 0
-  cooldown: 1
-  manaCost: 20
+  speed: 500
+  cooldown: 0.1
+  manaCost: 0
   offsetTexture: {x: 0, y: 0, z: 0}
   dim: {x: 1.55, y: 1.65, z: 0}
   offset: {x: 0.33, y: 0, z: 0}
+  displayOverGround: 0
   hasDirection: 1
   blockPlayer: 1
   canCastMidAir: 0
   holding: 0
+  positionToPlayer: 0
   followPlayer: 0
   forceIdle: 1
 --- !u!212 &3555750474996453488
@@ -147,3 +150,24 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!50 &559940652657246136
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8935266826124046079}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0

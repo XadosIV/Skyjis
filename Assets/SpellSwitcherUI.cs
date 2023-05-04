@@ -2,21 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 public class SpellSwitcherUI : MonoBehaviour
 {
+    UserInterfaceManager ui;
     GameManager gm;
 
     [SerializeField] private Image[] cells;
 
-    [SerializeField] private Sprite[] cellState;
+    [SerializeField] private Transform cursor;
+
+    [SerializeField] private Sprite cellEnabled;
+    [SerializeField] private Sprite cellDisabled;
+
+    [SerializeField] private Transform[] spellsBorder;
 
     [SerializeField] private GameObject view;
 
-    [SerializeField] TextMeshProUGUI voidText;
+    [SerializeField] Image voidBorder;
 
-    private int[] cursor;
+    private int[] cursorPos;
 
     private Dictionary<int, int> spellCells;
 
@@ -26,21 +31,11 @@ public class SpellSwitcherUI : MonoBehaviour
 
     private int currentSpellIndex = 0;
 
-    /* 
-    0 = nothing
-    1 = selected
-    2 = disabled
-    3 = disabled selected
-    4 = choice
-    5 = choice selected
-    6 = choice and disabled
-    7 = choice and disabled selected
-    */
-
     void Start()
     {
+        ui = FindObjectOfType<UserInterfaceManager>();
         gm = FindObjectOfType<GameManager>();
-        cursor = new int[2] { 0, 0 };
+        cursorPos = new int[2] { 0, 0 };
         im = GetComponent<Image>();
 
         Visible(false);
@@ -49,10 +44,24 @@ public class SpellSwitcherUI : MonoBehaviour
         for (int i = 0; i < gm.save.spellIndex.Length; i++) { 
             spellCells[gm.save.spellIndex[i]] = i;
         }
+
+        for (int cellId = 0; cellId < cells.Length; cellId++) {
+            Image spellImage = cells[cellId].GetComponentsInChildren<Image>()[1];
+            SpriteRenderer sr = gm.spellList[cellId].GetComponent<SpriteRenderer>();
+            spellImage.sprite = sr.sprite;
+            if (sr.flipX) {
+                spellImage.transform.eulerAngles = new Vector3(0,180,0);
+            }
+            if (cellId == 1) {
+                spellImage.rectTransform.sizeDelta = new Vector2(300, 300);
+            }
+        }
+        PlaceBorder();
+        
     }
 
     void Update() {
-        if (gm.save.spellsOwned == 0) return;
+        if (gm.save.sealsDestroyed == 0) return;
         if (running) return;
         if (Input.GetButton("SpellSwitcher")) {
             StartCoroutine(Active());
@@ -60,20 +69,16 @@ public class SpellSwitcherUI : MonoBehaviour
     }
 
     int GetSpellsUnlocked() {
-        return gm.save.spellsOwned - 1;
+        return ((gm.save.sealsDestroyed+1)*3) - 1;
     }
 
     int GetTargetCell() {
-        return 3*cursor[0] + cursor[1];
+        return 3* cursorPos[0] + cursorPos[1];
     }
 
     bool IsDisabled(int id) {
         return id > GetSpellsUnlocked() || //Spell non débloqué
             (spellCells.ContainsKey(id) && id != GetCellIdFromSpellIndex(currentSpellIndex)); // Spell débloqué et dans spellIndex mais pas celui qu'on change.
-    }
-
-    bool IsSelected(int id) {
-        return id == GetTargetCell();
     }
 
     bool IsChoosed(int id) {
@@ -89,60 +94,60 @@ public class SpellSwitcherUI : MonoBehaviour
         if (selected) id += 1;
         if (disabled) id += 2;
         if (choice) id += 4;
-        return cellState[id];
+        return cellEnabled;
     }
 
     void UpdateCells() {
         for (int cellId = 0; cellId < cells.Length; cellId++) {
             bool disabled = IsDisabled(cellId);
-            bool selected = IsSelected(cellId);
             bool choice = IsChoosed(cellId);
 
-            TextMeshProUGUI cellText = cells[cellId].GetComponentInChildren<TextMeshProUGUI>();
-            if (spellCells.ContainsKey(cellId)) {
-                cellText.text = (spellCells[cellId] + 1).ToString();
-            }
-            else {
-                cellText.text = "";
-            }
-
-            cells[cellId].sprite = GetSprite(disabled, selected, choice);
+            Image spellImage = cells[cellId].GetComponentsInChildren<Image>()[1];
+            
+            cells[cellId].sprite = GetSprite(disabled, false, choice);
         }
     }
 
     void HandleCursor() {
-        int width = gm.save.spellsOwned / 3;
+        int width = gm.save.sealsDestroyed + 1;
         int height = 3;
         if (Input.GetButtonDown("IndicatorLeft")) { // Left
-            cursor[0] -= 1;
+            cursorPos[0] -= 1;
         }
         if (Input.GetButtonDown("IndicatorRight")) { // Right
-            cursor[0] += 1;
+            cursorPos[0] += 1;
         }
         if (Input.GetButtonDown("Interaction")) { // Up
-            cursor[1] -= 1;
+            cursorPos[1] -= 1;
         }
         if (Input.GetButtonDown("Crouch")) { // Down
-            cursor[1] += 1;
+            cursorPos[1] += 1;
         }
 
-        if (cursor[0] < 0) {
-            cursor[0] = width-1;
-        }else if (cursor[0] >= width) {
-            cursor[0] = 0;
+        if (cursorPos[0] < 0) {
+            cursorPos[0] = width-1;
+        }else if (cursorPos[0] >= width) {
+            cursorPos[0] = 0;
         }
 
-        if (cursor[1] < 0) {
-            cursor[1] = height-1;
+        if (cursorPos[1] < 0) {
+            cursorPos[1] = height-1;
         }
-        else if (cursor[1] >= height) {
-            cursor[1] = 0;
+        else if (cursorPos[1] >= height) {
+            cursorPos[1] = 0;
+        }
+
+        cursor.position = cells[GetTargetCell()].transform.position;
+    }
+
+    void PlaceBorder() {
+        foreach (KeyValuePair<int, int> spell in spellCells) {
+            spellsBorder[spell.Value].transform.position = cells[spell.Key].transform.position;
         }
     }
 
     void PlaceCursor(int cellId) {
-        cursor[0] = cellId / 3;
-        cursor[1] = cellId % 3;
+        cursor.position = cells[cellId].transform.position;
     }
 
     void PlaceCursorOnCurrentSpell() { 
@@ -183,6 +188,10 @@ public class SpellSwitcherUI : MonoBehaviour
         gm.save.spellIndex[currentSpellIndex] = cellId;
 
         spellCells.Add(cellId, currentSpellIndex);
+
+        PlaceBorder();
+
+        ui.UpdateUI();
     }
 
 
@@ -196,7 +205,7 @@ public class SpellSwitcherUI : MonoBehaviour
 
             UpdateCells();
 
-            voidText.text = (currentSpellIndex + 1).ToString();
+            voidBorder.sprite = spellsBorder[currentSpellIndex].GetComponent<Image>().sprite;
 
             HandleCursor();
 

@@ -86,10 +86,12 @@ public class GameManager : MonoBehaviour {
         UI = FindObjectOfType<UserInterfaceManager>();
         items = new ItemManager();
     }
+
     public void SetSaveFileId(int _id, bool _encrypt) {
         saveFileNumber = _id;
         fileDataHandler = new FileDataHandler(Application.persistentDataPath, "save" + saveFileNumber + ".game", _encrypt);
 
+        //LoadGame(_teleport: true); //si pas encrypté => scène joué depuis l'éditeur => pas de téléport.
         LoadGame(_teleport: _encrypt); //si pas encrypté => scène joué depuis l'éditeur => pas de téléport.
     }
 

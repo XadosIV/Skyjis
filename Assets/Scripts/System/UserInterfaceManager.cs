@@ -19,6 +19,8 @@ public class UserInterfaceManager : MonoBehaviour
     [SerializeField] private GameObject parentBossHealthBar;
     [SerializeField] private Text coinsText;
 
+    [SerializeField] private GameObject[] spellSlots;
+
     private void Awake() {
         gm = FindObjectOfType<GameManager>();
         canvas = GetComponent<Canvas>();
@@ -38,6 +40,7 @@ public class UserInterfaceManager : MonoBehaviour
         UpdateBossBar();
         UpdateMana();
         UpdateCoins();
+        UpdateSpell();
     }
 
     private void UpdateHearts() {
@@ -57,6 +60,32 @@ public class UserInterfaceManager : MonoBehaviour
             }
             else {
                 hearts[i].enabled = false;
+            }
+        }
+    }
+
+    private void UpdateSpell() {
+        int[] spellTab = gm.save.spellIndex;
+        for (int i = 0; i < spellTab.Length; i++) {
+            int spellId = spellTab[i];
+            if (spellTab[i] == -1) {
+                spellSlots[i].SetActive(false);
+            } else {
+                Image spellImage= spellSlots[i].GetComponentsInChildren<Image>()[1];
+
+                SpriteRenderer sr = gm.spellList[spellId].GetComponent<SpriteRenderer>();
+                spellImage.sprite = sr.sprite;
+                if (sr.flipX) {
+                    spellImage.transform.eulerAngles = new Vector3(0, 180, 0);
+                } else {
+                    spellImage.transform.eulerAngles = new Vector3(0, 0, 0);
+                }
+                if (spellId == 1) {
+                    spellImage.rectTransform.sizeDelta = new Vector2(225, 225);
+                } else {
+                    spellImage.rectTransform.sizeDelta = new Vector2(0,0);
+                }
+                spellSlots[i].SetActive(true);
             }
         }
     }

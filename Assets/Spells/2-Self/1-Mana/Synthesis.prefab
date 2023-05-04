@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 5
-  m_Sprite: {fileID: -699023369, guid: c172534b8332ed144a4befbb3193e23a, type: 3}
+  m_Sprite: {fileID: -2051431856, guid: c172534b8332ed144a4befbb3193e23a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -119,10 +119,14 @@ MonoBehaviour:
   speed: 0
   cooldown: 2
   manaCost: 30
+  offsetTexture: {x: 0, y: 0, z: 0}
+  dim: {x: 0, y: 0, z: 0}
+  offset: {x: 0, y: 0, z: 0}
   hasDirection: 0
   blockPlayer: 0
   canCastMidAir: 0
   holding: 0
+  positionToPlayer: 1
   followPlayer: 1
   forceIdle: 0
 --- !u!95 &2494987259204523725
