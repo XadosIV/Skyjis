@@ -7,8 +7,13 @@ public class PlayerCrouch : MonoBehaviour
     private PlayerMovement pm;
     private bool crouching = false;
 
-    public Collider2D standingCollider;
-    public Collider2D crouchingCollider;
+    public CapsuleCollider2D standingCollider;
+    public CapsuleCollider2D crouchingCollider;
+
+    Vector3 offsetStanding;
+    Vector3 sizeStanding;
+    Vector3 offsetCrouch;
+    Vector3 sizeCrouch;
 
     private Animator animator;
 
@@ -19,11 +24,15 @@ public class PlayerCrouch : MonoBehaviour
     {
         pm = GetComponent<PlayerMovement>();
         animator = GetComponent<Animator>();
+
+        offsetStanding = standingCollider.offset;
+        sizeStanding = standingCollider.size;
+        offsetCrouch = crouchingCollider.offset;
+        sizeCrouch = crouchingCollider.size;
     }
 
     void Update() {
         animator.SetBool("Crouching", crouching);
-
     }
 
     public bool IsAvailable() {
@@ -43,8 +52,12 @@ public class PlayerCrouch : MonoBehaviour
     private IEnumerator Crouch() {
         int id = pm.AddBlockAction(new bool[] { false, true, true, true });
         crouching = true;
-        standingCollider.enabled = false;
-        crouchingCollider.enabled = true;
+        //crouchingCollider.enabled = true;
+        //standingCollider.enabled = false;
+
+        standingCollider.offset = offsetCrouch;
+        standingCollider.size = sizeCrouch;
+
         pm.AddSpeedFactor(this, 0.7f);
 
         LayerMask collisionLayers = GetComponent<PlayerMovement>().physicsLayers;
@@ -54,8 +67,12 @@ public class PlayerCrouch : MonoBehaviour
             yield return null;
         }
 
-        standingCollider.enabled = true;
-        crouchingCollider.enabled = false;
+        //standingCollider.enabled = true;
+        //crouchingCollider.enabled = false;
+        standingCollider.offset = offsetStanding;
+        standingCollider.size = sizeStanding;
+
+
         pm.RemoveSpeedFactor(this);
         crouching = false;
         pm.RemoveBlockAction(id);
