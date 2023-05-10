@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class SpellData : MonoBehaviour
 {
@@ -109,6 +110,11 @@ public class SpellData : MonoBehaviour
         SpriteRenderer sr = GetComponent<SpriteRenderer>();
         sr.flipX = !sr.flipX;
         offset.x *= -1;
+
+        Light2D[] lights = GetComponentsInChildren<Light2D>();
+        foreach (Light2D l in lights) {
+            l.transform.RotateAround(transform.position, transform.up, 180f);
+        }
     }
 
     void FreePlayer() {

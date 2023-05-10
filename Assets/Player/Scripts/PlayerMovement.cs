@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Rendering.Universal;
 
 public class PlayerMovement : MonoBehaviour {
     //Controleur
@@ -11,6 +12,7 @@ public class PlayerMovement : MonoBehaviour {
     public Animator animator;
     Rigidbody2D rb;
     SpriteRenderer sr;
+    LightManager lm;
 
     //Components Scripts
     PlayerPowers powersManager;
@@ -23,6 +25,7 @@ public class PlayerMovement : MonoBehaviour {
     //Variable algorithmique
     public LayerMask physicsLayers;
     float horizontalMovement;
+    float xCamOffset;
 
     float flashDelay = 0.15f;
     public int direction = 1;
@@ -173,6 +176,33 @@ public class PlayerMovement : MonoBehaviour {
         RemoveBlockAction(id);
     }
 
+    public void Show() {
+        RemoveBlockAction(blockActionId);
+        if (gm.needAwakeAnimation) {
+            blockActionId = StartCinematic();
+            sr.enabled = true;
+            lm.OnLights();
+            animator.SetTrigger("Awake");
+            CameraFollow cam = Camera.main.GetComponent<CameraFollow>();
+            cam.posOffset.x = xCamOffset;
+            gm.needAwakeAnimation = false;
+        } else {
+            sr.enabled = true;
+        }
+    }
+
+    public void Hide() {
+        sr.enabled = false;
+        CameraFollow cam = Camera.main.GetComponent<CameraFollow>();
+        xCamOffset = cam.posOffset.x;
+        cam.posOffset.x = 0;
+
+        lm.OffLights();
+
+
+        blockActionId = StartCinematic(true);
+    }
+
     void Awake() {
         FindGameManager();
         SpawnAt(gm.spawnNumber);
@@ -186,52 +216,20 @@ public class PlayerMovement : MonoBehaviour {
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
         powersManager = GetComponent<PlayerPowers>();
+        lm = GetComponent<LightManager>();
 
-        if (gm.needAwakeAnimation) {
-            blockActionId = StartCinematic();
-            animator.SetTrigger("Awake");
-            gm.needAwakeAnimation = false;
-        }
+        
     }
 
     private void Start() {
-        if (gm.Health > 0) {
-            animator.SetBool("Alive", true);
+        animator.SetBool("Alive", gm.Health > 0);
+        if (gm.needAwakeAnimation) {
+            Hide();
         }
         else {
-            animator.SetBool("Alive", false);
-        }
-
-
-    }
-
-
-
-    /*private void StartCinematicFromAnimation() {
-        StartCinematic(false);
-    }
-
-    
-    
-    public void StartCinematic(bool _forceIdle = false, bool _isInvincible = true) {
-        inCinematic = true;
-        isInvincible = _isInvincible;
-        if (_forceIdle) {
-            animator.SetBool("ForceIdle", true);
-            animator.SetFloat("Speed", 0f);
-            animator.SetFloat("yVelocity", 0f);
-            animator.SetBool("Jumping", false);
+            Show();
         }
     }
-    public void ExitCinematic() {
-        isInvincible = false;
-        inCinematic = false;
-        animator.SetBool("ForceIdle", false);
-    }
-
-    public bool IsInCinematic() {
-        return inCinematic;
-    }*/
 
     float SpeedFactor() {
         float speedFactor = 1f;

@@ -89,6 +89,8 @@ public class GameManager : MonoBehaviour {
         DontDestroyOnLoad(gameObject);
         UI = FindObjectOfType<UserInterfaceManager>();
         items = new ItemManager();
+        isCaveScene = caveScenes.Contains(SceneManager.GetActiveScene().name);
+
     }
 
     public void SetSaveFileId(int _id, bool _encrypt) {
