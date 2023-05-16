@@ -141,7 +141,7 @@ public class GameManager : MonoBehaviour {
         maxMana = 100 + data.nbUpgradeMana * 50; //ajouter ici le nombre de GS récolté
         Mana = maxMana;
         attackDamage = 8 + data.nbUpgradeDamage * 5;
-        needAwakeAnimation = true;
+        //needAwakeAnimation = true;
 
         if (_teleport) {
             StartCoroutine(SwitchScene(data.lastSceneSave, data.lastWarpSave));

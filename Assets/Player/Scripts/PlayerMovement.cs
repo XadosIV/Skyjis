@@ -186,6 +186,7 @@ public class PlayerMovement : MonoBehaviour {
             CameraFollow cam = Camera.main.GetComponent<CameraFollow>();
             cam.posOffset.x = xCamOffset;
             gm.needAwakeAnimation = false;
+            FindObjectOfType<UserInterfaceManager>().Show();
         } else {
             sr.enabled = true;
         }
@@ -196,6 +197,7 @@ public class PlayerMovement : MonoBehaviour {
         CameraFollow cam = Camera.main.GetComponent<CameraFollow>();
         xCamOffset = cam.posOffset.x;
         cam.posOffset.x = 0;
+        FindObjectOfType<UserInterfaceManager>().Hide();
 
         lm.OffLights();
 
@@ -327,7 +329,7 @@ public class PlayerMovement : MonoBehaviour {
 
     }
 
-    private void FlipSprite() {
+    public void FlipSprite() {
         //Flip Sprite
         if (direction == 1) {
             sr.flipX = false;

@@ -24,7 +24,7 @@ public class NpcScript : MonoBehaviour
     {
         if (key.enabled && Input.GetButtonDown("Interaction") && !isSpeaking) {
             isSpeaking = true;
-            dm.StartDialogue(dialogs, readFlag);
+            //dm.StartDialogue(dialogs, readFlag);
             StartCoroutine(CatchEndDialog());
         }
     }

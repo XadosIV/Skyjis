@@ -67,7 +67,7 @@ public class SpellSwitcherUI : MonoBehaviour
     }
 
     void Update() {
-        //if (gm.save.spellsUnlocked == 0) return;
+        if (gm.save.spellsUnlocked == 0) return;
         if (running) return;
         if (Input.GetButton("SpellSwitcher")) {
             StartCoroutine(Active());
