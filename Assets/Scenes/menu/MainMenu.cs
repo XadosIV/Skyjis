@@ -14,7 +14,6 @@ public class MainMenu : MonoBehaviour
 
         GameObject gmObject = Instantiate(gameManager);
         gm = gmObject.GetComponent<GameManager>();
-        //DEBUG gm.SetSaveFileId(-1, false);
         gmObject.GetComponent<GameManager>().SetSaveFileId(saveFileId, true);
 
         gameObject.SetActive(false);

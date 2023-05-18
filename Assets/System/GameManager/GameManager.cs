@@ -200,7 +200,6 @@ public class GameManager : MonoBehaviour {
         isCaveScene = caveScenes.Contains(_sceneName);
 
         SceneManager.LoadScene(_sceneName);
-        UI.Show();
     }
 
     public void SpawnManaBall(int _manaAmount, Transform _position) {

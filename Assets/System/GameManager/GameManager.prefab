@@ -222,7 +222,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &6873884261701240359
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2226,7 +2226,7 @@ MonoBehaviour:
   caveScenes:
   - exile_cave
   killedEnnemies: 
-  needAwakeAnimation: 1
+  needAwakeAnimation: 0
   spawnNumber: 0
   coinsObjects:
   - {fileID: 197530619386992867, guid: 15dc2808df2b4274cbbcaea081dad3c8, type: 3}

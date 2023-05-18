@@ -9,11 +9,11 @@ public class FadeSystemScript : MonoBehaviour
 
     private Image i;
 
-    private void Start() {
+    private void Awake() {
         i = GetComponent<Image>();
     }
 
-    public void FadeIn(float r=0, float g=0, float b=0) {
+    public void FadeIn(float r=0f, float g=0f, float b=0f) {
         Color c = new Color(r, g, b);
         i.color = c;
         animator.SetTrigger("FadeIn");
