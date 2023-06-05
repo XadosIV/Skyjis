@@ -1,126 +1,104 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 
-public class Enemy : MonoBehaviour
-{
-    public int enemyId; //Convention : {zoneId(1)}_{MapNumber(2)}_(UniqueIdentifier(2))} => 10101 => Oakwood, map : oakwood_01, 01er ennemi
-    public string bossName;
-    public bool isBoss;
-    public int maxHealth;
-    [NonSerialized] public int health;
-    public int damage;
-    public Vector2 manaGain;
-    public Vector2 manaGainOnHit;
-    public float stunTime;
-    public Vector2 coinsLoot;
+public class Enemy : MonoBehaviour {
+    [SerializeField] private int id;  // {zoneId(1)}_{MapNumber(2)}_(UniqueIdentifier(2))} => 10101 => Oakwood, map : oakwood_01, 01er ennemi
+    // exclude id = -1
+    [SerializeField] private int maxHp;
+    public int hp;
+    [SerializeField] private int onCollisionDamage;
+    [SerializeField] private Vector2 manaGain;
+    [SerializeField] private Vector2 manaGainOnHit;
+    [SerializeField] private Vector2 coinsLoot;
+    [SerializeField] private float knockResist;
 
-    private bool isDead = false;
+    [SerializeField] private float stunTime = .4f;
+    [SerializeField] private float flashDelay = .13f;
+    public bool isStun;
 
-    private readonly float flashDelay = 0.15f;
-    private Animator animator;
-    private SpriteRenderer sr;
+    private Collider2D hitbox;
     private Rigidbody2D rb;
-
-    [NonSerialized] public bool isStun;
-    private bool isBlinking;
-
-
-    
-    [SerializeField] private Collider2D hitbox;
-    private Coroutine stunningRoutine;
     private GameManager gm;
-    private UserInterfaceManager ui;
+    private SpriteRenderer sr;
 
-    private void Start()
-    {
+    private int RangeToInt(Vector2 range) {
+        return (int)UnityEngine.Random.Range(range.x, range.y);
+    }
+
+    void Start() {
+        gm = FindObjectOfType<GameManager>();
+
+        //Check if enemy already killed
+        if (gm.killedEnnemies.Contains(id)) Destroy(gameObject);
+
         sr = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
 
-        health = maxHealth;
-        gm = FindObjectOfType<GameManager>();
-        if (isBoss) ui = FindObjectOfType<UserInterfaceManager>();
-        animator.SetBool("Alive", true);
+        // Set HP
+        hp = maxHp;
 
-        if (gm.killedEnnemies.Contains(enemyId)) Destroy(gameObject);
+        // Find and define Hitbox
+        BoxCollider2D[] components = GetComponentsInChildren<BoxCollider2D>();
+        foreach (BoxCollider2D c in components) {
+            if (c.gameObject.name == "Hitbox" || c.gameObject.name == "hitbox") {
+                hitbox = c;
+                break;
+            }
+        }
+
     }
 
-    private void OnTriggerStay2D(Collider2D collider) {
-        if (collider.CompareTag("Player") && health > 0) {
-            collider.GetComponent<PlayerMovement>().TakeDamage(damage);
-        }
-    }
+    void Update() {
 
-    private void FixedUpdate() {
-        if (health <= 0) {
-            rb.velocity = Vector3.zero;
-        }
     }
 
     private void Death() {
-        isDead = true;
-        int moneyToLoot = (int)UnityEngine.Random.Range(coinsLoot.x, coinsLoot.y);
-        gm.SpawnCoins(moneyToLoot, transform.position, transform.rotation);
+        // Add id to ennemies killed, to not respawn if the scene reload
+        gm.killedEnnemies.Add(id);
 
-        if (!isBoss) gm.killedEnnemies.Add(enemyId);
-
-        int manaAmount = (int)UnityEngine.Random.Range(manaGain.x, manaGain.y);
-        gm.SpawnManaBall(manaAmount, transform);
-
-
-        animator.SetBool("Alive", false);
+        gm.SpawnCoins(RangeToInt(coinsLoot), transform.position, transform.rotation);
+        gm.SpawnManaBall(RangeToInt(manaGain), transform);
         rb.velocity = Vector3.zero;
-        hitbox.enabled = false;
-        this.enabled = false;
     }
 
-    public void TakeDamage(int damage, Vector2 knockback) {
-        if (isDead) return;
-
-        animator.SetTrigger("Hurt");
-        health -= damage;
-        if (isBoss) {ui.UpdateUI();}
-
-        if (health <= 0) {
+    private void OnTriggerStay2D(Collider2D collider) {
+        if (collider.CompareTag("Player") && hp > 0) {
+            collider.GetComponent<PlayerMovement>().TakeDamage(onCollisionDamage);
+        }
+    }
+    public bool TakeDamage(int damage, Vector2 knockback) {
+        if (hp <= 0) return false;
+        if (isStun) return false;
+        
+        hp -= damage;
+        if (hp <= 0) {
             Death();
         } else {
-            if (isStun) {
-                StopCoroutine(stunningRoutine);
-            }
+            StartCoroutine(Stunning());
+            gm.SpawnManaBall(RangeToInt(manaGainOnHit), transform);
 
-            if (isBoss) {
-                int manaAmount = (int)UnityEngine.Random.Range(manaGainOnHit.x, manaGainOnHit.y);
-                gm.SpawnManaBall(manaAmount, transform);
-            }
-            
-
-            rb.velocity = Vector3.zero;
-            rb.AddForce(knockback, ForceMode2D.Impulse);
-            stunningRoutine = StartCoroutine(Stunning());
-            if (!isBlinking) {
-                StartCoroutine(Blinking());
-            }
+            rb.AddForce(knockback / knockResist, ForceMode2D.Impulse);
         }
 
-        
-        
+        return true;
     }
+
+    
+
     private IEnumerator Stunning() {
         isStun = true;
+        StartCoroutine(Blinking());
         yield return new WaitForSeconds(stunTime);
         isStun = false;
     }
 
     private IEnumerator Blinking() {
-        isBlinking = true;
         while (isStun) {
             sr.color = new Color(1f, 1f, 1f, 0f);
             yield return new WaitForSeconds(flashDelay);
             sr.color = new Color(1f, 1f, 1f, 1f);
             yield return new WaitForSeconds(flashDelay);
         }
-        isBlinking = false;
     }
 }

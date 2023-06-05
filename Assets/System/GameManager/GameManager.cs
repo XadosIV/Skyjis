@@ -203,6 +203,7 @@ public class GameManager : MonoBehaviour {
     }
 
     public void SpawnManaBall(int _manaAmount, Transform _position) {
+        if (_manaAmount <= 0) return;
         GameObject manaBallObject = Instantiate(manaBall, _position.position, _position.rotation);
         ManaBall manaBallScript = manaBallObject.GetComponent<ManaBall>();
         manaBallScript.manaGain = _manaAmount;
@@ -225,7 +226,7 @@ public class GameManager : MonoBehaviour {
     }
 
     public void SpawnCoins(int _amount, Vector3 _pos, Quaternion _rotation) {
-        if (_amount == 0) return;
+        if (_amount <= 0) return;
         else {
             List<GameObject> coins = MoneyToCoin(_amount);
             foreach (GameObject coin in coins) {

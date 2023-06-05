@@ -801,7 +801,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 2.5
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: a0da34805e2ef4141bc4f0ab862a7278, type: 2}
   m_Interpolate: 2
   m_SleepingMode: 1
   m_CollisionDetection: 1
@@ -1051,6 +1051,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f3ac6e5b925eee48b78e299ade5fb1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  knockback: 8
   attackPointLeft: {fileID: 5196930167935939392}
   attackPointRight: {fileID: 5196930168201743071}
 --- !u!114 &-3447553256615386980

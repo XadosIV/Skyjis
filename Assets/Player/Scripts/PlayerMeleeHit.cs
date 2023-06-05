@@ -6,8 +6,8 @@ public class PlayerMeleeHit : MonoBehaviour
 {
     private float attackRange = 0.85f;
     private float attackSpeed = 0.4f;
-    private float knockback = 5f;
-    private float selfKnockback = 5f;
+    [SerializeField] private float knockback = 8f;
+    private float selfKnockback = 15f;
 
     private GameManager gm;
     private PlayerMovement pm;
@@ -44,10 +44,9 @@ public class PlayerMeleeHit : MonoBehaviour
         foreach (Collider2D collider in hitColliders) {
             if (enemyLayers == collider.gameObject.layer) {
                 Enemy enemy = collider.GetComponentInParent<Enemy>();
-                if (enemy.health > 0) {
-                    enemy.TakeDamage(pm.CalculateDamage(gm.attackDamage), new Vector2(knockback * pm.direction, 0));
-                    somethingHit = true;
-                }
+                
+                bool hasTouched = enemy.TakeDamage(pm.CalculateDamage(gm.attackDamage), new Vector2(knockback * pm.direction, 0));
+                if (hasTouched) somethingHit = true;
             }
         }
         if (somethingHit) {

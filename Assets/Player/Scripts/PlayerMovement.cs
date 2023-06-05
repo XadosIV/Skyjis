@@ -18,9 +18,9 @@ public class PlayerMovement : MonoBehaviour {
     PlayerPowers powersManager;
 
     //Gameplay Variable
-    float moveSpeed = 265f;
-    float jumpForce = 365f;
-    float invincibleTime = 2;
+    float moveSpeed = 285f;
+    float jumpForce = 370f;
+    float invincibleTime = 1f;
 
     //Variable algorithmique
     public LayerMask physicsLayers;
@@ -317,6 +317,7 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     public void TakeDamage(int damage) {
+        if (damage <= 0) return;
         if (!isInvincible) {
             gm.Health -= damage;
             blockAction.Clear();

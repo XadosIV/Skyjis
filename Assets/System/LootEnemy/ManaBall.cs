@@ -5,7 +5,7 @@ using UnityEngine;
 public class ManaBall : MonoBehaviour
 {
     public int manaGain;
-    private bool collectable = true;
+    private bool collectable = false;
     void Start()
     {
         StartCoroutine(Pop());
@@ -15,17 +15,17 @@ public class ManaBall : MonoBehaviour
         float scale = 0f;
         transform.localScale = new Vector2(scale, scale);
         while (transform.localScale.x < 1f) {
-            scale += 0.003f;
+            scale += 0.01f;
             transform.localScale = new Vector3(scale, scale, 1) ;
             yield return null;
         }
         transform.localScale = new Vector3(1, 1, 1);
-        collectable = false;
+        collectable = true;
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {
-        if (collision.CompareTag("Player") && !collectable) {
-            collectable = true;
+        if (collision.CompareTag("Player") && collectable) {
+            collectable = false;
             GameManager gm = FindObjectOfType<GameManager>();
             gm.Mana += manaGain;
             Destroy(gameObject);

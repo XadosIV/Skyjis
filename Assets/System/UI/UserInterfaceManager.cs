@@ -102,14 +102,14 @@ public class UserInterfaceManager : MonoBehaviour
 
     private void UpdateBossBar() {
         parentBossHealthBar.SetActive(gm.InBattle);
-        if (gm.InBattle) {
+        /*if (gm.InBattle) {
             BattleSceneScript bs = FindObjectOfType<BattleSceneScript>();
             Enemy boss = bs.GetBoss();
-            bossHealthBar.maxValue = boss.maxHealth;
-            bossHealthBar.value = boss.health;
-            bossHealthText.text = boss.health + " / " + boss.maxHealth;
+            bossHealthBar.maxValue = boss.maxHp;
+            bossHealthBar.value = boss.hp;
+            bossHealthText.text = boss.hp + " / " + boss.maxHp;
             bossNameText.text = boss.bossName;
-        }
+        }*/
     }
 
 }

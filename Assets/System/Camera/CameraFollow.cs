@@ -47,7 +47,7 @@ public class CameraFollow : MonoBehaviour {
         for (int i = 0; i < 100; i++) {
             Camera.main.orthographicSize += ratio;
             CalculateBoundaries();
-            yield return new WaitForSeconds(.01f);
+            yield return new WaitForSeconds(.005f);
         }
         timeOffset = baseTimeOffset;
     }

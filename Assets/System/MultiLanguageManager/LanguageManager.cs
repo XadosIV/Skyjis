@@ -9,17 +9,29 @@ public class LanguageManager : MonoBehaviour {
     public TextAsset TextsFile;
 
     public Dictionary<string, string> dialogs;
+    public Dictionary<string, string> names;
     public Dictionary<string, string> texts;
 
     public class JSONFormat {
         public string[] tags;
+        public string[] names;
         public string[] texts;
 
-        public Dictionary<string, string> toDictionary() {
+        public Dictionary<string, string> toDictionaryTexts() {
             Dictionary<string, string> dico = new Dictionary<string, string>();
             
             for (int i = 0; i < tags.Length; i++) {
                 dico.Add(tags[i], texts[i]);
+            }
+
+            return dico;
+        }
+
+        public Dictionary<string, string> toDictionaryNames() {
+            Dictionary<string, string> dico = new Dictionary<string, string>();
+
+            for (int i = 0; i < tags.Length; i++) {
+                dico.Add(tags[i], names[i]);
             }
 
             return dico;
@@ -39,13 +51,22 @@ public class LanguageManager : MonoBehaviour {
         }
     }
 
+    public string GetName(string tag) {
+        if (dialogs.ContainsKey(tag)) {
+            return names[tag];
+        } else {
+            return "???";
+        }
+    }
+
     public void LoadText(string tag) {
 
     }
 
     public void SetLanguage(string lang) {
         JSONFormat t = JsonUtility.FromJson<JSONFormat>(DialogsFile.text);
-        dialogs = t.toDictionary();
+        dialogs = t.toDictionaryTexts();
+        names = t.toDictionaryNames();
     }
 
 }

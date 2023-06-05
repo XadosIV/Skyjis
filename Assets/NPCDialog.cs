@@ -5,24 +5,31 @@ using UnityEngine;
 public class NPCDialog : MonoBehaviour
 {
     public SpriteRenderer key;
-    public string dialog_tag;
+    public string dialog;
     bool isSpeaking = false;
     PlayerMovement player;
     DialogManager dm;
     SpriteRenderer sr;
+    Rigidbody2D rb;
     void Start()
     {
         key.enabled = false;
         player = FindObjectOfType<PlayerMovement>();
         dm = FindObjectOfType<DialogManager>();
         sr = GetComponent<SpriteRenderer>();
+        rb = GetComponent<Rigidbody2D>();
     }
 
     void Update()
     {
         if (key.enabled && Input.GetButtonDown("Interaction") && !isSpeaking && player.CanInteract()) {
+            key.enabled = false;
             StartInteraction();
         }
+        /*
+        if (rb.velocity.x < 0.001f && rb.velocity.x > -0.001f) {
+            rb.velocity = new Vector2(0,rb.velocity.y);
+        }*/
     }
 
     public void StartInteraction() {
@@ -45,8 +52,8 @@ public class NPCDialog : MonoBehaviour
 
         isSpeaking = true;
         CameraFollow cam = FindObjectOfType<CameraFollow>();
-        cam.SetSize(3f, between);
-        dm.StartDialogue(dialog_tag);
+        cam.SetSize(4f, between);
+        dm.StartDialogue(dialog);
         StartCoroutine(CatchEndDialog());
     }
 

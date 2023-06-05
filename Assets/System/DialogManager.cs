@@ -7,6 +7,7 @@ using TMPro;
 public class DialogManager : MonoBehaviour
 {
     public TextMeshProUGUI textComponent;
+    public TextMeshProUGUI displayName;
     private Image image;
     private PlayerMovement player;
     private GameManager gm;
@@ -43,6 +44,7 @@ public class DialogManager : MonoBehaviour
     void Show(bool showing) {
         image.enabled = showing;
         textComponent.enabled = showing;
+        displayName.enabled = showing;
         isUsed = showing;
     }
 
@@ -51,7 +53,7 @@ public class DialogManager : MonoBehaviour
         blockActionId = player.StartCinematic();
 
         string text = lm.LoadDialog(tag);
-
+        displayName.text = lm.GetName(tag);
 
         dialog = new List<string>();
         foreach (string t in text.Split("/")) {

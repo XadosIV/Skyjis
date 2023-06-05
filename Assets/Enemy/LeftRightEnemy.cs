@@ -14,10 +14,10 @@ public class LeftRightEnemy : MonoBehaviour
     }
 
     void FixedUpdate() {
-        if (data.isStun) return;
+        /*if (data.isStun) return;
         if (data.health <= 0) {
             return;
-        }
+        }*/
 
         float speed;
         if (IsFacingRight()) {

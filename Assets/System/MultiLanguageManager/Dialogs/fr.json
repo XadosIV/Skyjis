@@ -1,16 +1,47 @@
 {
     "tags": [
+        "OAKWOOD_GUARD_EAST",
+        "OAKWOOD_GUARD_EAST_BLOCKING",
+        "OAKWOOD_GUARD_EAST_UNLOCKED",
         "MILA_INTRODUCTION",
+        "MILA_EXILE_CAVE_1",
         "MILA_EXILE_CAVE_2",
         "MILA_EXILE_CAVE_3",
         "MILA_EXILE_CAVE_4",
-        "MILA_EXILE_CAVE_5"
+        "MILA_OAKWOOD_1",
+        "MILA_OAKWOOD_2",
+        "MILA_OAKWOOD_3",
+        "OAKWOOD_GUARD_WEST_FIRST_MEET",
+        "OAKWOOD_GUARD_WEST"
+    ],
+    "names": [
+        "Garde de l'Est",
+        "Garde de l'Est",
+        "Garde de l'Est",
+        "Mimi",
+        "Mimi",
+        "Mimi",
+        "Mimi",
+        "Mimi",
+        "Mimi",
+        "Mimi",
+        "Mimi",
+        "Garde de l'Ouest",
+        "Garde de l'Ouest"
     ],
     "texts": [
-        "Oh...\n/\nNe m'attaque pas !\nJe ne suis pas ton ennemie !\n/\nTu...\nTu es conscient ?\n/\nIl semblerait bien, mmh...\n/\nComment t'appelles-tu ?\n/\nTu ne t'en rappelles pas ?\n/\nTu as l'air confus... Bon, sortons d'ici et rejoignons le village.\nOn sera en s\u00e9curit\u00e9 l\u00e0-bas.\n/\nSuis-moi.",
-        "Ces rochers sont tr\u00e8s grands, il va te falloir sauter le plus haut possible pour les franchir.\nPlus tu t'\u00e9lances longtemps, plus tu sautes haut.",
-        "Qu'est-ce que je fais l\u00e0 ? Comment \u00e7a ?\n/\nTu ne m'as pas vu sauter ?\n/\nCe passage est plut\u00f4t \u00e9troit, tu peux te d\u00e9placer en restant coucher pour atteindre l'autre c\u00f4t\u00e9.",
+        "Je garde l'entr\u00e9e vers la for\u00eat de Ruvyn. C'est fatiguant...\n/\nHeureusement, j'ai ce renard que j'ai apprivois\u00e9 pour me tenir compagnie.",
+        "Halte-l\u00e0 voyageur ! Par del\u00e0 cette entr\u00e9e se trouve la for\u00eat de Ruvyn !\n/\nJe ne peux laisser personne passer. Ordre de l'\u00c9rudit !\n/\nEt puis, c'est trop dangereux pour toi, de puissants monstres y r\u00e9sident.",
+        "Quoi ? Une lettre de Mimi ? Donne moi \u00e7a !\n/\n...\n/\nJe vois, tu peux passer, soit prudent.",
+        "Oh...\n/\nNe m'attaque pas !\nJe ne suis pas ton ennemie !\n/\nTout...\n/\nTout va bien ?\nTu m'entends ?\n/\nOn dirait bien, mmh...\n/\nComment t'appelles-tu ?\n/\nTu ne t'en rappelles pas ?\n/\nBon, il y a plus important.\n/\nSuis-moi, sortons de cette grotte.",
+        "Ces rochers sont tr\u00e8s grands, il va te falloir sauter le plus haut possible pour les franchir.\nEssaye de pousser fort sur tes jambes, tu sauteras plus haut.",
+        "Qu'est-ce que je fais l\u00e0 ? Comment \u00e7a ?\n/\nTu ne m'as pas vu sauter ?\n/\nCe passage est plut\u00f4t \u00e9troit, tu peux t'accroupir pour atteindre l'autre c\u00f4t\u00e9.",
         "Tu ne m'as pas vu passer devant toi ?\nAhah c'est normal ! Je la connais bien, cette grotte, j'ai pris un autre chemin !\n/\nBref, fais attention \u00e0 toi, en continuant, tu vas rencontrer un slime.\nIl ne t'attaquera pas mais te blessera s'il te touche.\n/\nTu peux le blesser, voir le tuer, ou tu peux aussi le contourner, \u00e0 toi de voir.",
-        "La lumi\u00e8re du jour !\nViens, sortons de cette grotte !"
+        "La lumi\u00e8re du jour !\nViens, sortons de cette grotte !",
+        "Bienvenue dans la clairi\u00e8re d'Oakwood !\n/\nOn ne vas pas s'attarder, cet endroit peut \u00eatre dangereux si tu n'y es pas habitu\u00e9.\n/\nMon village se trouve \u00e0 l'Est d'ici, c'est tout proche.",
+        "Par ici ! On y est !",
+        "Pas par l\u00e0 ! Attention !\n/\nTu t'enfoncerais dans la clairi\u00e8re.\nEn n'ayant pas de quoi te battre, je ne donnerai pas ch\u00e8re de ta peau.",
+        "Enchant\u00e9 voyageur ! Je suis le garde de l'Ouest !\nComme ce titre l'indique, je prot\u00e8ge l'entr\u00e9e Ouest du village.\n/\nPar del\u00e0 cette entr\u00e9e se trouve la clairi\u00e8re d'Oakwood et les cavernes, seul de faibles monstres y r\u00e9sident.",
+        "Il ne se passe jamais rien par cette entr\u00e9e... \n/\nAu moins, ..., je suis gracieusement pay\u00e9."
     ]
 }

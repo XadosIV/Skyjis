@@ -26,7 +26,7 @@ public class BattleSceneScript : MonoBehaviour
     void Update()
     {
         if (spawned) {
-            if (bossSpawned.health <= 0) {
+            if (bossSpawned.hp <= 0) {
                 UpdateSceneMod();
                 gm.InBattle = false;
             }
@@ -49,7 +49,6 @@ public class BattleSceneScript : MonoBehaviour
             enabled = false;
         } else {
             bossSpawned = Instantiate(bossToSpawn, spawnPoint.position, spawnPoint.rotation).GetComponent<Enemy>();
-            bossSpawned.health = bossSpawned.maxHealth;
         }
         MainCamera.enabled = spawned;
         BattleCamera.enabled = !spawned;
