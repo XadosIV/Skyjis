@@ -601,7 +601,6 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Slime_Green_32x32_19: 1717809514
       Slime_Green_32x32_1: 182932776
       Slime_Green_32x32_9: -1893552385
       Slime_Green_32x32_7: -1272622406
@@ -618,10 +617,11 @@ TextureImporter:
       Slime_Green_32x32_4: -963944197
       Slime_Green_32x32_16: 553739507
       Slime_Green_32x32_2: -1177008677
+      Slime_Green_32x32_19: 1717809514
       Slime_Green_32x32_17: 1267241605
       Slime_Green_32x32_5: 1814304009
-      Slime_Green_32x32_12: 956651337
       Slime_Green_32x32_8: -511099661
+      Slime_Green_32x32_12: 956651337
       Slime_Green_32x32_18: 1028530641
   spritePackingTag: 
   pSDRemoveMatte: 0

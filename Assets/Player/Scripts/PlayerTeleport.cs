@@ -165,7 +165,6 @@ public class PlayerTeleport : MonoBehaviour
         int intersection = 0;
         distance = Mathf.Abs(distance);
         RaycastHit2D hit = Physics2D.Raycast(_position, direction, distance, _layer);
-        //Debug.DrawRay(_position, direction * distance, Color.green, 3, false);
 
         while (hit.collider != null) {
             distance -= hit.distance;
@@ -179,12 +178,6 @@ public class PlayerTeleport : MonoBehaviour
             }
 
             hit = Physics2D.Raycast(_position, direction, distance, _layer);
-            /*if (intersection % 2 == 1) {
-                Debug.DrawRay(_position, direction * distance, Color.red, intersection*3+3, false);
-            }
-            else {
-                Debug.DrawRay(_position, direction * distance, Color.green, intersection*3+3, false);
-            }*/
 
         }
         return intersection;

@@ -50,7 +50,6 @@ public class Enemy : MonoBehaviour {
     }
 
     void Update() {
-
     }
 
     private void Death() {
@@ -59,7 +58,20 @@ public class Enemy : MonoBehaviour {
 
         gm.SpawnCoins(RangeToInt(coinsLoot), transform.position, transform.rotation);
         gm.SpawnManaBall(RangeToInt(manaGain), transform);
+
+
+        // Corpse would move without friction so we make sure there is friction at death
         rb.velocity = Vector3.zero;
+        rb.bodyType = RigidbodyType2D.Dynamic; 
+        MonoBehaviour[] scripts = GetComponents<MonoBehaviour>();
+        foreach (MonoBehaviour script in scripts) {
+            if (script.name != name) {
+                script.enabled = false;
+            }
+        }
+        hitbox.enabled = false;
+        rb.sharedMaterial = null;
+        enabled = false;
     }
 
     private void OnTriggerStay2D(Collider2D collider) {

@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 4055030202794193516}
   - component: {fileID: 4055030202794193514}
   m_Layer: 6
-  m_Name: OakwoodSlime
+  m_Name: Slime_Oakwood
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -148,7 +148,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0051711686, y: -0.09920459}
+  m_Offset: {x: 0.005171165, y: -0.10185608}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -159,7 +159,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.150801, y: 0.11943497}
+  m_Size: {x: 0.150801, y: 0.098980635}
   m_EdgeRadius: 0
 --- !u!95 &4055030202794193516
 Animator:
@@ -239,7 +239,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0074716285, y: -0.09754624}
+  m_Offset: {x: 0.005577069, y: -0.11017379}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -250,7 +250,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.14823927, y: 0.13246487}
+  m_Size: {x: 0.16263363, y: 0.092568874}
   m_EdgeRadius: 0
 --- !u!1 &4055030202428183897
 GameObject:
