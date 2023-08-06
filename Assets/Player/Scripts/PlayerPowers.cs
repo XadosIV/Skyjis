@@ -13,6 +13,12 @@ public class PlayerPowers : MonoBehaviour
     private PlayerCrouch crouch;
     private PlayerMeleeHit meleeHit;
     private PlayerSpellCast spells;
+    private PlayerParry parry;
+    private PlayerAbsorb absorb;
+
+    private const float absorbTiming = .4f;
+    private float absorbTimer = .4f;
+    private bool absorbing = false;
 
     void Start()
     {
@@ -25,6 +31,8 @@ public class PlayerPowers : MonoBehaviour
         crouch = GetComponent<PlayerCrouch>();
         meleeHit = GetComponent<PlayerMeleeHit>();
         spells = GetComponent<PlayerSpellCast>();
+        parry = GetComponent<PlayerParry>();
+        absorb = GetComponent<PlayerAbsorb>();
     }
 
     void Update()
@@ -32,6 +40,7 @@ public class PlayerPowers : MonoBehaviour
         if (gm.Health <= 0) return;
         if (!pm.CanAttacks()) return;
         //if (IsBlockingControl() >= 1) return;
+
 
         if (Input.GetButtonDown("MeleeHit") && meleeHit.IsAvailable()) meleeHit.Execute();
         else if (Input.GetButtonDown("Spell1") && spells.IsAvailable(0)) spells.Execute(0);
@@ -42,7 +51,22 @@ public class PlayerPowers : MonoBehaviour
         else if (Input.GetButtonDown("Dash") && dash.IsAvailable()) dash.Execute();
         else if (Input.GetButtonDown("Teleport") && teleport.IsAvailable()) teleport.Execute();
         else if (Input.GetButtonDown("Crouch") && crouch.IsAvailable()) crouch.Execute();
+        else if (Input.GetButtonUp("Focus")) {
+            if (absorbTimer > 0) {
+                if (parry.IsAvailable()) parry.Execute();
+            }
+            absorbTimer = absorbTiming;
+            absorbing = false;
+        } else if (Input.GetButton("Focus")) {
+            if (absorbing) return;
+            absorbTimer -= Time.deltaTime;
+            if (absorbTimer <= 0) {
+                if (absorb.IsAvailable()) absorb.Execute();
+                absorbing = true;
+            }
+        }
     }
+
 
     /*public int IsBlockingControl() { // 0 = pas de contrôle bloqués; 1 = contrôles des pouvoirs bloqués; 2 = tout les contrôles bloqués.
         return Mathf.Max(dash.BlockControl(), teleport.BlockControl(), crouch.BlockControl(), spells.BlockControl());
@@ -55,5 +79,12 @@ public class PlayerPowers : MonoBehaviour
     public bool NeedJump() {
         return jump.NeedJump();
     }
+    
+    public bool IsParrying() {
+        return parry.isParrying();
+    }
 
+    public void SuccessParry(Enemy enemy) {
+        parry.Effects(enemy);
+    }
 }

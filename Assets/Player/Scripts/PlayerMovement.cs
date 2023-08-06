@@ -316,9 +316,12 @@ public class PlayerMovement : MonoBehaviour {
         }
     }
 
-    public void TakeDamage(int damage) {
+    public void TakeDamage(int damage, Enemy enemy) {
+        if (enemy.purified) return;
         if (damage <= 0) return;
-        if (!isInvincible) {
+        if (powersManager.IsParrying()) {
+            powersManager.SuccessParry(enemy);
+        }else if (!isInvincible) {
             gm.Health -= damage;
             blockAction.Clear();
             if (gm.Health <= 0) {
@@ -327,7 +330,6 @@ public class PlayerMovement : MonoBehaviour {
             animator.SetTrigger("Hurt");
             StartCoroutine(Invincibility());
         }
-
     }
 
     public void FlipSprite() {

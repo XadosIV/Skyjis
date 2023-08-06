@@ -58,12 +58,15 @@ public class GameManager : MonoBehaviour {
 
     public GameObject[] spellList;
 
-    public bool isCaveScene;
+    public int sceneType;
     public List<String> caveScenes;
+    public List<String> insideScenes;
 
     public ItemManager items;
     
     public List<int> killedEnnemies;
+    public List<int> purifiedEnnemies;
+    public List<int> ennemiesManaGiven;
     public bool needAwakeAnimation;
 
     private int saveFileNumber;
@@ -89,8 +92,24 @@ public class GameManager : MonoBehaviour {
         DontDestroyOnLoad(gameObject);
         UI = FindObjectOfType<UserInterfaceManager>();
         items = new ItemManager();
-        isCaveScene = caveScenes.Contains(SceneManager.GetActiveScene().name);
+        UpdateSceneType();
+    }
 
+    int UpdateSceneType(string _sceneName = "") {
+        if (_sceneName == "") {
+            _sceneName = SceneManager.GetActiveScene().name;
+        }
+
+
+        if (caveScenes.Contains(_sceneName)) {
+            sceneType = 1;
+        } else if (insideScenes.Contains(_sceneName)) {
+            sceneType = 2;
+        } else {
+            sceneType = 0;
+        }
+
+        return sceneType;
     }
 
     public void SetSaveFileId(int _id, bool _encrypt) {
@@ -197,7 +216,7 @@ public class GameManager : MonoBehaviour {
         }
         yield return new WaitForSeconds(1f);
 
-        isCaveScene = caveScenes.Contains(_sceneName);
+        UpdateSceneType(_sceneName);
 
         SceneManager.LoadScene(_sceneName);
     }

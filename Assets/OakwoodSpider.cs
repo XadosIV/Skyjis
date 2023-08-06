@@ -47,17 +47,13 @@ public class OakwoodSpider : MonoBehaviour
     }
 
     void Update() {
-        if (data.hp <= 0) {
-            anim.SetTrigger("death");
-            enabled = false;
-        } else {
-            playerInRange = Physics2D.OverlapCircle(detectionCenter.position, detectionRadius, playerLayer);
-
-            if (Mathf.Abs(rb.velocity.x) < 0.1f) Flip();
-        }
+        if (data.purified) return;
+        playerInRange = Physics2D.OverlapCircle(detectionCenter.position, detectionRadius, playerLayer);
+        if (Mathf.Abs(rb.velocity.x) < 0.1f) Flip();
     }
 
     private void FixedUpdate() {
+        if (data.purified) return;
         if (data.isStun) return;
         if (playerInRange) {
             

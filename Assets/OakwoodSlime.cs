@@ -34,13 +34,10 @@ public class OakwoodSlime : MonoBehaviour
 
     void Update()
     {
-        if (data.hp <= 0) {
-            anim.SetTrigger("death");
-            enabled = false;
-        }
     }
 
     private void FixedUpdate() {
+        if (data.purified) return;
         if (data.isStun) return;
         rb.velocity = Vector3.SmoothDamp(rb.velocity, new Vector2(speed*Time.fixedDeltaTime, rb.velocity.y), ref velocity, .05f);
     }

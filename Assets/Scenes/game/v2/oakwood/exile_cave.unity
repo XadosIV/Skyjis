@@ -43122,6 +43122,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 558095212912690482, guid: d27da6fe2b5c62d46b3f655c93df2f2a, type: 3}
+      propertyPath: id
+      value: 10101
+      objectReference: {fileID: 0}
     - target: {fileID: 558095212912690483, guid: d27da6fe2b5c62d46b3f655c93df2f2a, type: 3}
       propertyPath: m_Name
       value: Slime_Oakwood

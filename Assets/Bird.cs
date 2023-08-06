@@ -6,10 +6,12 @@ public class Bird : MonoBehaviour
 {
     [SerializeField] private float flySpeed;
 
-    [SerializeField] private LayerMask collisionLayer;
-    private Collider2D physicsBox;
-    private Vector2 min;
-    private Vector2 max;
+    [SerializeField] private Transform detectionCenter;
+    [SerializeField] private float detectionRadius;
+    private bool playerInRange;
+    [SerializeField] private LayerMask playerLayer;
+    private Transform player;
+
 
     private Enemy data;
     private Rigidbody2D rb;
@@ -26,48 +28,29 @@ public class Bird : MonoBehaviour
         data = GetComponent<Enemy>();
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
-
-        physicsBox = GetComponent<BoxCollider2D>();
-
-        BoxCollider2D[] colliders = GetComponentsInChildren<BoxCollider2D>();
-        foreach (BoxCollider2D collider in colliders) {
-            if (collider.name == "PatrolArea") {
-                min = collider.bounds.min;
-                max = collider.bounds.max;
-                collider.gameObject.SetActive(false);
-                break;
-            }
-        }
-        targetPoint = GetRandomPoint();
-    }
-
-    Vector3 GetRandomPoint() {
-        Vector2 point;
-        do {
-            point = new Vector2(Random.Range(min.x, max.x), Random.Range(min.y, max.y));
-        } while (Physics2D.OverlapBox(point, physicsBox.bounds.size, 0, collisionLayer));
-
-
-
-        return new Vector3(point.x, point.y, transform.position.z);
+        player = FindObjectOfType<PlayerMovement>().transform;
     }
 
     void Update()
     {
-        Vector2 toTarget = targetPoint - transform.position;
-        if (toTarget.magnitude < 0.1f || rb.velocity.magnitude < 0.1f ) {
-            targetPoint = GetRandomPoint();
+        if (data.purified) return;
+        if (data.hp <= 0) {
+            enabled = false;
         } else {
-            if (Mathf.Sign(toTarget.x) != direction) {
-                Flip();
-            }
+            playerInRange = Physics2D.OverlapCircle(detectionCenter.position, detectionRadius, playerLayer);
         }
     }
 
     private void FixedUpdate() {
         if (data.isStun) return;
+        if (data.purified) return;
+        if (!playerInRange) return;
 
-        Vector3 forward = targetPoint - transform.position;
+        Vector3 forward = player.position - transform.position;
+
+        if (Mathf.Sign(forward.x) != direction) {
+            Flip();
+        }
 
         rb.velocity = flySpeed * Time.fixedDeltaTime * forward.normalized;
     }
@@ -75,5 +58,10 @@ public class Bird : MonoBehaviour
     private void Flip() {
         sr.flipX = !sr.flipX;
         direction = -direction;
+    }
+
+    private void OnDrawGizmos() {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(detectionCenter.position, detectionRadius);
     }
 }

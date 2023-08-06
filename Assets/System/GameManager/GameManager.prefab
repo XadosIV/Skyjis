@@ -222,7 +222,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &6873884261701240359
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2357,11 +2357,15 @@ MonoBehaviour:
   - {fileID: 8935266826124046079, guid: 2617507f16fefdf4fa44d3cb227b2b51, type: 3}
   - {fileID: 2494987259204523726, guid: 341b045eb304ddb49b49ffbb60ddb2f5, type: 3}
   - {fileID: 7928148839850564808, guid: 6d06e248b623e504f82066f329a742c9, type: 3}
-  isCaveScene: 0
+  sceneType: 0
   caveScenes:
   - exile_cave
+  insideScenes:
+  - village_library
   killedEnnemies: 
-  needAwakeAnimation: 0
+  purifiedEnnemies: 
+  ennemiesManaGiven: 
+  needAwakeAnimation: 1
   spawnNumber: 0
   coinsObjects:
   - {fileID: 197530619386992867, guid: 15dc2808df2b4274cbbcaea081dad3c8, type: 3}
