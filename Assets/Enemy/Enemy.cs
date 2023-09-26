@@ -23,6 +23,8 @@ public class Enemy : MonoBehaviour {
     public bool manaGiven;
     public bool canAbsorb;
     public bool absorbed;
+    public int absorbedCount;
+    public int requireAbsorb = 1;
 
     private Collider2D hitbox;
     private Rigidbody2D rb;
@@ -67,6 +69,9 @@ public class Enemy : MonoBehaviour {
 
         // Set HP
         hp = maxHp;
+
+        // Set absorbed
+        absorbedCount = requireAbsorb;
 
         // Find and define Hitbox
         BoxCollider2D[] components = GetComponentsInChildren<BoxCollider2D>();
@@ -187,12 +192,15 @@ public class Enemy : MonoBehaviour {
             yield return 0;
         }
         if (time > absorbTime) {
-            purified = true;
-            manaGiven = true;
-            gm.purifiedEnnemies.Add(id);
-            gm.ennemiesManaGiven.Add(id);
-            anim.SetTrigger("happy");
-            gm.SpawnManaBall(RangeToInt(manaGain), transform);
+            absorbedCount--;
+            if (absorbedCount <= 0) {
+                purified = true;
+                manaGiven = true;
+                gm.purifiedEnnemies.Add(id);
+                gm.ennemiesManaGiven.Add(id);
+                anim.SetTrigger("happy");
+                gm.SpawnManaBall(RangeToInt(manaGain), transform);
+            }
             UpdateParticleType();
         }
         absorbed = false;

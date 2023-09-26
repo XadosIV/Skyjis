@@ -34,6 +34,9 @@ public class OakwoodSlime : MonoBehaviour
 
     void Update()
     {
+        if (data.purified) {
+            rb.gravityScale = 3;
+        }
     }
 
     private void FixedUpdate() {
@@ -52,5 +55,9 @@ public class OakwoodSlime : MonoBehaviour
         sr.flipX = !sr.flipX;
         speed *= -1;
         detectorHitbox.offset = new Vector2( - detectorHitbox.offset.x, detectorHitbox.offset.y);
+    }
+
+    void Jump() {
+        rb.AddForce(new Vector2(0, 5f), ForceMode2D.Impulse);
     }
 }

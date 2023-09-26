@@ -113,7 +113,7 @@ MonoBehaviour:
   manaGain: {x: 3, y: 5}
   manaGainOnHit: {x: 0, y: 0}
   coinsLoot: {x: 3, y: 5}
-  knockResist: 1
+  knockResist: 2
   stunTime: 0.4
   disarmedTime: 3
   flashDelay: 0.13
@@ -141,7 +141,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 6200000, guid: a0da34805e2ef4141bc4f0ab862a7278, type: 2}
+  m_Material: {fileID: 6200000, guid: 4a16ebbad0cc18444b8a660ee70eb226, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
@@ -207,7 +207,7 @@ MonoBehaviour:
   speed: 210
   jumpForce: 160
   detectionCenter: {fileID: 2367922728270797071}
-  detectionRadius: 3.5
+  detectionRadius: 4.5
   groundCheck: {fileID: 2367922728232871339}
   groundCheckRadius: 0.1
   playerLayer:
@@ -751,7 +751,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.1
+      scalar: 0.15
       minScalar: 1
       maxCurve:
         serializedVersion: 2
