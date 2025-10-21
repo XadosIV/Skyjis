@@ -17,11 +17,12 @@ public class GameManager : MonoBehaviour {
         get => _health;
         set {
             if (_health == value) return;
-            _health = Mathf.Max(0, Mathf.Min(maxHealth, value));
 
-            if (_health == 0) {
-                StartCoroutine(PlayerDeath());
+            if (value <= 0)
+            {
+                if (_health != 0) StartCoroutine(PlayerDeath());
             }
+            _health = Mathf.Max(0, Mathf.Min(maxHealth, value));
 
             UI.UpdateUI();
         }
@@ -114,9 +115,9 @@ public class GameManager : MonoBehaviour {
 
     public void SetSaveFileId(int _id, bool _encrypt) {
         saveFileNumber = _id;
+        Debug.Log(Application.persistentDataPath);
         fileDataHandler = new FileDataHandler(Application.persistentDataPath, "save" + saveFileNumber + ".game", _encrypt);
 
-        //LoadGame(_teleport: true); //si pas encrypté => scène joué depuis l'éditeur => pas de téléport.
         LoadGame(_teleport: _encrypt); //si pas encrypté => scène joué depuis l'éditeur => pas de téléport.
     }
 
@@ -150,7 +151,8 @@ public class GameManager : MonoBehaviour {
     public void LoadGame(bool _teleport = true) {
         GameData data = fileDataHandler.Load();
         if (data == null) {
-            data = new GameData();
+            //data = new GameData();
+            data = new GameData(true); // <- Sauvegarde ayant tout débloqué pour github
         }
 
         save = data;
@@ -160,7 +162,7 @@ public class GameManager : MonoBehaviour {
         maxMana = 100 + data.nbUpgradeMana * 50; //ajouter ici le nombre de GS récolté
         Mana = maxMana;
         attackDamage = 8 + data.nbUpgradeDamage * 5;
-        //needAwakeAnimation = true;
+        needAwakeAnimation = true;
 
         if (_teleport) {
             StartCoroutine(SwitchScene(data.lastSceneSave, data.lastWarpSave));
@@ -209,7 +211,7 @@ public class GameManager : MonoBehaviour {
         PlayerMovement player = FindObjectOfType<PlayerMovement>();
         FadeSystemScript fadeSystem = FindObjectOfType<FadeSystemScript>();
         if (player) {
-            player.StartCinematic();
+            player.StartCinematic(); // freeze je suppose ? - moi de 2025 qui n'a pas vu le code depuis +4 ans
         }
         if (fadeSystem) {
             fadeSystem.FadeIn();
@@ -217,7 +219,6 @@ public class GameManager : MonoBehaviour {
         yield return new WaitForSeconds(1f);
 
         UpdateSceneType(_sceneName);
-
         SceneManager.LoadScene(_sceneName);
     }
 

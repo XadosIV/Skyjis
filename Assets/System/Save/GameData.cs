@@ -45,4 +45,27 @@ public class GameData
 
         lastSceneSave = "exile_cave";
     }
+
+    public GameData(bool finish)
+    {
+        nbUpgradeHealth = 5;
+        nbUpgradeMana = 5;
+        nbUpgradeDamage = 5;
+        coinsCount = 999;
+        hasDoubleJump = true;
+        hasDash = true;
+        hasTeleport = true;
+        spellIndex = new int[] { 0, 1, 2 };
+        spellsUnlocked = 15;
+        sealsDestroyed = 3;
+        inventory = new List<int>();
+        itemsCollected = new List<int>();
+        flags = new int[10];
+
+        posGoldDeathBag = new Vector3();
+        amountGoldDeathBag = -1;
+        sceneDeath = null;
+
+        lastSceneSave = "exile_cave";
+    }
 }

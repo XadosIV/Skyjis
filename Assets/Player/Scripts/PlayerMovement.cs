@@ -225,12 +225,13 @@ public class PlayerMovement : MonoBehaviour {
 
     private void Start() {
         animator.SetBool("Alive", gm.Health > 0);
-        if (gm.needAwakeAnimation) {
+        /*if (gm.needAwakeAnimation) {
             Hide();
         }
         else {
             Show();
-        }
+        }*/
+        Show();
     }
 
     float SpeedFactor() {
@@ -293,7 +294,6 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     void FixedUpdate() {
-
         //Check Ground
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, physicsLayers);
 
@@ -341,10 +341,6 @@ public class PlayerMovement : MonoBehaviour {
             sr.flipX = true;
         }
     }
-
-
-
-
 
     private void UpdateAnimator() {
         float currentSpeed = Mathf.Abs(rb.velocity.x);
