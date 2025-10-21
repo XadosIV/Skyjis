@@ -115,7 +115,6 @@ public class GameManager : MonoBehaviour {
 
     public void SetSaveFileId(int _id, bool _encrypt) {
         saveFileNumber = _id;
-        Debug.Log(Application.persistentDataPath);
         fileDataHandler = new FileDataHandler(Application.persistentDataPath, "save" + saveFileNumber + ".game", _encrypt);
 
         LoadGame(_teleport: _encrypt); //si pas encrypté => scène joué depuis l'éditeur => pas de téléport.

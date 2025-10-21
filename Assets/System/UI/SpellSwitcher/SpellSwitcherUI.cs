@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -191,35 +192,38 @@ public class SpellSwitcherUI : MonoBehaviour
         return cellId;
     }
 
-    void HandleSpellSwitchButton() {
-        if (Input.GetButtonDown("Spell1")) {
-            currentSpellIndex = 0;
-            PlaceCursorOnCurrentSpell();
-        }
-        else if (Input.GetButtonDown("Spell2")) {
-            currentSpellIndex = 1;
-            PlaceCursorOnCurrentSpell();
-        }
-        else if (Input.GetButtonDown("Spell3")) {
-            currentSpellIndex = 2;
-            PlaceCursorOnCurrentSpell();
-        }
+    void SetSpellSlot(int spell, int slot)
+    {
+        gm.save.spellIndex[slot] = spell;
+        PlaceBorder();
+        ui.UpdateUI();
     }
+    
 
     void SwitchCell(int cellId) {
         int currentCellId = GetCellIdFromSpellIndex(currentSpellIndex);
 
         spellCells.Remove(currentCellId);
-
-        gm.save.spellIndex[currentSpellIndex] = cellId;
-
         spellCells.Add(cellId, currentSpellIndex);
 
-        PlaceBorder();
-
-        ui.UpdateUI();
+        SetSpellSlot(cellId, currentSpellIndex);
     }
 
+    void HandleSpellSwitchButton()
+    {
+        if (Input.GetButtonDown("Spell1"))
+        {
+            currentSpellIndex = 0;
+        }
+        else if (Input.GetButtonDown("Spell2"))
+        {
+            currentSpellIndex = 1;
+        }
+        else if (Input.GetButtonDown("Spell3"))
+        {
+            currentSpellIndex = 2;
+        }
+    }
 
     IEnumerator Active() {
         PlayerMovement pm = FindObjectOfType<PlayerMovement>();
@@ -227,21 +231,42 @@ public class SpellSwitcherUI : MonoBehaviour
         Visible(true);
 
         while (Input.GetButton("SpellSwitcher")) {
-            HandleSpellSwitchButton();
-
             UpdateCells();
 
             voidBorder.sprite = spellsBorder[currentSpellIndex].GetComponent<Image>().sprite;
 
             HandleCursor();
 
-            if (Input.GetButtonDown("Jump")) {
+            if (Input.GetButtonDown("Spell1") || Input.GetButtonDown("Spell2") || Input.GetButtonDown("Spell3")) {
+                HandleSpellSwitchButton();
                 int cellId = GetTargetCell();
                 if (IsValid(cellId)){
                     SwitchCell(cellId);
                 } else if (spellCells.ContainsKey(cellId)) { // Si le spell est déjà dans spellIndex
-                    //On considère que le joueur veut "bouger la sélection", on change donc de currentSpellIndex.
-                    currentSpellIndex = spellCells[cellId];
+                    //On considère que le joueur veut échanger les deux spells de touche
+
+                    // Au nom c'était horrible à écrire, voilà des coms pour expliquer
+                    int pressOn_Spell = cellId;             // La case sur laquelle il appuie
+                    int pressOn_Slot = currentSpellIndex;   // La couleur QU'IL VEUT pour cette case
+                    int currentSlot = spellCells[cellId];   // Mais la couleur actuelle de la case
+                    int currentSpell = GetCellIdFromSpellIndex(pressOn_Slot); // Et la case actuelle de la couleur (pressOnSlot)
+
+                    // On intervertit correctement les 2
+                    SetSpellSlot(currentSpell, currentSlot);
+                    SetSpellSlot(pressOn_Spell, pressOn_Slot);
+
+                    // On remodifie la magie noir sinon l'affichage se fait mal apparemment
+                    spellCells.Remove(pressOn_Spell);
+                    spellCells.Add(pressOn_Spell, pressOn_Slot);
+
+                    spellCells.Remove(currentSpell);
+                    spellCells.Add(currentSpell, currentSlot);
+
+                    // On lui dit de tout update
+                    PlaceBorder();
+                    ui.UpdateUI();
+
+                    // Jsuis censé avoir à modifier deux valeurs dans un tableau, pourquoi c'est si compliqué pitié
                 }
             }
             yield return null;
@@ -262,3 +287,4 @@ public class SpellSwitcherUI : MonoBehaviour
         }
     }
 }
+
