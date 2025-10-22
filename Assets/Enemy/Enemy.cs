@@ -49,7 +49,7 @@ public class Enemy : MonoBehaviour {
         gm = FindObjectOfType<GameManager>();
 
         //Check if enemy already killed
-        if (gm.killedEnnemies.Contains(id)) Destroy(gameObject);
+        if (gm.killedEnnemies.Contains(id) && id != -1) Destroy(gameObject);
 
         //Check purified
         if (gm.purifiedEnnemies.Contains(id)) purified = true;
@@ -81,6 +81,7 @@ public class Enemy : MonoBehaviour {
                 break;
             }
         }
+
     }
 
     void UpdateParticleType() {
@@ -117,6 +118,7 @@ public class Enemy : MonoBehaviour {
         rb.bodyType = RigidbodyType2D.Dynamic;
         rb.gravityScale = 1;
         rb.sharedMaterial = null;
+
         hitbox.enabled = false;
 
         enabled = false;

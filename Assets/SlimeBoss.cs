@@ -4,12 +4,6 @@ using UnityEngine;
 
 public class SlimeBoss : MonoBehaviour {
 
-    /*
-     100% - 70% vie : charge
-     70% - 40% vie : flip / rebond
-     40% - 0% vie : bonus slime qui spawn
-     */
-
     public float moveSpeed;
     private float initMoveSpeed;
     private Rigidbody2D rb;
@@ -19,31 +13,20 @@ public class SlimeBoss : MonoBehaviour {
 
     private int nbCollisions = 0;
     private bool jumping;
-    private float maxHp;
     private bool attacking;
 
     private Vector3 reference = Vector3.zero;
 
     private int onTop = 0;
 
+    [SerializeField] private GameObject[] enemiesSpawnable;
+
     private void Start() {
         rb = GetComponent<Rigidbody2D>();
         data = GetComponent<Enemy>();
         anim = GetComponent<Animator>();
         sr = GetComponent<SpriteRenderer>();
-        maxHp = data.hp;
         initMoveSpeed = moveSpeed;
-    }
-
-    private int GetPhase() {
-        float percentHealth = (data.hp / maxHp) * 100;
-        float percentAbsorbed = (data.absorbedCount / data.requireAbsorb) * 100;
-        float percent = Mathf.Min(percentHealth, percentAbsorbed);
-
-        if (percent > 70) return 1;
-        if (percent > 40) return 2;
-        if (percent > 0) return 3;
-        return 0;
     }
 
     private void Update() {
@@ -51,10 +34,11 @@ public class SlimeBoss : MonoBehaviour {
     }
 
     void FixedUpdate() {
-        /*if (data.isStun) return;
-        if (data.health <= 0) {
+        if (data.purified) return;
+        if (data.isStun) return;
+        if (data.hp <= 0) {
             return;
-        }*/
+        }
 
         float speed;
         if (IsFacingRight()) {
@@ -75,27 +59,18 @@ public class SlimeBoss : MonoBehaviour {
         }
     }
 
-    private void Call(string attack) {
-        switch (attack) {
-            case "charge":
-                break;
-            case "bounce":
-                break;
-            case "spawn":
-                break;
-        }
-    }
-
     private void Attack() {
-        int phase = GetPhase();
-        switch (phase) {
-            case 0:
-                return;
-            case 1:
-                StartCoroutine(Jump());
-                break;
-            case 2:
-                return;
+        int attack = Random.Range(0,3);
+
+        if (attack == 0)
+        {
+            StartCoroutine(Jump());
+        }else if (attack == 1)
+        {
+            StartCoroutine(Charge());
+        }else if (attack == 2)
+        {
+            StartCoroutine(Spawn());
         }
     }
 
@@ -114,15 +89,58 @@ public class SlimeBoss : MonoBehaviour {
 
     IEnumerator Jump() {
         attacking = true;
-        moveSpeed = 0;
         anim.SetTrigger("jump");
+        yield return new WaitForSeconds(.5f);
+        moveSpeed = 0;
         nbCollisions = 0;
+        yield return new WaitForSeconds(3f);
         while (nbCollisions != 3) {
+            if (Random.Range(0,500) == 1)
+            {
+                break;
+            }
             yield return 0;
         }
-        moveSpeed = 0;
         anim.SetTrigger("jump");
+        yield return new WaitForSeconds(.5f);
+        moveSpeed = 0;
         attacking = false;
+    }
+
+    IEnumerator Spawn()
+    {
+        attacking = true;
+        yield return new WaitForSeconds(1.5f);
+        moveSpeed = 0;
+        yield return new WaitForSeconds(0.2f);
+        anim.SetTrigger("spawn");
+        yield return new WaitForSeconds(1.5f);
+        moveSpeed = initMoveSpeed;
+        attacking = false;
+    }
+
+    void CreateEnemies()
+    {
+
+        int indexEnemyOne = Random.Range(0, enemiesSpawnable.Length -1);
+        int indexEnemyTwo = Random.Range(0, enemiesSpawnable.Length -1);
+
+        // elite enemy = enemies.Spawnable.Length -1 -> Bigger, harder, 10% spawn
+        if (Random.Range(0,10) == 1)
+        {
+            indexEnemyOne = enemiesSpawnable.Length - 1;
+        }
+        if (Random.Range(0, 10) == 1)
+        {
+            indexEnemyTwo = enemiesSpawnable.Length - 1;
+        }
+
+        GameObject one = Instantiate(enemiesSpawnable[indexEnemyOne], transform.position, transform.rotation);
+        one.GetComponent<Rigidbody2D>().AddForce(new Vector2(-4, Random.Range(0, 6)), ForceMode2D.Impulse);
+
+        GameObject two = Instantiate(enemiesSpawnable[indexEnemyTwo], transform.position, transform.rotation);
+        two.GetComponent<Rigidbody2D>().AddForce(new Vector2(4, Random.Range(0, 6)), ForceMode2D.Impulse);
+
     }
 
     IEnumerator FlipY() {

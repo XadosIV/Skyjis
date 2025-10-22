@@ -56,8 +56,10 @@ public class Item
         imageName = imageNameAndIndex[0];
         int index = int.Parse(imageNameAndIndex[1]);
 
-        /*Sprite[] sprites = Resources.LoadAll<Sprite>("items/" + imageName);
 
-        this.sprite = sprites[index];*/
+
+        Sprite[] sprites = Resources.LoadAll<Sprite>("Items/" + imageName);
+
+        this.sprite = sprites[index];
     }
 }

@@ -29,10 +29,10 @@ public class LeftRightJumpEnemy : MonoBehaviour
     }
 
     void FixedUpdate() {
-        /*if (data.isStun) return;
-        if (data.health <= 0) {
+        if (data.isStun) return;
+        if (data.hp <= 0) {
             return;
-        }*/
+        }
 
         float speed;
 

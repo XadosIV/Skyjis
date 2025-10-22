@@ -36,7 +36,6 @@ public class ItemManager
         for (int i = 0; i < itemsData.GetLength(0); i++) {
             itemList.Add(i, new Item(i, itemsData[i, 0], itemsData[i, 1], itemsData[i, 2]));
         }
-
     }
 
     public Item getItem(int id) {

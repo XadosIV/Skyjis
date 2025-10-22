@@ -96,6 +96,14 @@ public class GameManager : MonoBehaviour {
         UpdateSceneType();
     }
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            StartCoroutine(SwitchScene(SceneManager.GetActiveScene().name, spawnNumber));
+        }
+    }
+
     int UpdateSceneType(string _sceneName = "") {
         if (_sceneName == "") {
             _sceneName = SceneManager.GetActiveScene().name;

@@ -12,7 +12,6 @@ public class ItemGameObject : MonoBehaviour
 
     private Item item;
 
-
     private bool given = false;
     void Start()
     {
