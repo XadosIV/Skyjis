@@ -5,6 +5,13 @@ The project started as an attempt to create a Metroidvania-style game but was la
 
 This release includes various bug fixes and small quality-of-life improvements to make the experience smoother and more polished.
 
+## ⚙️ Requirements / Prérequis
+- Unity **2021.3.15f1 (LTS)**  
+- Unity **Universal Render Pipeline (URP)** package installed  
+- Windows / macOS compatible (tested on AZERTY keyboard)  
+
+> Without URP, the project may fail to load or display graphics incorrectly.
+
 ---
 
 ## 🎮 Controls
